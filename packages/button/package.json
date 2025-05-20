@@ -1,0 +1,22 @@
+{
+  "name": "@oversea/button",
+  "version": "0.0.0",
+  "description": "",
+  "author": "shenjiaqi@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build": "matrix build --mode prod --framework react"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.2",
+    "class-variance-authority": "^0.7.1"
+  }
+}

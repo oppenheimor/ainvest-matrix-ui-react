@@ -1,0 +1,13 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "npmClient": "pnpm",
+  "version": "independent",
+  "useWorkspaces": true,
+  "command": {
+    "version": {
+      "message": "lgt-4520 feat matrix"
+    }
+  }
+}

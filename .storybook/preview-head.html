@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html, body, #storybook-root {
+      width: 100vw !important;
+      height: 100vh !important;
+      overflow-x: hidden !important;
+
+      margin: unset !important;
+      padding: 0 !important;
+      border: none !important;
+
+      /* 隐藏滚动条 */
+      &::-webkit-scrollbar {
+        display: none !important;
+      }
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
+    }
+
+    body {
+      container-type: inline-size !important;
+    }
+
+    .sb-show-main.sb-main-centered #storybook-root {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* 如果需要区分暗黑/亮色模式 */
+    .light .sb-show-main, .dark .sb-show-main {
+      background: var(--atom-color-foreground-layer1) !important;
+    }
+  </style>
+</head>
+<body>
+</body>
+</html>
