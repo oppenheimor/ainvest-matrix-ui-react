@@ -101,7 +101,7 @@
     "webpack-merge": "^5.10.0",
     "webpack-node-externals": "^3.0.0",
     "webpackbar": "^6.0.1",
-    "@king-fisher/matrix-cli": "0.0.6-beta.1"
+    "@king-fisher/matrix-cli": "0.0.6-beta.6"
   },
   "eslintConfig": {
     "extends": [

@@ -1,4 +1,4 @@
-import { Button } from './src/index.tsx'
+import { Button } from './src/index'
 
 export default Button
 
