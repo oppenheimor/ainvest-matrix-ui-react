@@ -47,8 +47,7 @@ import {
   TypeIcon,
   UserPenIcon,
 } from "lucide-react";
-// import Button from "@/button/index";
-import { Button } from "../../button/dist/index";
+import Button from "@/button/index";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./dependencies/ui/avatar";
