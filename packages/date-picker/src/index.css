@@ -1,0 +1,448 @@
+.date-picker {
+  width: 100%;
+  background: var(--atom-color-foreground-layer1_3, #fff);
+}
+
+.date-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+}
+
+.date-picker-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 55%;
+  padding: 2px 0px;
+}
+
+.date-picker-nav-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.date-picker-nav-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 2px;
+  cursor: pointer;
+  border-radius: 6px;
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-nav-btn:hover {
+  background-color: var(--atom-color-hover-5, rgba(0, 0, 0, 0.05));
+}
+
+.date-picker-title {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0px 4px;
+  color: var(--atom-color-text-primary, #000);
+  white-space: nowrap;
+}
+
+.date-picker-view-options {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px;
+  border-radius: 6px;
+  margin-left: 4px;
+  background: var(--atom-color-foreground-layer1_2, #f2f2f2);
+}
+
+.date-picker-view-btn {
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-view-btn.active {
+  background: #fff;
+}
+
+/* 暗黑模式下的激活按钮样式 */
+:root.dark .date-picker-view-btn.active,
+:root[theme-mode='dark'] .date-picker-view-btn.active,
+:root[theme-mode='dark'] .date-picker-view-btn.active,
+html.dark .date-picker-view-btn.active,
+html[theme-mode='black'] .date-picker-view-btn.active,
+html[theme-mode='dark'] .date-picker-view-btn.active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.date-picker-calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 12px 24px;
+}
+
+.date-picker-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: var(--atom-color-foreground-layer1_2, #f7f7f7);
+}
+
+.date-picker-weekday {
+  text-align: center;
+  padding: 8px 0px;
+  font-size: 16px;
+  color: var(--atom-color-text-secondary, rgba(0, 0, 0, 0.6));
+}
+
+.date-picker-week {
+  display: flex;
+  width: 100%;
+  margin: 6px 0px;
+  justify-content: space-between;
+}
+
+/* 周模式整行背景样式 */
+.date-picker-week.selected-week {
+  background: var(--Button-color-button-black-default, #000);
+  border-radius: 6px;
+}
+
+/* 周模式下需要覆盖单个日期的悬停效果，并应用整行悬停效果 */
+.date-picker-mode-week .date-picker-week:not(.selected-week):not(.has-disabled-date):hover {
+  background-color: var(--atom-color-hover-5, rgba(0, 0, 0, 0.05));
+  border-radius: 6px;
+}
+
+/* 为包含禁用日期的周添加样式，防止hover效果 */
+.date-picker-mode-week .date-picker-week.has-disabled-date:not(.selected-week):hover {
+  background-color: transparent;
+}
+
+.date-picker-days {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.date-picker-day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+}
+
+.date-picker-day-text {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.date-picker-day.current-month .date-picker-day-text {
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-day.prev-month .date-picker-day-text,
+.date-picker-day.next-month .date-picker-day-text {
+  color: var(--atom-color-text-tertiary, rgba(0, 0, 0, 0.4));
+}
+
+.date-picker-day.today {
+  position: relative;
+}
+
+.date-picker-day.today::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--Button-color-button-black-default, #000);
+}
+
+.date-picker-day.today.selected::after,
+.date-picker-day.today.in-range::after {
+  background-color: var(--Button-color-text, #fff);
+}
+
+/* 统一的选中/范围内日期样式 */
+.date-picker-day.selected .date-picker-day-text,
+.date-picker-day.range-start .date-picker-day-text,
+.date-picker-day.range-end .date-picker-day-text,
+.date-picker-day.in-range .date-picker-day-text {
+  background: var(--Button-color-button-black-default, #000);
+  color: var(--Button-color-text, #fff);
+}
+
+/* 范围起始日样式 */
+.date-picker-day.range-start .date-picker-day-text {
+  border-radius: 6px 0px 0px 6px;
+}
+
+/* 范围结束日样式 */
+.date-picker-day.range-end .date-picker-day-text {
+  border-radius: 0px 6px 6px 0px;
+}
+
+/* 只对未选中的日期应用悬停效果 - 仅在日模式下生效 */
+.date-picker-mode-day .date-picker-day:not(.selected):not(.in-range):not(.disabled):hover {
+  background: var(--atom-color-hover-5, rgba(0, 0, 0, 0.05));
+  border-radius: 6px;
+}
+
+/* 禁用日期样式 */
+.date-picker-day.disabled .date-picker-day-text {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 月份选择视图样式 */
+.date-picker-month-calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0px 24px 24px 24px;
+}
+
+.date-picker-year-title {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 0px 16px;
+  width: 100%;
+  text-align: left;
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-months {
+  width: 100%;
+}
+
+.date-picker-months-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.date-picker-month {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 24px;
+  padding: 10px 0px;
+  border: 1px solid var(--atom-color-border-bt, rgba(0, 0, 0, 0.2));
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-month.selected {
+  background: var(--Button-color-button-black-default, #000);
+  color: var(--Button-color-text, #fff);
+}
+
+/* 禁用月份样式 */
+.date-picker-month.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 年模式悬停效果 */
+.date-picker-mode-year .date-picker-year:not(.selected):not(.disabled):hover {
+  background-color: var(--atom-color-hover-5, rgba(0, 0, 0, 0.05));
+  border: 0px;
+}
+
+/* 月份悬停效果 */
+.date-picker-mode-month .date-picker-month:not(.selected):not(.disabled):hover {
+  background: var(--atom-color-hover-5, rgba(0, 0, 0, 0.05));
+  border: 0px;
+}
+
+.date-picker-month-text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* 小屏幕响应式样式 */
+.date-picker-mobile {
+  min-width: 350px;
+  width: 100%;
+  box-shadow: none;
+}
+
+.date-picker-mobile .date-picker-header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  padding: 20px 16px;
+}
+
+.date-picker-mobile .date-picker-nav {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.date-picker-mobile .date-picker-title {
+  font-size: 16px;
+}
+
+.date-picker-mobile .date-picker-view-options {
+  width: 100%;
+  justify-content: center;
+  order: -1;
+  margin-bottom: 4px;
+}
+
+.date-picker-mobile .date-picker-view-btn {
+  padding: 4px 10px;
+  font-size: 12px;
+  flex: 1;
+}
+
+.date-picker-mobile .date-picker-calendar {
+  padding: 8px 16px 16px 16px;
+}
+
+.date-picker-mobile .date-picker-day {
+  width: 32px;
+  height: 32px;
+}
+
+.date-picker-mobile .date-picker-day-text {
+  font-size: 14px;
+}
+
+.date-picker-mobile .date-picker-weekday {
+  font-size: 14px;
+  padding: 6px 0px;
+}
+
+.date-picker-mobile .date-picker-month-calendar {
+  padding: 0px 16px 16px 16px;
+}
+
+.date-picker-mobile .date-picker-year-title {
+  font-size: 16px;
+  padding: 12px 0px;
+}
+
+.date-picker-mobile .date-picker-months-grid {
+  gap: 6px;
+}
+
+.date-picker-mobile .date-picker-month {
+  padding: 8px 0px;
+}
+
+.date-picker-mobile .date-picker-month-text {
+  font-size: 12px;
+}
+
+/* 年模式点击样式 */
+.date-picker-mode-year .date-picker-year:not(.selected):not(.disabled):active {
+  background: var(--atom-color-click-10, rgba(0, 0, 0, 0.1));
+}
+
+/* 月模式点击样式 */
+.date-picker-mode-month .date-picker-month:not(.selected):not(.disabled):active {
+  background: var(--atom-color-click-10, rgba(0, 0, 0, 0.1));
+}
+
+/* 周模式点击样式 */
+.date-picker-mode-week .date-picker-week:not(.selected-week):not(.has-disabled-date):active {
+  background: var(--atom-color-click-10, rgba(0, 0, 0, 0.1));
+  border-radius: 6px;
+}
+
+/* 日模式点击样式 */
+.date-picker-mode-day .date-picker-day:not(.selected):not(.in-range):not(.disabled):active {
+  background: var(--atom-color-click-10, rgba(0, 0, 0, 0.1));
+  border-radius: 6px;
+}
+
+/* 年份选择日历 */
+.date-picker-year-calendar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 12px 24px 20px;
+}
+
+.date-picker-year-range {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-years {
+  width: 100%;
+}
+
+.date-picker-years-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.date-picker-year {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 24px;
+  padding: 10px 0px;
+  border: 1px solid var(--atom-color-border-bt, rgba(0, 0, 0, 0.2));
+  color: var(--atom-color-text-primary, #000);
+}
+
+.date-picker-year.selected {
+  background: var(--Button-color-button-black-default, #000);
+  color: var(--Button-color-text, #fff);
+}
+
+/* 禁用月份样式 */
+.date-picker-year.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.date-picker-year-text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* 移动版年份选择器样式 */
+.date-picker-mobile .date-picker-years-grid {
+  gap: 6px;
+}
+
+.date-picker-mobile .date-picker-year {
+  padding: 8px 0px;
+}
+
+.date-picker-mobile .date-picker-year-text {
+  font-size: 12px;
+}

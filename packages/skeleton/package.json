@@ -1,0 +1,27 @@
+{
+  "name": "@oversea/skeleton",
+  "version": "0.0.0",
+  "description": "高性能骨架屏组件，支持四种预设样式和智能性能优化",
+  "author": "xiayan@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react",
+    "skeleton",
+    "loading",
+    "shimmer",
+    "component",
+    "typescript",
+    "performance"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build": "matrix build --mode prod --framework react"
+  }
+}

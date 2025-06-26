@@ -1,6 +1,6 @@
 {
   "name": "@oversea/button",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1",
   "description": "",
   "author": "shenjiaqi@myhexin.com",
   "license": "ISC",
@@ -13,11 +13,18 @@
   "scripts": {
     "dev": "matrix build --mode dev --framework react",
     "watch": "matrix build --mode dev --framework react --watch",
-    "build": "matrix build-npm --mode prod --framework react"
+    "build:npm": "matrix build --mode prod --framework react",
+    "build:umd": "matrix build-npm --mode prod --framework react",
+    "pb": "matrix publish",
+    "build": "npm run build:npm && npm run build:umd && npm run pb"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.1",
-    "tailwind-merge": "^3.0.1"
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
   }
 }

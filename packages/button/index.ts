@@ -1,7 +1,5 @@
-import { Button } from './src/index'
+import { Button } from "./src/index";
 
-export default Button
+export default Button;
 
-export {
-  Button
-}
+export { Button };

@@ -27,9 +27,15 @@
     }
 
     .sb-show-main.sb-main-centered #storybook-root {
+      width: 100%;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      /* 设置容器查询 */
+      container-type: inline-size;
+      box-sizing: border-box;
+      padding: 24px !important;
     }
 
     /* 如果需要区分暗黑/亮色模式 */

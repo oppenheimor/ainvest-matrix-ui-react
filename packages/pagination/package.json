@@ -1,0 +1,28 @@
+{
+  "name": "@oversea/pagination",
+  "version": "0.0.0",
+  "description": "",
+  "author": "yangshuaibin@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build:npm": "matrix build --mode prod --framework react",
+    "build:umd": "matrix build-npm --mode prod --framework react",
+    "pb": "matrix publish",
+    "build": "npm run build:npm && npm run build:umd && npm run pb"
+  },
+  "dependencies": {
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "publishConfig": {
+    "registry": "http://repositories.myhexin.com:8081/repository/npm-release/"
+  }
+}

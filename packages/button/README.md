@@ -4,7 +4,6 @@
 
 一个带有账号、密码输入、国际化、黑夜模式切换和请求功能的卡片式表单组件，适用于多种业务场景。
 
-
 ## 主要功能
 
 - 支持账号/密码输入
@@ -44,35 +43,22 @@
 
 ## 使用示例
 
-
 ### 基础用法
-```tsx
-import Button from '@oversea/button';
 
-<Button
-  labelKey="submit"
-  getUrl="/api/user"
-  postUrl="/api/login"
-  postData={{ extra: 'any' }}
-  primary
-  darkMode={false}
-  backgroundColor="bg-white"
-  onSuccess={resp => alert(resp.data.message)}
-  onError={err => console.error(err)}
-/>;
+```tsx
+
 ```
 
 ### 国际化多语言（需配置 i18n 资源）
 
 ```tsx
-<Button labelKey="submit" />
-```
 
+```
 
 ### 黑夜模式
 
 ```tsx
-<Button darkMode />
+
 ```
 
 ## 国际化配置说明

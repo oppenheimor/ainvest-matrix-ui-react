@@ -1,0 +1,32 @@
+{
+  "name": "@oversea/link",
+  "version": "0.0.1",
+  "description": "",
+  "author": "fengjiawang@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build:npm": "matrix build --mode prod --framework react",
+    "build:umd": "matrix build-npm --mode prod --framework react",
+    "pb": "matrix publish",
+    "build": "npm run build:npm && npm run build:umd && npm run pb"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "publishConfig": {
+    "registry": "http://repositories.myhexin.com:8081/repository/npm-release/"
+  }
+}
