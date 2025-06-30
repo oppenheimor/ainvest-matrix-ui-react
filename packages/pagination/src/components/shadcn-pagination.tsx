@@ -55,8 +55,8 @@ const PaginationLink = ({
     className={cn(
       "flex justify-center items-center w-10 h-10 text-base leading-snug rounded-md cursor-pointer select-none",
       {
-        "font-bold bg-background-layer1 text-text-primary": isActive,
-        "font-normal text-text-primary hover:bg-hover": !isActive,
+        "font-semibold bg-background-layer1 text-text-primary": isActive,
+        "font-normal text-text-primary hover:bg-hover-5": !isActive,
         "text-text-quaternary/20": disabled,
       },
       className
