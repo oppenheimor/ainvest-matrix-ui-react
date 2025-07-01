@@ -128,18 +128,28 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     <BreadcrumbSeparator key={`sep-${i}`}>{separator}</BreadcrumbSeparator>
   );
 
-  // 折叠项 DropdownMenu
+  // 折叠项 DropdownMenu（hover 触发）
+  const [isEllipsisOpen, setIsEllipsisOpen] = React.useState(false);
+  const handleEllipsisOpenChange = (open: boolean) => setIsEllipsisOpen(open);
+  const handleTriggerMouseEnter = () => setIsEllipsisOpen(true);
+  const handleContentMouseLeave = () => setIsEllipsisOpen(false);
+
   const renderEllipsis = () => (
     <BreadcrumbItem key="ellipsis">
-      <DropdownMenu>
+      <DropdownMenu open={isEllipsisOpen} onOpenChange={handleEllipsisOpenChange} modal={false}>
         <DropdownMenuTrigger asChild>
-          <span>
+          <span onMouseEnter={handleTriggerMouseEnter}>
             <BreadcrumbEllipsis {...ellipsisProps}>
               {ellipsisIcon}
             </BreadcrumbEllipsis>
           </span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent {...dropdownMenuProps} align="start">
+        <DropdownMenuContent
+          {...dropdownMenuProps}
+          align="start"
+          onMouseLeave={handleContentMouseLeave}
+          onCloseAutoFocus={e => e.preventDefault()}
+        >
           {collapsed.map((item, idx) => (
             <DropdownMenuItem
               key={item.key}

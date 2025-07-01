@@ -43,7 +43,7 @@ function BreadcrumbLink({
   return (
     <Comp
       data-slot="breadcrumb-link"
-      className={cn("text-text-primary gap-1.5 flex items-center", className)}
+      className={cn("text-text-primary hover:text-text-secondary gap-1.5 flex items-center", className)}
       {...props}
     />
   );
