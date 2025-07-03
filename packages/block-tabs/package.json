@@ -19,6 +19,7 @@
     "build": "npm run build:npm && npm run build:umd && npm run pb"
   },
   "dependencies": {
+    "@radix-ui/react-tabs": "^1.1.3",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.3.1"
   },
