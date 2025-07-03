@@ -116,6 +116,8 @@
     --atom-color-hover-5: rgba(255, 255, 255, 0.1);
     --atom-color-click-10: rgba(255, 255, 255, 0.2);
 
+    --atom-color-brand-primary-black: 0 0% 100%;
+
     --atom-color-button-grey-default: rgba(255, 255, 255, 0.2);
   }
 
@@ -244,6 +246,8 @@
     --atom-color-click: rgba(0, 0, 0, 0.1);
     --atom-color-hover-5: rgba(0, 0, 0, 0.05);
     --atom-color-click-10: rgba(0, 0, 0, 0.1);
+
+    --atom-color-brand-primary-black: 0 0% 0%;
 
     --atom-color-button-grey-default: rgba(0, 0, 0, 0.05);
 
