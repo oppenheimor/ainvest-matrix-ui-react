@@ -4,7 +4,7 @@ import { Breadcrumb } from "./index";
 import { Button } from "../../button/index";
 
 const meta: Meta<typeof Breadcrumb> = {
-  title: "Example/Breadcrumb",
+  title: "Navigation/Breadcrumb",
   component: Breadcrumb,
   parameters: {
     layout: "centered",

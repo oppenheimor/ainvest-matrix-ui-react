@@ -4,7 +4,7 @@ import { Empty, EmptyType } from "./index";
 import { EmptyLevel } from "./types";
 
 const meta: Meta<typeof Empty> = {
-  title: "Example/Empty",
+  title: "Feedback/Empty",
   component: Empty,
   parameters: {
     layout: "centered",

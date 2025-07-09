@@ -5,7 +5,7 @@ import { ArrowRightIconMap } from "./components/stories/ArrowRightIcon";
 import { FloorTitleProps } from "./types";
 
 const meta: Meta<typeof FloorTitle> = {
-  title: "Example/FloorTitle",
+  title: "Layout/FloorTitle",
   component: FloorTitle,
   parameters: {
     layout: "centered",

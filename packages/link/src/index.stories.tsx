@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Link } from "./index";
 
 const meta: Meta<typeof Link> = {
-  title: "Example/Link",
+  title: "Navigation/Link",
   component: Link,
   parameters: {
     layout: "centered",

@@ -4,7 +4,7 @@ import { Button } from "./index";
 import { Loader2 } from "lucide-react";
 
 const meta: Meta<typeof Button> = {
-  title: "Example/Button",
+  title: "Form/Button",
   component: Button,
   parameters: {
     layout: "centered",

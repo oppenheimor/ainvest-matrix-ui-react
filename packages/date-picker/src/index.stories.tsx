@@ -9,7 +9,7 @@ type Story = StoryObj<typeof meta>;
 
 // Storybook元数据
 const meta = {
-  title: 'Example/DatePicker',
+  title: 'Form/DatePicker',
   component: DatePicker,
   parameters: {
     layout: 'centered',

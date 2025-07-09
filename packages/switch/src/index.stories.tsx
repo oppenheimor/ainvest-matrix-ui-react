@@ -5,7 +5,7 @@ import { Switch } from "./index";
 import { Button } from "@/button/index";
 
 const meta: Meta<typeof Switch> = {
-  title: "Example/Switch",
+  title: "Form/Switch",
   component: Switch,
   parameters: {
     layout: "centered",

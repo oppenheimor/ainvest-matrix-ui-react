@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { ResizableBanner } from "./index";
 
 const meta: Meta<typeof ResizableBanner> = {
-  title: "Example/ResizableBanner",
+  title: "Layout/ResizableBanner",
   component: ResizableBanner,
   parameters: {
     layout: "centered",
