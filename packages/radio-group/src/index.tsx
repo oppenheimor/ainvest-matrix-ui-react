@@ -1,6 +1,3 @@
-// 导入样式文件
-import './styles/globals.css';
-
 // 导出主要组件
 export { RadioGroup } from './components/RadioGroup';
 export { RadioGroupItem } from './components/RadioGroupItem';
