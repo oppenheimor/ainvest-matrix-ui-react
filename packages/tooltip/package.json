@@ -1,0 +1,43 @@
+{
+  "name": "@oversea/tooltip",
+  "version": "1.0.0",
+  "description": "一个基于 Radix UI 的高质量 Tooltip 提示框组件，提供完整的无障碍性支持和丰富的交互功能。支持多种触发方式、位置定位、自动关闭等特性。",
+  "keywords": [
+    "react",
+    "typescript",
+    "tooltip",
+    "ui-component",
+    "radix-ui",
+    "accessibility",
+    "responsive",
+    "dark-mode"
+  ],
+  "author": "xiayan@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build:npm": "matrix build --mode prod --framework react",
+    "build:umd": "matrix build-npm --mode prod --framework react",
+    "pb": "matrix publish",
+    "build": "npm run build:npm && npm run build:umd"
+  },
+  "dependencies": {
+    "@radix-ui/react-tooltip": "^1.1.8"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ainvest/ainvest-matrix-ui-react.git",
+    "directory": "packages/tooltip"
+  }
+}

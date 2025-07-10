@@ -1,0 +1,25 @@
+{
+  "name": "@oversea/notification",
+  "version": "0.0.0",
+  "description": "A notification component based on Sonner",
+  "author": "xiayan@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build": "matrix build --mode prod --framework react"
+  },
+  "dependencies": {
+    "sonner": "^2.0.5"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
+}

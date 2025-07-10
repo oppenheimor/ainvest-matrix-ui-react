@@ -1,0 +1,176 @@
+@import url('https://cdn.ainvest.com/frontResources/public/css/variables-v1.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-foreground-layer1: #FFF;
+    --color-background-layer1: #f2f2f2;
+    --color-divider-level2: rgba(0, 0, 0, 0.10);
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 72.22% 50.59%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5% 64.9%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 240 5% 64.9%;
+
+
+    /* 品牌主色-黑色 TODO: 后续 UI 补规范 */
+    --atom-color-brand-primary-black: 0 0% 0%;
+
+    /* 数字币涨幅 - 上涨 */
+    --atom-color-price-crypto-up: #2DD0D0;
+    /* 数字币涨幅 - 下跌 */
+    --atom-color-price-crypto-down: #E9528F;
+
+    /* 三级分割线 */
+    --atom-color-divider-level3: rgba(0, 0, 0, 0.05);
+
+    /* 基础灰阶95 */
+    --atom-color-grey-95: #F2F2F2;
+    /* 基础灰阶90 */
+    --atom-color-grey-90: #E6E6E6;
+    /* 基础灰阶80 */
+    --atom-color-grey-80: #CCC;
+    /* 基础灰阶70 */
+    --atom-color-grey-70: #B3B3B3;
+    /* 基础灰阶60 */
+    --atom-color-grey-60: #999;
+    /* 基础灰阶50 */
+    --atom-color-grey-50: #808080;
+    /* 基础灰阶40 */
+    --atom-color-grey-40: #666;
+    /* 基础灰阶20 */
+    --atom-color-grey-20: #333;
+
+    /* 列表hover */
+    --atom-color-background-list-hover: #f2f2f2;
+    /* 列表选中后hover */
+    --atom-color-background-list-active-hover: #e6e6e6;
+
+    /* tooltip */
+    --atom-color-toast-background: #383838;
+
+    --atom-color-button-grey-default: rgba(0, 0, 0, 0.05);
+
+    --atom-color-background-web: #f7f7f7;
+
+    --atom-color-text-tertiary: rgba(0, 0, 0, 0.4);
+
+    --atom-color-border-bt: rgba(0, 0, 0, 0.2);
+
+    --atom-color-text-primary: rgba(0, 0, 0, 1);
+
+    --atom-color-button-border: rgba(0, 0, 0, 0.1);
+  }
+
+  :root.dark, :root[theme-mode='dark'], :root[theme-mode="dark"], html.dark, html[theme-mode="black"], html[theme-mode="dark"] {
+    --color-foreground-layer1: #000;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 240 4.9% 83.9%;
+
+    /* 品牌主色-黑色 TODO: 后续 UI 补规范 */
+    --atom-color-brand-primary-black: 0 0% 100%;
+
+    /* 数字币涨幅 - 上涨 */
+    --atom-color-price-crypto-up: #29DFDF;
+    /* 数字币涨幅 - 下跌 */
+    --atom-color-price-crypto-down: #FD5699;
+
+    /* 三级分割线 */
+    --atom-color-divider-level3: rgba(255, 255, 255, 0.07);
+
+    /* 基础灰阶95 */
+    --atom-color-grey-95: #171717;
+    /* 基础灰阶90 */
+    --atom-color-grey-90: #292929;
+    /* 基础灰阶80 */
+    --atom-color-grey-80: #383838;
+    /* 基础灰阶70 */
+    --atom-color-grey-70: #474747;
+    /* 基础灰阶60 */
+    --atom-color-grey-60: #575757;
+    /* 基础灰阶50 */
+    --atom-color-grey-50: #666;
+    /* 基础灰阶40 */
+    --atom-color-grey-40: #757575;
+    /* 基础灰阶20 */
+    --atom-color-grey-20: #ccc;
+
+    /* 列表hover */
+    --atom-color-background-list-hover: #454545;
+    /* 列表选中后hover */
+    --atom-color-background-list-active-hover: #6a6a6a;
+
+    --atom-color-button-grey-default: rgba(255, 255, 255, 0.1);
+
+    --atom-color-background-web: #292929;
+
+    --atom-color-text-tertiary: rgba(255, 255, 255, 0.4);
+
+    --atom-color-border-bt: rgba(255, 255, 255, 0.22);
+
+    --atom-color-text-primary: rgba(255, 255, 255, 1);
+
+    --atom-color-button-border: rgba(255, 255, 255, 0.22);
+  }
+}

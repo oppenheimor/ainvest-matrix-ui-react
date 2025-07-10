@@ -1,0 +1,32 @@
+{
+  "name": "@oversea/drawer",
+  "version": "0.0.1",
+  "description": "",
+  "author": "shenjiaqi@myhexin.com",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build:npm": "matrix build --mode prod --framework react",
+    "build:umd": "matrix build-npm --mode prod --framework react",
+    "pb": "matrix publish",
+    "build": "npm run build:npm && npm run build:umd"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.474.0",
+    "tailwind-merge": "^3.3.1",
+    "vaul": "^1.1.2"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  }
+}

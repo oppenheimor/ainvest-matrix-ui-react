@@ -16,7 +16,7 @@
     "build:npm": "matrix build --mode prod --framework react",
     "build:umd": "matrix build-npm --mode prod --framework react",
     "pb": "matrix publish",
-    "build": "npm run build:npm && npm run build:umd && npm run pb"
+    "build": "npm run build:npm && npm run build:umd"
   },
   "dependencies": {
     "@radix-ui/react-tabs": "^1.1.12",

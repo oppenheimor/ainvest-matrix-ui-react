@@ -7,6 +7,10 @@ const meta: Meta<typeof Link> = {
   component: Link,
   parameters: {
     layout: "centered",
+    // 启用代码面板
+    controls: { expanded: true },
+    // 默认显示代码
+    viewMode: "story",
     docs: {
       description: {
         component: `
@@ -24,6 +28,12 @@ Link 组件用于创建可点击的超链接，支持多种视觉变体（强调
 - 重要操作建议使用强调或加字重样式
 - 图标仅用于增强语义，不应替代文字
 
+## 组件安装
+
+\`\`\`shell
+npm install @oversea/link
+\`\`\`
+
 ## 组件引入
 \`\`\`tsx
 import { Link } from '@oversea/link';
@@ -36,9 +46,86 @@ import { Link } from '@oversea/link';
 \`\`\`
         `,
       },
+      source: {
+        type: "auto",
+      },
     },
   },
   tags: ["autodocs"],
+  argTypes: {
+    emphasized: {
+      control: "boolean",
+      description: "是否强调显示",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    strong: {
+      control: "boolean",
+      description: "是否加粗显示",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    underline: {
+      control: "boolean",
+      description: "是否显示下划线",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    showLinkIcon: {
+      control: "boolean",
+      description: "是否显示左侧链接图标",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    showArrowIcon: {
+      control: "boolean",
+      description: "是否显示右侧箭头图标",
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" },
+      },
+    },
+    iconSize: {
+      control: { type: "number", min: 12, max: 32, step: 2 },
+      description: "图标大小（仅对默认图标生效）",
+      table: {
+        type: { summary: "number" },
+        defaultValue: { summary: "16" },
+      },
+    },
+    href: {
+      control: "text",
+      description: "链接地址",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    target: {
+      control: {
+        type: "select",
+        options: ["_self", "_blank", "_parent", "_top"],
+      },
+      description: "链接打开方式",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+    className: {
+      control: "text",
+      description: "自定义样式类名",
+      table: {
+        type: { summary: "string" },
+      },
+    },
+  },
 };
 
 export default meta;
@@ -47,9 +134,14 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {
   name: "基础用法",
   parameters: {
+    // 启用 Canvas 视图的代码展示
+    showPanel: true,
     docs: {
       description: {
         story: "最常见的文本链接用法，支持强调、加字重、下划线。",
+      },
+      source: {
+        state: "open",
       },
     },
   },
@@ -75,9 +167,13 @@ export const Basic: Story = {
 export const WithLeftIcon: Story = {
   name: "带左侧图标",
   parameters: {
+    showPanel: true,
     docs: {
       description: {
         story: "展示带左侧图标的Link用法。",
+      },
+      source: {
+        state: "open",
       },
     },
   },
@@ -108,7 +204,15 @@ export const WithLeftIcon: Story = {
 export const WithRightIcon: Story = {
   name: "带右侧图标",
   parameters: {
-    docs: { description: { story: "展示带右侧图标的Link用法。" } },
+    showPanel: true,
+    docs: {
+      description: {
+        story: "展示带右侧图标的Link用法。",
+      },
+      source: {
+        state: "open",
+      },
+    },
   },
   render: () => (
     <div className="flex flex-wrap gap-3 items-center text-[14px]">
@@ -153,9 +257,13 @@ export const WithRightIcon: Story = {
 export const Underline: Story = {
   name: "带下划线",
   parameters: {
+    showPanel: true,
     docs: {
       description: {
         story: "通过 underline 属性显示下划线，支持与强调、加字重组合。",
+      },
+      source: {
+        state: "open",
       },
     },
   },
@@ -178,9 +286,18 @@ export const Underline: Story = {
 };
 
 export const Custom: Story = {
-  name: "自定义",
+  name: "自定义样式",
   parameters: {
-    docs: { description: { story: "自定义" } },
+    showPanel: true,
+    docs: {
+      description: {
+        story:
+          "展示如何通过 className 属性自定义链接样式，包括颜色、渐变效果、hover 状态等。支持 Tailwind CSS 和自定义 CSS 类。",
+      },
+      source: {
+        state: "open",
+      },
+    },
   },
   render: () => (
     <div className="flex flex-wrap gap-3 items-center text-[14px]">
@@ -190,7 +307,7 @@ export const Custom: Story = {
       <Link
         href="https://www.baidu.com"
         target="_blank"
-        className="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent-red"
+        className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"
       >
         渐变色渐变色渐变色渐变色
       </Link>
@@ -207,11 +324,16 @@ export const Custom: Story = {
 };
 
 export const Interactive: Story = {
-  name: "交互式",
+  name: "交互式配置",
   parameters: {
+    showPanel: true,
     docs: {
       description: {
-        story: "可以自由更改 Link 组件的属性，实时查看效果。",
+        story:
+          "可以通过右侧控制面板自由更改 Link 组件的属性，实时查看效果。这是测试和预览不同配置组合的最佳方式。",
+      },
+      source: {
+        state: "open",
       },
     },
   },
@@ -222,6 +344,8 @@ export const Interactive: Story = {
     showLinkIcon: false,
     showArrowIcon: false,
     iconSize: 16,
+    href: "#",
+    target: "_self",
     className: "text-[14px]",
   },
   render: (args) => {
@@ -234,6 +358,7 @@ export const Interactive: Story = {
 };
 
 export const API: Story = {
+  name: "API 文档",
   parameters: {
     previewTabs: {
       canvas: {
@@ -244,17 +369,52 @@ export const API: Story = {
     docs: {
       description: {
         story: `
+## 属性列表
+
+### 基础属性
+
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |------|------|------|--------|------|
-| emphasized | 是否强调 | boolean | false | 否 |
-| strong | 是否加字重 | boolean | false | 否 |
-| underline | 是否显示下划线 | boolean | false | 否 |
-| showLinkIcon | 是否显示左侧默认链接图标 | boolean | false | 否 |
-| leftIcon | 左侧自定义图标，showLinkIcon为true时，此属性无效 | React.ReactNode | - | 否 |
-| showArrowIcon | 是否显示右侧默认箭头图标 | boolean | false | 否 |
-| rightIcon | 右侧自定义图标，showArrowIcon为true时，此属性无效 | React.ReactNode | - | 否 |
-| iconSize | 图标大小，仅在使用默认图标时生效 | number | 16 | 否 |
-| ...a 标签原生属性 | 其他属性，参考a标签 | - | - | 否 |
+| **emphasized** | 是否强调显示（使用主题色） | \`boolean\` | \`false\` | 否 |
+| **strong** | 是否加粗显示 | \`boolean\` | \`false\` | 否 |
+| **underline** | 是否显示下划线 | \`boolean\` | \`false\` | 否 |
+
+### 图标相关
+
+| 属性 | 说明 | 类型 | 默认值 | 必填 |
+|------|------|------|--------|------|
+| **showLinkIcon** | 是否显示左侧默认链接图标 | \`boolean\` | \`false\` | 否 |
+| **leftIcon** | 左侧自定义图标 | \`React.ReactNode\` | \`-\` | 否 |
+| **showArrowIcon** | 是否显示右侧默认箭头图标 | \`boolean\` | \`false\` | 否 |
+| **rightIcon** | 右侧自定义图标 | \`React.ReactNode\` | \`-\` | 否 |
+| **iconSize** | 图标大小（仅对默认图标生效） | \`number\` | \`16\` | 否 |
+
+### 原生属性
+
+继承所有 HTML \`<a>\` 标签的原生属性，常用的包括：
+
+| 属性 | 说明 | 类型 | 示例 |
+|------|------|------|------|
+| **href** | 链接地址 | \`string\` | \`"#"\` / \`"https://example.com"\` |
+| **target** | 打开方式 | \`string\` | \`"_blank"\` / \`"_self"\` |
+| **rel** | 链接关系 | \`string\` | \`"noopener noreferrer"\` |
+| **className** | 自定义样式类 | \`string\` | \`"text-red-500"\` |
+| **onClick** | 点击事件 | \`(e: MouseEvent) => void\` | - |
+
+## 使用说明
+
+### 图标优先级
+- 当 \`showLinkIcon\` 为 \`true\` 时，\`leftIcon\` 属性无效
+- 当 \`showArrowIcon\` 为 \`true\` 时，\`rightIcon\` 属性无效
+
+### 样式组合
+- \`emphasized\` 和 \`strong\` 可以同时使用
+- \`underline\` 可以与任意其他样式属性组合
+
+### 可访问性
+- 外部链接建议添加 \`target="_blank"\` 和 \`rel="noopener noreferrer"\`
+- 复杂链接建议添加 \`aria-label\` 属性
+- 邮件和电话链接使用对应的 \`mailto:\` 和 \`tel:\` 协议
 `,
       },
     },

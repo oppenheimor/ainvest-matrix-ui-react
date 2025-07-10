@@ -1,0 +1,43 @@
+{
+  "name": "@oversea/popover",
+  "version": "0.0.0",
+  "description": "一个基于 Radix UI 的高质量 Popover 弹出框组件，提供完整的无障碍性支持和丰富的交互功能。支持多种触发方式、位置定位、智能关闭等特性，适用于复杂交互内容的浮层展示场景。",
+  "keywords": [
+    "react",
+    "typescript",
+    "popover",
+    "ui-component",
+    "radix-ui",
+    "accessibility",
+    "responsive",
+    "dark-mode",
+    "interaction",
+    "floating",
+    "overlay"
+  ],
+  "author": "Ainvest Team",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ainvest/matrix-ui-react.git",
+    "directory": "packages/popover"
+  },
+  "dependencies": {
+    "@radix-ui/react-popover": "^1.1.14"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "matrix build --mode dev --framework react",
+    "watch": "matrix build --mode dev --framework react --watch",
+    "build": "matrix build --mode prod --framework react"
+  }
+}

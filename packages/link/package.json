@@ -16,7 +16,7 @@
     "build:npm": "matrix build --mode prod --framework react",
     "build:umd": "matrix build-npm --mode prod --framework react",
     "pb": "matrix publish",
-    "build": "npm run build:npm && npm run build:umd && npm run pb"
+    "build": "npm run build:npm && npm run build:umd"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -25,8 +25,5 @@
   },
   "peerDependencies": {
     "react": "^18.3.1"
-  },
-  "publishConfig": {
-    "registry": "http://repositories.myhexin.com:8081/repository/npm-release/"
   }
 }
