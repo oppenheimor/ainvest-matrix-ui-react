@@ -16,10 +16,11 @@ Button 按钮是用户界面中最基础的交互元素之一，用于触发操�
 
 ## 组件特性
 ### 变体类型
-支持 5 种变体类型，每种都有其特定的使用场景：
+支持 6 种变体类型，每种都有其特定的使用场景：
 - **Primary（主要）**：用于页面中最重要的操作，具有最高的视觉权重
 - **Default（默认）**：用于常规操作，平衡的视觉表现
 - **Secondary（次要）**：用于次要操作，较为低调的样式
+- **Outline（轮廓）**：用于次要操作，带边框的轮廓样式
 - **Text（文本）**：用于不太重要的操作，最小化的视觉干扰
 - **Link（链接）**：用于导航或跳转操作，类似链接样式
 
@@ -86,7 +87,7 @@ export const Demo01: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Button 组件支持 5 种不同的变体 `primary`、`default`、`secondary`、`text`、`link`，分别适用于不同的使用场景",
+        story: "Button 组件支持 6 种不同的变体 `primary`、`default`、`secondary`、`outline`、`text`、`link`，分别适用于不同的使用场景",
       },
     },
   },
@@ -96,6 +97,7 @@ export const Demo01: Story = {
         <Button variant="primary">Primary</Button>
         <Button variant="default">Default</Button>
         <Button variant="secondary">Secondary</Button>
+        <Button variant="outline">Outline</Button>
         <Button variant="text">Text Button</Button>
         <Button variant="link" className="gap-1">
           Link Button
@@ -158,6 +160,7 @@ export const Demo03: Story = {
         <Button variant="primary" disabled>Primary Disabled</Button>
         <Button variant="default" disabled>Default Disabled</Button>
         <Button variant="secondary" disabled>Secondary Disabled</Button>
+        <Button variant="outline" disabled>Outline Disabled</Button>
         <Button variant="text" disabled>Text Disabled</Button>
         <Button variant="link" disabled>Link Disabled</Button>
       </div>
@@ -274,7 +277,7 @@ export const API: Story = {
 
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |---|---|---|-----|---|
-| variant | 按钮变体样式 | \`'primary'\` / \`'default'\` / \`'secondary'\` / \`'text'\` / \`'link'\` | \`'default'\` | 否 |
+| variant | 按钮变体样式 | \`'primary'\` / \`'default'\` / \`'secondary'\` / \`'outline'\` / \`'text'\` / \`'link'\` | \`'default'\` | 否 |
 | size | 按钮尺寸大小 | \`'xs'\` / \`'sm'\` / \`'base'\` / \`'lg'\` | \`'base'\` | 否 |
 | disabled | 是否禁用按钮 | \`boolean\` | \`false\` | 否 |
 | asChild | 是否作为子组件渲染 | \`boolean\` | \`false\` | 否 |
@@ -293,6 +296,7 @@ export const API: Story = {
 | \`primary\` | 主要操作 | 品牌色背景，白色文字 | 提交表单、确认操作、主要 CTA |
 | \`default\` | 常规操作 | 灰色背景，白色文字 | 取消、关闭、一般操作 |
 | \`secondary\` | 次要操作 | 浅灰色背景，深色文字 | 辅助功能、备选操作 |
+| \`outline\` | 轮廓操作 | 透明背景，边框样式 | 次要操作、备选方案 |
 | \`text\` | 文本操作 | 无背景，文字样式 | 链接式操作、不重要的操作 |
 | \`link\` | 链接操作 | 品牌色文字，无背景 | 跳转、导航、了解更多 |
 
@@ -319,6 +323,14 @@ export const API: Story = {
 - **Tab**: 聚焦到按钮
 - **Enter/Space**: 触发按钮点击
 - **Esc**: 取消焦点（在某些情况下）
+
+## Changelog
+
+### 0.0.2
+- variants 增加 outline 类型
+
+### 0.0.1
+- 初始版本
 `,
       },
     },
