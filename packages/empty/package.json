@@ -15,9 +15,8 @@
     "watch": "matrix build --mode dev --framework react --watch",
     "build:npm": "matrix build --mode prod --framework react",
     "build:umd": "matrix build-npm --mode prod --framework react",
-    "build:css": "tailwindcss -i ./src/styles/globals.css -o ./dist/index.css --minify",
     "pb": "matrix publish",
-    "build": "npm run build:npm && npm run build:umd && npm run build:css"
+    "build": "npm run build:npm && npm run build:umd"
   },
   "dependencies": {
     "@oversea/button": "0.0.1",

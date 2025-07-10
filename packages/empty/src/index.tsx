@@ -9,7 +9,7 @@ import {
   ServerError,
 } from "./components/Icons";
 import { EmptyProps, EmptyType, EmptyLevel } from "./types";
-import { Button } from "@oversea/button";
+import { Button } from "../../button";
 
 const iconVariants = {
   [EmptyType.NetworkError]: NetworkError,
