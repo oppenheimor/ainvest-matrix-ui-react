@@ -34,9 +34,13 @@ const meta: Meta<typeof DropdownMenu> = {
       description: {
         component: `
 ## 定义
-DropdownMenu 下拉菜单是一个浮层组件，用于展示一系列可选操作或信息。它由触发器和菜单内容组成，点击触发器后弹出菜单，提供丰富的交互功能。
+DropdownMenu 下拉菜单是一个浮层组件，用于展示一系列可选操作或信息。它由触发器和菜单内容组成，支持点击或悬浮触发，提供丰富的交互功能。
 
 ## 组件特性
+### 触发方式
+- **click**（默认）：点击触发器打开/关闭菜单
+- **hover**：鼠标悬浮触发器打开菜单，离开区域关闭菜单
+
 ### 组件结构
 DropdownMenu 是一个复合组件，由多个子组件组成：
 - **DropdownMenu**：根容器，管理菜单的开关状态
@@ -78,10 +82,9 @@ import {
   DropdownMenuTrigger,
 } from '@oversea/dropdown-menu'
 
-// 基础用法
 <DropdownMenu>
   <DropdownMenuTrigger>
-    <Button>打开菜单</Button>
+    <Button>悬浮打开菜单</Button>
   </DropdownMenuTrigger>
   <DropdownMenuContent>
     <DropdownMenuItem>操作 1</DropdownMenuItem>
@@ -89,29 +92,48 @@ import {
     <DropdownMenuItem>操作 3</DropdownMenuItem>
   </DropdownMenuContent>
 </DropdownMenu>
-
-// 带分割线和子菜单
-<DropdownMenu>
-  <DropdownMenuTrigger>
-    <Button>更多操作</Button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuItem>编辑</DropdownMenuItem>
-    <DropdownMenuItem>复制</DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuSub>
-      <DropdownMenuSubTrigger>更多</DropdownMenuSubTrigger>
-      <DropdownMenuSubContent>
-        <DropdownMenuItem>导出</DropdownMenuItem>
-        <DropdownMenuItem>分享</DropdownMenuItem>
-      </DropdownMenuSubContent>
-    </DropdownMenuSub>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>删除</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
 \`\`\`
         `,
+      },
+    },
+  },
+  argTypes: {
+    trigger: {
+      control: { type: "select" },
+      options: ["click", "hover"],
+      description: "菜单触发方式",
+      table: {
+        type: { summary: '"click" | "hover"' },
+        defaultValue: { summary: '"click"' },
+      },
+    },
+    open: {
+      control: "boolean",
+      description: "控制菜单的打开状态（仅在 click 模式下有效）",
+      table: { type: { summary: "boolean" } },
+    },
+    defaultOpen: {
+      control: "boolean",
+      description: "菜单的默认打开状态",
+      table: { type: { summary: "boolean" } },
+    },
+    onOpenChange: {
+      action: "onOpenChange",
+      description: "菜单状态变化时的回调函数（仅在 click 模式下有效）",
+      table: { type: { summary: "(open: boolean) => void" } },
+    },
+    modal: {
+      control: "boolean",
+      description: "是否为模态框模式（hover 模式下自动设为 false）",
+      table: { type: { summary: "boolean" }, defaultValue: { summary: "true" } },
+    },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "文本方向",
+      table: {
+        type: { summary: '"ltr" | "rtl"' },
+        defaultValue: { summary: '"ltr"' },
       },
     },
   },
@@ -120,6 +142,64 @@ import {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+export const HoverTrigger: Story = {
+  name: "Hover 触发",
+  render: () => {
+    return (
+      <div className="flex gap-4">
+        <DropdownMenu trigger="hover">
+          <DropdownMenuTrigger>
+            <Button variant="outline">Hover Me</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem className="flex gap-1 justify-start items-center">
+              <User2Icon className="w-4 h-4" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex gap-1 justify-start items-center">
+              <BoltIcon className="w-4 h-4" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="flex gap-1 justify-start items-center">
+              <LogOutIcon className="w-4 h-4" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        
+        <DropdownMenu trigger="click">
+          <DropdownMenuTrigger>
+            <Button variant="outline">Click Me</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem className="flex gap-1 justify-start items-center">
+              <User2Icon className="w-4 h-4" />
+              Profile
+            </DropdownMenuItem>
+            <DropdownMenuItem className="flex gap-1 justify-start items-center">
+              <BoltIcon className="w-4 h-4" />
+              Settings
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="flex gap-1 justify-start items-center">
+              <LogOutIcon className="w-4 h-4" />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "展示 hover 触发和 click 触发两种模式的对比。hover 模式下鼠标悬浮即可打开菜单，鼠标离开整个区域时关闭。",
+      },
+    },
+  },
+};
 
 export const Demo01: Story = {
   name: "个人中心",
@@ -152,7 +232,7 @@ export const Demo01: Story = {
     const [language, setLanguage] = useState("english");
 
     return (
-      <DropdownMenu>
+      <DropdownMenu trigger="hover">
         <DropdownMenuTrigger>
           <Button>Sign In</Button>
         </DropdownMenuTrigger>
@@ -244,6 +324,7 @@ export const API: Story = {
 | onOpenChange | 菜单开关状态变化回调 | \`(open: boolean) => void\` | - | 否 |
 | defaultOpen | 默认是否打开 | \`boolean\` | \`false\` | 否 |
 | modal | 是否为模态模式 | \`boolean\` | \`true\` | 否 |
+| trigger | 触发方式 | \`hover\` | \`hover\` / \`click\` | 否 |
 
 ### DropdownMenuTrigger
 
@@ -392,6 +473,14 @@ export const API: Story = {
 - **Esc**: 关闭菜单
 - **Home**: 导航到第一个菜单项
 - **End**: 导航到最后一个菜单项
+
+## Changelog
+
+### 0.0.2
+- \`DropdownMenu\` 新增 \`trigger\` 属性，支持 \`hover\` 和 \`click\` 两种触发方式，默认为 \`hover\`
+
+### 0.0.1
+- 初始版本
 `,
       },
     },

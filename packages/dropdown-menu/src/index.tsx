@@ -5,6 +5,18 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CheckIcon } from "lucide-react";
 import clsx from "clsx";
 
+interface DropdownMenuProps
+  extends React.ComponentProps<typeof DropdownMenuPrimitive.Root> {
+  trigger?: "click" | "hover";
+}
+
+// Context for sharing hover state between trigger and content
+interface DropdownMenuContextValue {
+  trigger: "click" | "hover";
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+}
+
 const createDefaultRoot = () => {
   let layer = document.getElementById("dropdown-layer");
   if (!layer) {
@@ -23,12 +35,58 @@ const createDefaultRoot = () => {
   }
 };
 
-function DropdownMenu({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
+const DropdownMenuContext =
+  React.createContext<DropdownMenuContextValue | null>(null);
+
+function DropdownMenu({ trigger = "hover", ...props }: DropdownMenuProps) {
   // 创建一个root
   createDefaultRoot();
-  return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
+  const [isOpen, setIsOpen] = React.useState(false);
+  const hoverTimeoutRef = React.useRef<NodeJS.Timeout>();
+
+  // hover 模式下的控制逻辑
+  const open = trigger === "hover" ? isOpen : props.open;
+  const onOpenChange = trigger === "hover" ? setIsOpen : props.onOpenChange;
+
+  const handleMouseEnter = React.useCallback(() => {
+    if (trigger === "hover") {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+      setIsOpen(true);
+    }
+  }, [trigger]);
+
+  const handleMouseLeave = React.useCallback(() => {
+    if (trigger === "hover") {
+      // 延迟关闭，给用户时间移动到 content
+      hoverTimeoutRef.current = setTimeout(() => {
+        setIsOpen(false);
+      }, 100);
+    }
+  }, [trigger]);
+
+  React.useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <DropdownMenuContext.Provider value={{ trigger, isOpen, setIsOpen }}>
+      <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <DropdownMenuPrimitive.Root
+          data-slot="dropdown-menu"
+          {...props}
+          open={open}
+          onOpenChange={onOpenChange}
+          modal={trigger === "hover" ? false : props.modal}
+        />
+      </div>
+    </DropdownMenuContext.Provider>
+  );
 }
 
 function DropdownMenuPortal({
@@ -56,6 +114,20 @@ function DropdownMenuContent({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Content>) {
   const root = document.getElementById("dropdown-layer");
+  const context = React.useContext(DropdownMenuContext);
+
+  const handleMouseEnter = React.useCallback(() => {
+    if (context && context.trigger === "hover") {
+      context.setIsOpen(true);
+    }
+  }, [context]);
+
+  const handleMouseLeave = React.useCallback(() => {
+    if (context && context.trigger === "hover") {
+      context.setIsOpen(false);
+    }
+  }, [context]);
+
   return (
     <DropdownMenuPrimitive.Portal container={root}>
       <DropdownMenuPrimitive.Content
@@ -69,6 +141,12 @@ function DropdownMenuContent({
         )}
         sideOffset={sideOffset}
         {...props}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          props.onCloseAutoFocus?.(e);
+        }}
       />
     </DropdownMenuPrimitive.Portal>
   );
