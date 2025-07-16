@@ -68,134 +68,6 @@ import { Input } from '@oversea/input'
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const BasicInputComponent = () => {
-  const [isDark, setIsDark] = useState(true);
-  const [error, setError] = useState("Input Invalid Character");
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (/\d/.test(inputRef.current?.value || "")) {
-      setError("Input Invalid Character");
-    }
-  }, []);
-
-  const handleChange = (value: string) => {
-    if (/\d/.test(value)) {
-      setError("Input Invalid Character");
-    } else {
-      setError("");
-    }
-  };
-
-  return (
-    <div className="flex gap-4 flex-wrap w-3/4">
-      <Input
-        label="普通输入框"
-        placeholder="Enter text"
-        className="w-[271px]"
-      />
-      <Input
-        label="允许一键清除"
-        placeholder="Enter text"
-        className="w-[271px]"
-        allowClear
-      />
-      <Input
-        label="禁用状态"
-        placeholder="Enter text"
-        disabled
-        className="w-[271px]"
-      />
-      <Input
-        label="错误状态"
-        placeholder="Enter text"
-        defaultValue="Enter text"
-        error={
-          <div className="flex items-center gap-[7px]">
-            <span className="w-3 h-3 flex items-center justify-center">
-              <ErrorIcon />
-            </span>
-            <span>Input Invalid Character</span>
-          </div>
-        }
-        className="w-[271px]"
-      />
-      <Input
-        label="成功状态"
-        placeholder="Enter text"
-        defaultValue="Enter text"
-        success={
-          <div className="flex items-center gap-[7px]">
-            <SuccessIcon />
-            <span>Include cap charactors</span>
-          </div>
-        }
-        className="w-[271px]"
-      />
-      <Input
-        label="必填"
-        placeholder="Enter text"
-        className="w-[271px]"
-        required
-      />
-      <Input
-        label={
-          <div className="flex items-center gap-1.5">
-            <span>自定义图标</span>
-            <ExplainIcon />
-          </div>
-        }
-        placeholder="Enter text"
-        className="w-[271px]"
-      />
-      <Input
-        label="限制最大输入字数"
-        placeholder="Enter text"
-        className="w-[271px]"
-        maxLength={20}
-      />
-      <Input
-        label="带前置标签"
-        placeholder="Enter text"
-        className="w-[271px]"
-        addonBefore={
-          <span onClick={() => setIsDark(!isDark)}>
-            {isDark ? <ExpressionDarkIcon /> : <ExpressionLightIcon />}
-          </span>
-        }
-      />
-      <Input
-        label="带后置标签"
-        placeholder="Enter text"
-        className="w-[271px]"
-        addonAfter={<RightIcon />}
-      />
-      <Input
-        label="带前缀和后缀"
-        placeholder="Enter text"
-        className="w-[271px]"
-        prefix="From"
-        suffix="%"
-      />
-      <Input
-        label="可隐藏字符且初始状态为隐藏"
-        placeholder="Enter text"
-        className="w-[271px]"
-        password
-      />
-      <Input
-        label="自定义校验规则-不能包含数字"
-        ref={inputRef}
-        defaultValue="hahaha1"
-        placeholder="Enter text"
-        className="w-[271px]"
-        error={error}
-        onChange={handleChange}
-      />
-    </div>
-  );
-};
-
 export const BasicInput: Story = {
   name: "普通输入框",
   parameters: {
@@ -205,7 +77,136 @@ export const BasicInput: Story = {
       },
     },
   },
-  render: () => <BasicInputComponent />,
+  render: () => {
+    const BasicInputComponent = () => {
+      const [isDark, setIsDark] = useState(true);
+      const [error, setError] = useState("Input Invalid Character");
+      const inputRef = useRef<HTMLInputElement>(null);
+
+      useEffect(() => {
+        if (/\d/.test(inputRef.current?.value || "")) {
+          setError("Input Invalid Character");
+        }
+      }, []);
+
+      const handleChange = (value: string) => {
+        if (/\d/.test(value)) {
+          setError("Input Invalid Character");
+        } else {
+          setError("");
+        }
+      };
+
+      return (
+        <div className="flex gap-4 flex-wrap w-3/4">
+          <Input
+            label="普通输入框"
+            placeholder="Enter text"
+            className="w-[271px]"
+          />
+          <Input
+            label="允许一键清除"
+            placeholder="Enter text"
+            className="w-[271px]"
+            allowClear
+          />
+          <Input
+            label="禁用状态"
+            placeholder="Enter text"
+            disabled
+            className="w-[271px]"
+          />
+          <Input
+            label="错误状态"
+            placeholder="Enter text"
+            defaultValue="Enter text"
+            error={
+              <div className="flex items-center gap-[7px]">
+                <span className="w-3 h-3 flex items-center justify-center">
+                  <ErrorIcon />
+                </span>
+                <span>Input Invalid Character</span>
+              </div>
+            }
+            className="w-[271px]"
+          />
+          <Input
+            label="成功状态"
+            placeholder="Enter text"
+            defaultValue="Enter text"
+            success={
+              <div className="flex items-center gap-[7px]">
+                <SuccessIcon />
+                <span>Include cap charactors</span>
+              </div>
+            }
+            className="w-[271px]"
+          />
+          <Input
+            label="必填"
+            placeholder="Enter text"
+            className="w-[271px]"
+            required
+          />
+          <Input
+            label={
+              <div className="flex items-center gap-1.5">
+                <span>自定义图标</span>
+                <ExplainIcon />
+              </div>
+            }
+            placeholder="Enter text"
+            className="w-[271px]"
+          />
+          <Input
+            label="限制最大输入字数"
+            placeholder="Enter text"
+            className="w-[271px]"
+            maxLength={20}
+          />
+          <Input
+            label="带前置标签"
+            placeholder="Enter text"
+            className="w-[271px]"
+            addonBefore={
+              <span onClick={() => setIsDark(!isDark)}>
+                {isDark ? <ExpressionDarkIcon /> : <ExpressionLightIcon />}
+              </span>
+            }
+          />
+          <Input
+            label="带后置标签"
+            placeholder="Enter text"
+            className="w-[271px]"
+            addonAfter={<RightIcon />}
+          />
+          <Input
+            label="带前缀和后缀"
+            placeholder="Enter text"
+            className="w-[271px]"
+            prefix="From"
+            suffix="%"
+          />
+          <Input
+            label="可隐藏字符且初始状态为隐藏"
+            placeholder="Enter text"
+            className="w-[271px]"
+            password
+          />
+          <Input
+            label="自定义校验规则-不能包含数字"
+            ref={inputRef}
+            defaultValue="hahaha1"
+            placeholder="Enter text"
+            className="w-[271px]"
+            error={error}
+            onChange={handleChange}
+          />
+        </div>
+      );
+    };
+    return <BasicInputComponent />;
+  },
 };
 
 export const BasicNumberInput: Story = {

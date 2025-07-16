@@ -139,7 +139,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={cn(
-          "flex flex-col gap-2 text-base text-text-primary leading-snug",
+          "flex flex-col gap-2 text-base leading-snug text-text-primary",
           className
         )}
       >
@@ -151,7 +151,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           </div>
           {/* 字符计数 */}
           {!!maxLength && (
-            <span className="text-text-tertiary ml-auto">{characterCount}</span>
+            <span className="ml-auto text-text-tertiary">{characterCount}</span>
           )}
         </div>
         {/* 输入框容器 */}
@@ -173,7 +173,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {/* 前缀 */}
           {prefix && (
             <span
-              className={cn("text-text-secondary ml-4", {
+              className={cn("ml-4 text-text-secondary", {
                 "text-text-primary": isFocused,
               })}
             >
@@ -203,7 +203,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {/* 后缀 */}
-          {suffix && <span className="text-text-secondary mr-4">{suffix}</span>}
+          {suffix && <span className="mr-4 text-text-secondary">{suffix}</span>}
           {/* 清除按钮 */}
           {allowClear && currentValue && (
             <ClearIcon onClick={handleClear} className="mr-4" />

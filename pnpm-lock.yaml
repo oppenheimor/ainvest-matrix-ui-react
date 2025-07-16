@@ -334,6 +334,21 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
 
+  packages/carousel:
+    dependencies:
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
+
   packages/checkbox-group:
     dependencies:
       '@radix-ui/react-checkbox':
@@ -348,6 +363,21 @@ importers:
       react-dom:
         specifier: '>=16.8.0'
         version: 18.3.1(react@18.3.1)
+
+  packages/collapse:
+    dependencies:
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
 
   packages/credenza:
     dependencies:
@@ -533,11 +563,8 @@ importers:
   packages/notification:
     dependencies:
       react:
-        specifier: '>=18.0.0'
+        specifier: ^18.3.1
         version: 18.3.1
-      react-dom:
-        specifier: '>=18.0.0'
-        version: 18.3.1(react@18.3.1)
       sonner:
         specifier: ^2.0.5
         version: 2.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)

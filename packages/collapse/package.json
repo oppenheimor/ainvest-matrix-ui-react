@@ -1,8 +1,8 @@
 {
-  "name": "@oversea/notification",
-  "version": "0.0.2",
-  "description": "A notification component based on Sonner",
-  "author": "xiayan@myhexin.com",
+  "name": "@oversea/collapse",
+  "version": "0.0.1",
+  "description": "",
+  "author": "fengjiawang@myhexin.com",
   "license": "ISC",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -16,12 +16,17 @@
     "build:npm": "matrix build --mode prod --framework react",
     "build:umd": "matrix build-npm --mode prod --framework react",
     "pb": "matrix publish",
-    "build": "npm run build:npm && npm run build:umd"
+    "build": "npm run build:npm && npm run build:umd && npm run pb"
   },
   "dependencies": {
-    "sonner": "^2.0.5"
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1"
   },
   "peerDependencies": {
     "react": "^18.3.1"
+  },
+  "publishConfig": {
+    "registry": "http://repositories.myhexin.com:8081/repository/npm-release/"
   }
 }
