@@ -48,7 +48,7 @@ export const Demo01: Story = {
         <Button onClick={openDialog}>Open Dialog</Button>
       </DialogTrigger>
       {/* Dialog 主体 */}
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         {/* Dialog 头部 */}
         <DialogHeader onCloseIconClick={closeDialog}>
           {/* Dialog 标题 */}

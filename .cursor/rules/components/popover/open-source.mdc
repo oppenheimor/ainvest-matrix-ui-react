@@ -1,0 +1,1206 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 开源实现基准 (OSS Implementation Baseline)
+
+## 1.shadcn/ui
+示例：https://www.shadcn-ui.cn/docs/components/popover
+API Reference：https://www.radix-ui.com/primitives/docs/components/popover#api-reference
+
+``` tsx
+"use client"
+
+import * as React from "react"
+import * as PopoverPrimitive from "@radix-ui/react-popover"
+
+import { cn } from "@/lib/utils"
+
+function Popover({
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Root>) {
+  return <PopoverPrimitive.Root data-slot="popover" {...props} />
+}
+
+function PopoverTrigger({
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
+  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />
+}
+
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Content>) {
+  return (
+    <PopoverPrimitive.Portal>
+      <PopoverPrimitive.Content
+        data-slot="popover-content"
+        align={align}
+        sideOffset={sideOffset}
+        className={cn(
+          "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 w-72 origin-(--radix-popover-content-transform-origin) rounded-md border p-4 shadow-md outline-hidden",
+          className
+        )}
+        {...props}
+      />
+    </PopoverPrimitive.Portal>
+  )
+}
+
+function PopoverAnchor({
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {
+  return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />
+}
+
+export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }
+```
+
+以下为基础使用示例：
+``` tsx
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export function PopoverDemo() {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline">Open popover</Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <h4 className="font-medium leading-none">Dimensions</h4>
+            <p className="text-sm text-muted-foreground">
+              Set the dimensions for the layer.
+            </p>
+          </div>
+          <div className="grid gap-2">
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="width">Width</Label>
+              <Input
+                id="width"
+                defaultValue="100%"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxWidth">Max. width</Label>
+              <Input
+                id="maxWidth"
+                defaultValue="300px"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="height">Height</Label>
+              <Input
+                id="height"
+                defaultValue="25px"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxHeight">Max. height</Label>
+              <Input
+                id="maxHeight"
+                defaultValue="none"
+                className="col-span-2 h-8"
+              />
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+```
+
+## 2. HeroUI
+使用：https://www.heroui.com/docs/components/popover#usage
+API Reference：https://www.heroui.com/docs/components/popover#api
+
+### 代码设计
+
+#### 目录结构
+popover
+└─ src
+├─ index.ts
+├─ free-solo-popover.tsx
+├─ popover-content.tsx
+├─ popover-context.ts
+├─ popover-trigger.tsx
+├─ use-aria-popover.ts
+├─ use-popover.ts
+└─ popover.tsx
+
+
+#### 各文件具体内容
+```ts
+// index.ts
+import Popover from "./popover";
+import PopoverTrigger from "./popover-trigger";
+import PopoverContent from "./popover-content";
+import FreeSoloPopover from "./free-solo-popover";
+
+// export types
+export type {PopoverProps} from "./popover";
+export type {PopoverTriggerProps} from "./popover-trigger";
+export type {PopoverContentProps} from "./popover-content";
+export type {FreeSoloPopoverProps} from "./free-solo-popover";
+
+// export hooks
+export {usePopover} from "./use-popover";
+
+// export context
+export {PopoverProvider, usePopoverContext} from "./popover-context";
+
+// export components
+export {Popover, PopoverTrigger, PopoverContent, FreeSoloPopover};
+```
+
+``` tsx
+// free-solo-popover.tsx
+/**
+ * FreeSoloPopover
+ *
+ * This is a popover that is not tied to a trigger. It is used for the free solo
+ * select component.
+ *
+ * @internal
+ */
+
+import type {HTMLMotionProps} from "framer-motion";
+import type {UsePopoverProps, UsePopoverReturn} from "./use-popover";
+
+import * as React from "react";
+import {DismissButton, Overlay} from "@react-aria/overlays";
+import {forwardRef} from "@heroui/system";
+import {LazyMotion, m} from "framer-motion";
+import {mergeProps} from "@react-aria/utils";
+import {getTransformOrigins} from "@heroui/aria-utils";
+import {TRANSITION_VARIANTS} from "@heroui/framer-utils";
+import {useDialog} from "@react-aria/dialog";
+
+import {usePopover} from "./use-popover";
+
+const domAnimation = () => import("@heroui/dom-animation").then((res) => res.default);
+
+export interface FreeSoloPopoverProps extends Omit<UsePopoverProps, "children"> {
+  children: React.ReactNode | ((titleProps: React.DOMAttributes<HTMLElement>) => React.ReactNode);
+  transformOrigin?: {
+    originX?: number;
+    originY?: number;
+  };
+  disableDialogFocus?: boolean;
+}
+
+type FreeSoloPopoverWrapperProps = {
+  children: React.ReactNode;
+  disableAnimation: boolean;
+  transformOrigin?: FreeSoloPopoverProps["transformOrigin"];
+  placement: UsePopoverReturn["placement"];
+  motionProps?: UsePopoverProps["motionProps"];
+} & React.HTMLAttributes<HTMLDivElement>;
+
+const FreeSoloPopoverWrapper = forwardRef<"div", FreeSoloPopoverWrapperProps>(
+  (
+    {
+      children,
+      motionProps,
+      placement,
+      disableAnimation,
+      style: styleProp = {},
+      transformOrigin = {},
+      ...otherProps
+    },
+    ref,
+  ) => {
+    let style = styleProp;
+
+    if (transformOrigin.originX !== undefined || transformOrigin.originY !== undefined) {
+      style = {
+        ...style,
+        // @ts-ignore
+        transformOrigin,
+      };
+    } else if (placement) {
+      style = {
+        ...style,
+        ...getTransformOrigins(placement === "center" ? "top" : placement),
+      };
+    }
+
+    return disableAnimation ? (
+      <div {...otherProps} ref={ref}>
+        {children}
+      </div>
+    ) : (
+      <LazyMotion features={domAnimation}>
+        <m.div
+          ref={ref}
+          animate="enter"
+          exit="exit"
+          initial="initial"
+          style={style}
+          variants={TRANSITION_VARIANTS.scaleSpringOpacity}
+          {...mergeProps(otherProps, motionProps)}
+        >
+          {children}
+        </m.div>
+      </LazyMotion>
+    );
+  },
+);
+
+FreeSoloPopoverWrapper.displayName = "HeroUI.FreeSoloPopoverWrapper";
+
+const FreeSoloPopover = forwardRef<"div", FreeSoloPopoverProps>(
+  ({children, transformOrigin, disableDialogFocus = false, ...props}, ref) => {
+    const {
+      Component,
+      state,
+      placement,
+      backdrop,
+      portalContainer,
+      disableAnimation,
+      motionProps,
+      isNonModal,
+      getPopoverProps,
+      getBackdropProps,
+      getDialogProps,
+      getContentProps,
+    } = usePopover({
+      ...props,
+      ref,
+    });
+
+    const dialogRef = React.useRef(null);
+    const {dialogProps: ariaDialogProps, titleProps} = useDialog({}, dialogRef);
+    const dialogProps = getDialogProps({
+      // by default, focus is moved into the dialog on mount
+      // we can use `disableDialogFocus` to disable this behaviour
+      // e.g. in autocomplete, the focus should be moved to the input (handled in autocomplete hook) instead of the dialog first
+      ...(!disableDialogFocus && {ref: dialogRef}),
+      ...ariaDialogProps,
+    });
+
+    const backdropContent = React.useMemo(() => {
+      if (backdrop === "transparent") {
+        return null;
+      }
+
+      if (disableAnimation) {
+        return <div {...getBackdropProps()} />;
+      }
+
+      return (
+        <LazyMotion features={domAnimation}>
+          <m.div
+            animate="enter"
+            exit="exit"
+            initial="exit"
+            variants={TRANSITION_VARIANTS.fade}
+            {...(getBackdropProps() as Omit<HTMLMotionProps<"div">, "ref">)}
+          />
+        </LazyMotion>
+      );
+    }, [backdrop, disableAnimation, getBackdropProps]);
+
+    return (
+      <Overlay portalContainer={portalContainer}>
+        {!isNonModal && backdropContent}
+        <Component {...getPopoverProps()}>
+          <FreeSoloPopoverWrapper
+            disableAnimation={disableAnimation}
+            motionProps={motionProps}
+            placement={placement}
+            tabIndex={-1}
+            transformOrigin={transformOrigin}
+            {...dialogProps}
+          >
+            {!isNonModal && <DismissButton onDismiss={state.close} />}
+            <div {...getContentProps()}>
+              {typeof children === "function" ? children(titleProps) : children}
+            </div>
+            <DismissButton onDismiss={state.close} />
+          </FreeSoloPopoverWrapper>
+        </Component>
+      </Overlay>
+    );
+  },
+);
+
+FreeSoloPopover.displayName = "HeroUI.FreeSoloPopover";
+
+export default FreeSoloPopover;
+```
+
+``` tsx
+// popover-content.tsx
+import type {AriaDialogProps} from "@react-aria/dialog";
+import type {HTMLMotionProps} from "framer-motion";
+import type {DOMAttributes, ReactNode} from "react";
+import type {HTMLHeroUIProps} from "@heroui/system";
+
+import {useMemo, useRef} from "react";
+import {DismissButton} from "@react-aria/overlays";
+import {TRANSITION_VARIANTS} from "@heroui/framer-utils";
+import {m, LazyMotion} from "framer-motion";
+import {getTransformOrigins} from "@heroui/aria-utils";
+import {useDialog} from "@react-aria/dialog";
+
+import {usePopoverContext} from "./popover-context";
+
+export interface PopoverContentProps
+  extends AriaDialogProps,
+    Omit<HTMLHeroUIProps, "children" | "role"> {
+  children: ReactNode | ((titleProps: DOMAttributes<HTMLElement>) => ReactNode);
+}
+
+const domAnimation = () => import("@heroui/dom-animation").then((res) => res.default);
+
+const PopoverContent = (props: PopoverContentProps) => {
+  const {as, children, className, ...otherProps} = props;
+
+  const {
+    Component: OverlayComponent,
+    placement,
+    backdrop,
+    motionProps,
+    disableAnimation,
+    getPopoverProps,
+    getDialogProps,
+    getBackdropProps,
+    getContentProps,
+    isNonModal,
+    onClose,
+  } = usePopoverContext();
+
+  const dialogRef = useRef(null);
+  const {dialogProps: ariaDialogProps, titleProps} = useDialog({}, dialogRef);
+  const dialogProps = getDialogProps({
+    ref: dialogRef,
+    ...ariaDialogProps,
+    ...otherProps,
+  });
+
+  const Component = as || OverlayComponent || "div";
+
+  const content = (
+    <>
+      {!isNonModal && <DismissButton onDismiss={onClose} />}
+      <Component {...dialogProps}>
+        <div {...getContentProps({className})}>
+          {typeof children === "function" ? children(titleProps) : children}
+        </div>
+      </Component>
+      <DismissButton onDismiss={onClose} />
+    </>
+  );
+
+  const backdropContent = useMemo(() => {
+    if (backdrop === "transparent") {
+      return null;
+    }
+
+    if (disableAnimation) {
+      return <div {...getBackdropProps()} />;
+    }
+
+    return (
+      <LazyMotion features={domAnimation}>
+        <m.div
+          animate="enter"
+          exit="exit"
+          initial="exit"
+          variants={TRANSITION_VARIANTS.fade}
+          {...(getBackdropProps() as Omit<HTMLMotionProps<"div">, "ref">)}
+        />
+      </LazyMotion>
+    );
+  }, [backdrop, disableAnimation, getBackdropProps]);
+
+  const style = placement
+    ? getTransformOrigins(placement === "center" ? "top" : placement)
+    : undefined;
+  const contents = (
+    <>
+      {disableAnimation ? (
+        content
+      ) : (
+        <LazyMotion features={domAnimation}>
+          <m.div
+            animate="enter"
+            exit="exit"
+            initial="initial"
+            style={style}
+            variants={TRANSITION_VARIANTS.scaleSpringOpacity}
+            {...motionProps}
+          >
+            {content}
+          </m.div>
+        </LazyMotion>
+      )}
+    </>
+  );
+
+  return (
+    <div {...getPopoverProps()}>
+      {backdropContent}
+      {contents}
+    </div>
+  );
+};
+
+PopoverContent.displayName = "HeroUI.PopoverContent";
+
+export default PopoverContent;
+```
+
+``` ts
+// popover-context.ts
+import type {UsePopoverReturn} from "./use-popover";
+
+import {createContext} from "@heroui/react-utils";
+
+export const [PopoverProvider, usePopoverContext] = createContext<UsePopoverReturn>({
+  name: "PopoverContext",
+  errorMessage:
+    "usePopoverContext: `context` is undefined. Seems you forgot to wrap all popover components within `<Popover />`",
+});
+```
+
+```tsx
+// popover-trigger.tsx
+import React, {Children, cloneElement, useMemo} from "react";
+import {pickChildren} from "@heroui/react-utils";
+import {useAriaButton} from "@heroui/use-aria-button";
+import {Button} from "@heroui/button";
+import {mergeProps} from "@react-aria/utils";
+
+import {usePopoverContext} from "./popover-context";
+
+export interface PopoverTriggerProps {
+  children?: React.ReactNode;
+  className?: string;
+  [key: string]: any;
+}
+
+/**
+ * PopoverTrigger opens the popover's content. It must be an interactive element
+ * such as `button` or `a`.
+ */
+const PopoverTrigger = (props: PopoverTriggerProps) => {
+  const {triggerRef, getTriggerProps} = usePopoverContext();
+
+  const {children, ...otherProps} = props;
+
+  // force a single child
+  const child = useMemo<any>(() => {
+    if (typeof children === "string") return <p>{children}</p>;
+
+    return Children.only(children) as React.ReactElement & {
+      ref?: React.Ref<any>;
+    };
+  }, [children]);
+
+  // Accessing the ref from props, else fallback to element.ref
+  // https://github.com/facebook/react/pull/28348
+  const childRef = child.props.ref ?? (child as any).ref;
+
+  const {onPress, isDisabled, ...restProps} = useMemo(() => {
+    return getTriggerProps(mergeProps(otherProps, child.props), childRef);
+  }, [getTriggerProps, child.props, otherProps, childRef]);
+
+  // validates if contains a HeroUI Button as a child
+  const [, triggerChildren] = pickChildren(children, Button);
+
+  const {buttonProps} = useAriaButton({onPress, isDisabled}, triggerRef);
+
+  const hasHeroUIButton = useMemo<boolean>(() => {
+    return triggerChildren?.[0] !== undefined;
+  }, [triggerChildren]);
+
+  if (!hasHeroUIButton) {
+    // delete `preventFocusOnPress` introduced from useMenuTrigger
+    // to avoid passing it to non-HeroUI Button components
+    delete restProps["preventFocusOnPress"];
+  }
+
+  return cloneElement(
+    child,
+    mergeProps(restProps, hasHeroUIButton ? {onPress, isDisabled} : buttonProps),
+  );
+};
+
+PopoverTrigger.displayName = "HeroUI.PopoverTrigger";
+
+export default PopoverTrigger;
+```
+
+``` tsx
+// popover.tsx
+import type {ReactNode} from "react";
+import type {UsePopoverProps} from "./use-popover";
+
+import {Children} from "react";
+import {forwardRef} from "@heroui/system";
+import {Overlay} from "@react-aria/overlays";
+import {AnimatePresence} from "framer-motion";
+
+import {usePopover} from "./use-popover";
+import {PopoverProvider} from "./popover-context";
+
+export interface PopoverProps extends UsePopoverProps {
+  /**
+   * The content of the popover. It is usually the `PopoverTrigger`,
+   * and `PopoverContent`
+   */
+  children: ReactNode[];
+}
+
+const Popover = forwardRef<"div", PopoverProps>((props, ref) => {
+  const {children, ...otherProps} = props;
+  const context = usePopover({...otherProps, ref});
+
+  const [trigger, content] = Children.toArray(children);
+
+  const overlay = <Overlay portalContainer={context.portalContainer}>{content}</Overlay>;
+
+  return (
+    <PopoverProvider value={context}>
+      {trigger}
+      {context.disableAnimation && context.isOpen ? (
+        overlay
+      ) : (
+        <AnimatePresence>{context.isOpen ? overlay : null}</AnimatePresence>
+      )}
+    </PopoverProvider>
+  );
+});
+
+Popover.displayName = "HeroUI.Popover";
+
+export default Popover;
+```
+
+```ts
+// use-aria-popover.ts
+import type {RefObject} from "react";
+import type {AriaPopoverProps, PopoverAria, AriaOverlayProps} from "@react-aria/overlays";
+import type {OverlayPlacement} from "@heroui/aria-utils";
+import type {OverlayTriggerState} from "@react-stately/overlays";
+
+import {
+  ariaHideOutside,
+  keepVisible,
+  toReactAriaPlacement,
+  ariaShouldCloseOnInteractOutside,
+} from "@heroui/aria-utils";
+import {useOverlay, useOverlayPosition} from "@react-aria/overlays";
+import {useEffect} from "react";
+import {mergeProps} from "@react-aria/utils";
+import {useSafeLayoutEffect} from "@heroui/use-safe-layout-effect";
+
+export interface Props {
+  /**
+   * Whether the element should render an arrow.
+   * @default false
+   */
+  showArrow?: boolean;
+  /**
+   * The placement of the element with respect to its anchor element.
+   * @default 'top'
+   */
+  placement?: OverlayPlacement;
+  /**
+   * A ref for the scrollable region within the overlay.
+   * @default popoverRef
+   */
+  scrollRef?: RefObject<HTMLElement>;
+  /**
+   * List of dependencies to update the position of the popover.
+   * @default []
+   */
+  updatePositionDeps?: any[];
+  /**
+   * Whether the popover should close on scroll.
+   * @default true
+   */
+  shouldCloseOnScroll?: boolean;
+  /**
+   * Whether to close the overlay when the user interacts outside it.
+   * @default true
+   */
+  isDismissable?: boolean;
+}
+
+export type ReactAriaPopoverProps = Props &
+  Omit<AriaPopoverProps, "placement"> &
+  Omit<AriaOverlayProps, "isDismissable">;
+
+/**
+ * Provides the behavior and accessibility implementation for a popover component.
+ * A popover is an overlay element positioned relative to a trigger.
+ */
+export function useReactAriaPopover(
+  props: ReactAriaPopoverProps,
+  state: OverlayTriggerState,
+): PopoverAria {
+  const {
+    groupRef,
+    triggerRef,
+    popoverRef,
+    showArrow,
+    offset = 7,
+    crossOffset = 0,
+    scrollRef,
+    shouldFlip,
+    boundaryElement,
+    isDismissable = true,
+    shouldCloseOnBlur = true,
+    shouldCloseOnScroll = true,
+    placement: placementProp = "top",
+    containerPadding,
+    shouldCloseOnInteractOutside,
+    isNonModal: isNonModalProp,
+    isKeyboardDismissDisabled,
+    updatePositionDeps = [],
+    ...otherProps
+  } = props;
+
+  const isNonModal = isNonModalProp ?? true;
+
+  const isSubmenu = otherProps["trigger"] === "SubmenuTrigger";
+
+  const {overlayProps, underlayProps} = useOverlay(
+    {
+      isOpen: state.isOpen,
+      onClose: state.close,
+      shouldCloseOnBlur,
+      isDismissable: isDismissable || isSubmenu,
+      isKeyboardDismissDisabled,
+      shouldCloseOnInteractOutside: shouldCloseOnInteractOutside
+        ? shouldCloseOnInteractOutside
+        : (element: Element) => ariaShouldCloseOnInteractOutside(element, triggerRef, state),
+    },
+    popoverRef,
+  );
+
+  const {
+    overlayProps: positionProps,
+    arrowProps,
+    placement,
+    updatePosition,
+  } = useOverlayPosition({
+    ...otherProps,
+    shouldFlip,
+    crossOffset,
+    targetRef: triggerRef,
+    overlayRef: popoverRef,
+    isOpen: state.isOpen,
+    scrollRef,
+    boundaryElement,
+    containerPadding,
+    placement: toReactAriaPlacement(placementProp),
+    offset: showArrow ? offset + 3 : offset,
+    onClose: isNonModal && !isSubmenu && shouldCloseOnScroll ? state.close : () => {},
+  });
+
+  useSafeLayoutEffect(() => {
+    if (!updatePositionDeps.length) return;
+    // force update position when deps change
+    updatePosition();
+  }, updatePositionDeps);
+
+  useEffect(() => {
+    if (state.isOpen && popoverRef.current) {
+      if (isNonModal) {
+        return keepVisible(groupRef?.current ?? popoverRef.current);
+      } else {
+        return ariaHideOutside([groupRef?.current ?? popoverRef.current]);
+      }
+    }
+  }, [isNonModal, state.isOpen, popoverRef, groupRef]);
+
+  return {
+    popoverProps: mergeProps(overlayProps, positionProps),
+    arrowProps,
+    underlayProps,
+    placement,
+  };
+}
+```
+
+```ts
+// use-popover.ts
+import type {PopoverVariantProps, SlotsToClasses, PopoverSlots} from "@heroui/theme";
+import type {HTMLMotionProps} from "framer-motion";
+import type {PressEvent} from "@react-types/shared";
+import type {RefObject, Ref} from "react";
+import type {ReactRef} from "@heroui/react-utils";
+import type {OverlayTriggerState} from "@react-stately/overlays";
+import type {OverlayTriggerProps} from "@react-types/overlays";
+import type {HTMLHeroUIProps, PropGetter} from "@heroui/system";
+import type {AriaDialogProps} from "@react-aria/dialog";
+import type {ReactAriaPopoverProps} from "./use-aria-popover";
+
+import {useEffect} from "react";
+import {useDOMRef} from "@heroui/react-utils";
+import {useOverlayTriggerState} from "@react-stately/overlays";
+import {useFocusRing} from "@react-aria/focus";
+import {ariaHideOutside, useOverlayTrigger, usePreventScroll} from "@react-aria/overlays";
+import {getShouldUseAxisPlacement} from "@heroui/aria-utils";
+import {mapPropsVariants, useProviderContext} from "@heroui/system";
+import {getArrowPlacement} from "@heroui/aria-utils";
+import {popover} from "@heroui/theme";
+import {mergeProps, mergeRefs} from "@react-aria/utils";
+import {clsx, dataAttr, objectToDeps} from "@heroui/shared-utils";
+import {useMemo, useCallback, useRef} from "react";
+
+import {useReactAriaPopover} from "./use-aria-popover";
+
+export interface Props extends HTMLHeroUIProps<"div"> {
+  /**
+   * Ref to the DOM node.
+   */
+  ref?: ReactRef<HTMLDivElement | null>;
+  /**
+   * The controlled state of the popover.
+   */
+  state?: OverlayTriggerState;
+  /**
+   * The ref for the element which the overlay positions itself with respect to.
+   */
+  triggerRef?: RefObject<HTMLElement>;
+  /**
+   * Whether the scroll event should be blocked when the overlay is open.
+   * @default true
+   */
+  shouldBlockScroll?: boolean;
+  /**
+   * Custom props to be passed to the dialog container.
+   *
+   * @default {}
+   */
+  dialogProps?: AriaDialogProps;
+  /**
+   * Type of overlay that is opened by the trigger.
+   */
+  triggerType?: "dialog" | "menu" | "listbox" | "tree" | "grid";
+  /**
+   * The props to modify the framer motion animation. Use the `variants` API to create your own animation.
+   */
+  motionProps?: Omit<HTMLMotionProps<"div">, "ref">;
+  /**
+   * The container element in which the overlay portal will be placed.
+   * @default document.body
+   */
+  portalContainer?: Element;
+  /**
+   * Classname or List of classes to change the classNames of the element.
+   * if `className` is passed, it will be added to the base slot.
+   *
+   * @example
+   * ```ts
+   * <Popover classNames={{
+   *    base:"base-classes",
+   *    content: "content-classes",
+   *    trigger: "trigger-classes",
+   *    backdrop: "backdrop-classes",
+   * }} />
+   * ```
+   */
+  classNames?: SlotsToClasses<PopoverSlots>;
+  /**
+   *  Callback fired when the popover is closed.
+   */
+  onClose?: () => void;
+}
+
+const DEFAULT_PLACEMENT = "top";
+
+export type UsePopoverProps = Props &
+  Omit<ReactAriaPopoverProps, "triggerRef" | "popoverRef"> &
+  OverlayTriggerProps &
+  PopoverVariantProps;
+
+export function usePopover(originalProps: UsePopoverProps) {
+  const globalContext = useProviderContext();
+
+  const [props, variantProps] = mapPropsVariants(originalProps, popover.variantKeys);
+
+  const {
+    as,
+    ref,
+    children,
+    state: stateProp,
+    triggerRef: triggerRefProp,
+    scrollRef,
+    defaultOpen,
+    onOpenChange,
+    isOpen: isOpenProp,
+    isNonModal = true,
+    shouldFlip = true,
+    containerPadding = 12,
+    shouldBlockScroll = false,
+    isDismissable = true,
+    shouldCloseOnBlur,
+    portalContainer,
+    updatePositionDeps,
+    dialogProps: dialogPropsProp,
+    placement: placementProp = DEFAULT_PLACEMENT,
+    triggerType = "dialog",
+    showArrow = false,
+    offset = 7,
+    crossOffset = 0,
+    boundaryElement,
+    isKeyboardDismissDisabled,
+    shouldCloseOnInteractOutside,
+    shouldCloseOnScroll,
+    motionProps,
+    className,
+    classNames,
+    onClose,
+    ...otherProps
+  } = props;
+
+  const Component = as || "div";
+
+  const domRef = useDOMRef(ref);
+
+  const domTriggerRef = useRef<HTMLElement>(null);
+  const wasTriggerPressedRef = useRef(false);
+  const triggerRef = triggerRefProp || domTriggerRef;
+
+  const disableAnimation =
+    originalProps.disableAnimation ?? globalContext?.disableAnimation ?? false;
+
+  const innerState = useOverlayTriggerState({
+    isOpen: isOpenProp,
+    defaultOpen,
+    onOpenChange: (isOpen) => {
+      onOpenChange?.(isOpen);
+      if (!isOpen) {
+        onClose?.();
+      }
+    },
+  });
+
+  const state = stateProp || innerState;
+
+  const {
+    popoverProps,
+    underlayProps,
+    placement: ariaPlacement,
+  } = useReactAriaPopover(
+    {
+      triggerRef,
+      isNonModal,
+      popoverRef: domRef,
+      placement: placementProp,
+      offset,
+      scrollRef,
+      isDismissable,
+      shouldCloseOnBlur,
+      boundaryElement,
+      crossOffset,
+      shouldFlip,
+      containerPadding,
+      updatePositionDeps,
+      isKeyboardDismissDisabled,
+      shouldCloseOnScroll,
+      shouldCloseOnInteractOutside,
+    },
+    state,
+  );
+
+  const placement = useMemo(() => {
+    // If ariaPlacement is null, popoverProps.style isn't set,
+    // so we return null to avoid an incorrect animation value.
+    if (!ariaPlacement) {
+      return null;
+    }
+
+    return getShouldUseAxisPlacement(ariaPlacement, placementProp) ? ariaPlacement : placementProp;
+  }, [ariaPlacement, placementProp]);
+
+  const {triggerProps} = useOverlayTrigger({type: triggerType}, state, triggerRef);
+
+  const {isFocusVisible, isFocused, focusProps} = useFocusRing();
+
+  const slots = useMemo(
+    () =>
+      popover({
+        ...variantProps,
+      }),
+    [objectToDeps(variantProps)],
+  );
+
+  const baseStyles = clsx(classNames?.base, className);
+
+  usePreventScroll({
+    isDisabled: !(shouldBlockScroll && state.isOpen),
+  });
+
+  const getPopoverProps: PropGetter = (props = {}) => ({
+    ref: domRef,
+    ...mergeProps(popoverProps, otherProps, props),
+    style: mergeProps(popoverProps.style, otherProps.style, props.style),
+  });
+
+  const getDialogProps: PropGetter = (props = {}) => ({
+    // `ref` and `dialogProps` from `useDialog` are passed from props
+    // if we use `useDialog` here, dialogRef won't be focused on mount
+    "data-slot": "base",
+    "data-open": dataAttr(state.isOpen),
+    "data-focus": dataAttr(isFocused),
+    "data-arrow": dataAttr(showArrow),
+    "data-focus-visible": dataAttr(isFocusVisible),
+    "data-placement": ariaPlacement ? getArrowPlacement(ariaPlacement, placementProp) : undefined,
+    ...mergeProps(focusProps, dialogPropsProp, props),
+    className: slots.base({class: clsx(baseStyles)}),
+    style: {
+      // this prevent the dialog to have a default outline
+      outline: "none",
+    },
+  });
+
+  const getContentProps = useCallback<PropGetter>(
+    (props = {}) => ({
+      "data-slot": "content",
+      "data-open": dataAttr(state.isOpen),
+      "data-arrow": dataAttr(showArrow),
+      "data-placement": ariaPlacement ? getArrowPlacement(ariaPlacement, placementProp) : undefined,
+      className: slots.content({class: clsx(classNames?.content, props.className)}),
+    }),
+    [slots, state.isOpen, showArrow, placement, placementProp, classNames, ariaPlacement],
+  );
+
+  const onPress = useCallback(
+    (e: PressEvent) => {
+      let pressTimer: ReturnType<typeof setTimeout>;
+
+      // Artificial delay to prevent the underlay to be triggered immediately after the onPress
+      // this only happens when the backdrop is blur or opaque & pointerType === "touch"
+      // TODO: find a better way to handle this
+      if (
+        e.pointerType === "touch" &&
+        (originalProps?.backdrop === "blur" || originalProps?.backdrop === "opaque")
+      ) {
+        pressTimer = setTimeout(() => {
+          wasTriggerPressedRef.current = true;
+        }, 100);
+      } else {
+        wasTriggerPressedRef.current = true;
+      }
+
+      triggerProps.onPress?.(e);
+
+      return () => {
+        clearTimeout(pressTimer);
+      };
+    },
+    [triggerProps?.onPress],
+  );
+
+  const getTriggerProps = useCallback<PropGetter>(
+    (props = {}, _ref: Ref<any> | null | undefined = null) => {
+      const {isDisabled, ...otherProps} = props;
+
+      return {
+        "data-slot": "trigger",
+        ...mergeProps({"aria-haspopup": "dialog"}, triggerProps, otherProps),
+        onPress,
+        isDisabled,
+        className: slots.trigger({
+          class: clsx(classNames?.trigger, props.className),
+          // apply isDisabled class names to make the trigger child disabled
+          // e.g. for elements like div or HeroUI elements that don't have `isDisabled` prop
+          isTriggerDisabled: isDisabled,
+        }),
+        ref: mergeRefs(_ref, triggerRef),
+      };
+    },
+    [state, triggerProps, onPress, triggerRef],
+  );
+
+  const getBackdropProps = useCallback<PropGetter>(
+    (props = {}) => ({
+      "data-slot": "backdrop",
+      className: slots.backdrop({class: classNames?.backdrop}),
+      onClick: (e) => {
+        if (!wasTriggerPressedRef.current) {
+          e.preventDefault();
+
+          return;
+        }
+
+        state.close();
+        wasTriggerPressedRef.current = false;
+      },
+      ...underlayProps,
+      ...props,
+    }),
+    [slots, state.isOpen, classNames, underlayProps],
+  );
+
+  useEffect(() => {
+    if (state.isOpen && domRef?.current) {
+      return ariaHideOutside([domRef?.current]);
+    }
+  }, [state.isOpen, domRef]);
+
+  return {
+    state,
+    Component,
+    children,
+    classNames,
+    showArrow,
+    triggerRef,
+    placement,
+    isNonModal,
+    popoverRef: domRef,
+    portalContainer,
+    isOpen: state.isOpen,
+    onClose: state.close,
+    disableAnimation,
+    shouldBlockScroll,
+    backdrop: originalProps.backdrop ?? "transparent",
+    motionProps,
+    getBackdropProps,
+    getPopoverProps,
+    getTriggerProps,
+    getDialogProps,
+    getContentProps,
+  };
+}
+
+export type UsePopoverReturn = ReturnType<typeof usePopover>;
+```
+
+
+## 3. OriginUI
+
+使用示例：
+
+``` tsx
+// demo1
+"use client"
+
+import { useState } from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+const tips = [
+  {
+    title: "Welcome to Dashboard",
+    description:
+      "This is your new workspace. Here you'll find all your projects, recent activities, settings, and more.",
+  },
+  {
+    title: "Quick Actions",
+    description:
+      "Use the toolbar above to create new projects, invite team members, or access settings.",
+  },
+  {
+    title: "Need Help?",
+    description:
+      "Click the support icon in the top right corner to access our help center and documentation.",
+  },
+]
+
+export default function Component() {
+  const [currentTip, setCurrentTip] = useState(0)
+
+  const handleNavigation = () => {
+    if (currentTip === tips.length - 1) {
+      setCurrentTip(0)
+    } else {
+      setCurrentTip(currentTip + 1)
+    }
+  }
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline">Tooltip-like with steps</Button>
+      </PopoverTrigger>
+      <PopoverContent className="max-w-[280px] py-3 shadow-none" side="top">
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <p className="text-[13px] font-medium">{tips[currentTip].title}</p>
+            <p className="text-muted-foreground text-xs">
+              {tips[currentTip].description}
+            </p>
+          </div>
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-muted-foreground text-xs">
+              {currentTip + 1}/{tips.length}
+            </span>
+            <button
+              className="text-xs font-medium hover:underline"
+              onClick={handleNavigation}
+            >
+              {currentTip === tips.length - 1 ? "Start over" : "Next"}
+            </button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+``` 
+
+
+```tsx
+// demo2
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function Component() {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="outline">Tooltip-like popover</Button>
+      </PopoverTrigger>
+      <PopoverContent className="max-w-[280px] py-3 shadow-none" side="top">
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <p className="text-[13px] font-medium">Popover with button</p>
+            <p className="text-muted-foreground text-xs">
+              I am a popover that would like to look like a tooltip. I
+              can&lsquo;t be a tooltip because of the interactive element inside
+              me.
+            </p>
+          </div>
+          <Button size="sm" className="h-7 px-2">
+            Know more
+          </Button>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+```

@@ -1,0 +1,253 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Notification需求
+
+1.定义：Notification 是一种更持久、更重要的消息提示，通常显示在屏幕的特定区域（如右上角），用于传达系统级事件、重要更新、待处理事项等，通常需要用户手动关闭或有更明确的操作指引。
+
+- 组成元素：
+  - 标题 (可选)： 简要概括通知内容。
+  - 正文内容： 详细说明通知的具体信息。
+  - 图标 (可选)： 表示通知类型或来源。
+  - 操作按钮/链接 (可选)： 引导用户进行操作，如“查看”、“处理”、“前往设置”。
+  - 关闭按钮： 允许用户手动关闭通知。
+- 视觉样式：
+  - 位置： 通常固定在屏幕右上角、上居中、左上角、左下角、右下角，以堆叠形式显示多个通知。
+  - 背景： 通常为实色背景，区别于Toast的半透明，提供更强的存在感。
+  - 边框/阴影： 可有明确的边框或阴影，使其在页面中更加突出。
+  - 尺寸： 相较于Toast更大，可容纳更多文本和操作。
+  - 类型区分： 可通过图标颜色区分通知的类型（成功、警告、错误、信息）。
+- 交互行为：
+  - 手动关闭： 必须点击关闭按钮才能消失。
+  - 点击操作： 可点击操作按钮或通知区域进行用户自定义操作。
+  - 堆叠显示： 超过 3 个以上的消息会被自动收起。
+
+Figma设计稿：https://www.figma.com/design/BPnvRC7JVUXwXdJYiBgJlr/AInvest-%E7%BB%84%E4%BB%B6%E5%BB%BA%E8%AE%BE?node-id=3249-204769&m=dev
+
+相关Demo代码如下：
+```tsx 
+<div data-id="3249:204769" className="w-[1500px] self-stretch pr-[120px] py-20 border-r-[0.50px] border-black/20 inline-flex flex-col justify-start items-start gap-10">
+  <div data-id="3249:205633" className="justify-start text-black text-lg leading-snug">无图标</div>
+  <div data-id="3249:205637" className="justify-start text-black text-lg leading-snug">有图标</div>
+  <div data-id="3249:205639" data-左侧图标="false" data-按钮="false" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205639;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205639;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205639;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205639;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205639;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205639;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:205641" data-左侧图标="true" data-按钮="false" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205641;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205641;3249:187739" data-名称="05信息" data-填充="on" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:205641;3249:187739;3584:255247" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM11.25 17H12.75V10H11.25V17ZM12 7C11.4477 7 11 7.44772 11 8C11 8.55228 11.4477 9 12 9C12.5523 9 13 8.55228 13 8C13 7.44772 12.5523 7 12 7Z" fill="var(------color-status-info, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:205641;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205641;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205641;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205641;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205641;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:207772" className="justify-start text-black text-lg leading-snug">有按钮</div>
+  <div data-id="3249:207773" data-左侧图标="true" data-按钮="true" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:207773;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:207773;3249:187739" data-名称="05信息" data-填充="on" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:207773;3249:187739;3584:255247" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM11.25 17H12.75V10H11.25V17ZM12 7C11.4477 7 11 7.44772 11 8C11 8.55228 11.4477 9 12 9C12.5523 9 13 8.55228 13 8C13 7.44772 12.5523 7 12 7Z" fill="var(------color-status-info, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:207773;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:207773;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:207773;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:207773;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:207773;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+    <div data-id="I3249:207773;4584:73762" data-次要图标="true" className="w-[132px] h-7 relative">
+      <div data-id="I3249:207773;4584:73762;4584:73683" className="px-3 py-1.5 left-0 top-0 absolute bg-button-grey-default rounded-[40px] inline-flex justify-center items-center gap-2.5">
+        <div data-id="I3249:207773;4584:73762;4584:73683;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+      </div>
+      <div data-id="I3249:207773;4584:73762;4584:73685" className="px-3 py-1.5 left-[68px] top-0 absolute bg-button-black-default rounded-[40px] inline-flex justify-center items-center gap-2.5">
+        <div data-id="I3249:207773;4584:73762;4584:73685;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:205642" data-左侧图标="true" data-按钮="false" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205642;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205642;3249:187739" data-名称="03感叹号" data-填充="off" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:205642;3249:187739;3138:218309" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="9.25" stroke="var(---------color--text-aime, #165DFF)" stroke-width="1.5"/>
+        <path d="M12 15C12.5523 15 13 15.4477 13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15ZM12.75 14H11.25V7H12.75V14Z" fill="var(---------color--text-aime, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:205642;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205642;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205642;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205642;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205642;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:205738" className="justify-start text-black text-lg leading-snug">自定义宽度</div>
+  <div data-id="3249:205739" data-左侧图标="true" data-按钮="false" className="w-[854px] p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205739;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205739;3249:187739" data-名称="03感叹号" data-填充="off" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:205739;3249:187739;3138:218309" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="9.25" stroke="var(---------color--text-aime, #165DFF)" stroke-width="1.5"/>
+        <path d="M12 15C12.5523 15 13 15.4477 13 16C13 16.5523 12.5523 17 12 17C11.4477 17 11 16.5523 11 16C11 15.4477 11.4477 15 12 15ZM12.75 14H11.25V7H12.75V14Z" fill="var(---------color--text-aime, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:205739;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205739;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205739;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205739;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205739;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:205638" className="justify-start text-black text-lg leading-snug">自定义图标</div>
+  <div data-id="3249:205634" className="justify-start text-black text-lg leading-snug">一行</div>
+  <div data-id="3249:205635" className="justify-start text-black text-lg leading-snug">多行</div>
+  <div data-id="3249:205636" className="justify-start text-black text-lg leading-snug">极限</div>
+  <div data-id="3249:205640" data-左侧图标="true" data-按钮="false" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205640;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205640;3249:187739" data-名称="05信息" data-填充="on" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:205640;3249:187739;3584:255247" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM11.25 17H12.75V10H11.25V17ZM12 7C11.4477 7 11 7.44772 11 8C11 8.55228 11.4477 9 12 9C12.5523 9 13 8.55228 13 8C13 7.44772 12.5523 7 12 7Z" fill="var(------color-status-info, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:205640;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205640;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205640;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205640;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205640;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:205643" data-左侧图标="true" data-按钮="false" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205643;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205643;3249:187739" data-名称="05信息" data-填充="on" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:205643;3249:187739;3584:255247" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM11.25 17H12.75V10H11.25V17ZM12 7C11.4477 7 11 7.44772 11 8C11 8.55228 11.4477 9 12 9C12.5523 9 13 8.55228 13 8C13 7.44772 12.5523 7 12 7Z" fill="var(------color-status-info, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:205643;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205643;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205643;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205643;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205643;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="3249:205644" data-左侧图标="true" data-按钮="false" className="w-96 p-5 bg-foreground-layer1 rounded-[10px] shadow-[0px_2px_8px_0px_rgba(0,0,0,0.15)] outline outline-1 outline-divider-level3 flex flex-col justify-center items-end gap-6">
+    <div data-id="I3249:205644;3249:187410" className="self-stretch inline-flex justify-start items-start gap-2">
+      <div data-id="I3249:205644;3249:187739" data-名称="05信息" data-填充="on" className="w-6 h-6 relative">
+        <div data-svg-wrapper data-id="I3249:205644;3249:187739;3584:255247" className="left-0 top-0 absolute">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM11.25 17H12.75V10H11.25V17ZM12 7C11.4477 7 11 7.44772 11 8C11 8.55228 11.4477 9 12 9C12.5523 9 13 8.55228 13 8C13 7.44772 12.5523 7 12 7Z" fill="var(------color-status-info, #165DFF)"/>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I3249:205644;3249:187422" className="flex-1 inline-flex flex-col justify-center items-start gap-2">
+        <div data-id="I3249:205644;3249:187448" className="self-stretch inline-flex justify-between items-center">
+          <div data-id="I3249:205644;3249:187412" className="justify-start text-black text-base leading-snug">Notification title</div>
+          <div data-svg-wrapper data-id="I3249:205644;3249:187427" data-property-1="关闭">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.66797 3.33594L13.0013 12.6693" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          <path d="M3.66797 12.6693L13.0013 3.33594" stroke="var(---------color-text-secondary, black)" stroke-opacity="0.6" stroke-width="1.5" stroke-linecap="square"/>
+          </svg>
+          </div>
+        </div>
+        <div data-id="I3249:205644;3249:187420" className="self-stretch justify-start text-text-primary text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+      </div>
+    </div>
+  </div>
+</div>
+``` 
+
+2.位置
+ 通常固定在屏幕右上角、上居中、左上角、左下角、右下角，以堆叠形式显示多个通知。
+
+
+3.堆叠状态
+- 触发条件：当通知数量超过三条（即出现第四条及以上通知时），系统将自动启用堆叠效果。
+
+- 交互行为：
+  - 默认（收起）状态： 仅显示最新的通知，其余通知以堆叠的形式呈现，节省屏幕空间。
+  - 鼠标悬停（展开）状态： 当用户将鼠标指针悬停在堆叠的通知上时，所有通知卡片将展开显示，方便用户查看所有内容。 
+  - 鼠标移开（收起）状态： 当用户的鼠标指针移开后，展开的通知卡片将自动收起，恢复到堆叠状态。
+
+- 交互行为及动画效果：
+- 默认（收起）状态： 仅显示部分通知，其余通知以堆叠的形式呈现，节省屏幕空间。
+- 鼠标悬停（展开）状态： 当用户将鼠标指针悬停在堆叠的通知上时：
+- 展开动画： 所有通知卡片将以向下滑动并逐渐显示的方式展开。
+- 初始状态： 完全透明 (opacity: 0)，并从上出现并向下偏移 24 像素 (translateX: 24px)。
+- 动画过程： 向下滑动 (Slide Down) 并同时逐渐显示 (Fade)，持续时间 250 毫秒。
+- 缓动效果： ease-out（动画开始时速度较快，逐渐减慢，带来流畅的出现感）。
+- 鼠标移开（收起）状态： 当用户的鼠标指针移开后：
+- 收起动画： 展开的通知卡片将以向上滑动并逐渐消失的方式收起，恢复到堆叠状态。
+- 目标状态： 逐渐变为完全透明 (opacity: 0)，并向上偏移 24 像素 (translateX: 24px)。
+- 动画过程： 向上滑动 (Slide  up) 并同时逐渐消失 (Fade)，持续时间 200 毫秒。
+- 缓动效果： ease-in（动画开始时速度较慢，逐渐加快，带来自然的消退感）。

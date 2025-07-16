@@ -1,0 +1,1738 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+## pagination 组件开源资料：
+
+### 1. shadcn/ui 组件库
+
+```tsx
+// Pagination.tsx
+import * as React from "react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  MoreHorizontalIcon,
+} from "lucide-react";
+
+import { cn } from "@/registry/default/lib/utils";
+import { Button, buttonVariants } from "@/registry/default/ui/button";
+
+function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  return (
+    <nav
+      role="navigation"
+      aria-label="pagination"
+      data-slot="pagination"
+      className={cn("mx-auto flex w-full justify-center", className)}
+      {...props}
+    />
+  );
+}
+
+function PaginationContent({
+  className,
+  ...props
+}: React.ComponentProps<"ul">) {
+  return (
+    <ul
+      data-slot="pagination-content"
+      className={cn("flex flex-row items-center gap-1", className)}
+      {...props}
+    />
+  );
+}
+
+function PaginationItem({ ...props }: React.ComponentProps<"li">) {
+  return <li data-slot="pagination-item" {...props} />;
+}
+
+type PaginationLinkProps = {
+  isActive?: boolean;
+  isDisabled?: boolean;
+} & Pick<React.ComponentProps<typeof Button>, "size"> &
+  React.ComponentProps<"a">;
+
+function PaginationLink({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationLinkProps) {
+  return (
+    <a
+      aria-current={isActive ? "page" : undefined}
+      data-slot="pagination-link"
+      data-active={isActive}
+      className={cn(
+        buttonVariants({
+          variant: isActive ? "outline" : "ghost",
+          size,
+        }),
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+function PaginationPrevious({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink
+      aria-label="Go to previous page"
+      size="default"
+      className={cn("gap-1 px-2.5 sm:pe-4", className)}
+      {...props}
+    >
+      <ChevronLeftIcon size={16} />
+      <span>Previous</span>
+    </PaginationLink>
+  );
+}
+
+function PaginationNext({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>) {
+  return (
+    <PaginationLink
+      aria-label="Go to next page"
+      size="default"
+      className={cn("gap-1 px-2.5 sm:ps-4", className)}
+      {...props}
+    >
+      <span>Next</span>
+      <ChevronRightIcon size={16} />
+    </PaginationLink>
+  );
+}
+
+function PaginationEllipsis({
+  className,
+  ...props
+}: React.ComponentProps<"span">) {
+  return (
+    <span
+      aria-hidden
+      data-slot="pagination-ellipsis"
+      className={cn("flex size-9 items-center justify-center", className)}
+      {...props}
+    >
+      <MoreHorizontalIcon size={16} />
+      <span className="sr-only">More pages</span>
+    </span>
+  );
+}
+
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+};
+```
+
+### 2. HeroUI 组件库 Pagination 组件：
+
+#### 目录：
+
+pagination
+└─ src
+├─ index.ts
+├─ pagination-cursor.tsx
+├─ pagination-item.tsx
+├─ pagination.tsx
+├─ use-pagination-item.ts
+└─ use-pagination.ts
+
+#### 各文件具体内容如下：
+
+```ts
+// index.ts
+import Pagination from "./pagination";
+import PaginationItem from "./pagination-item";
+import PaginationCursor from "./pagination-cursor";
+
+// export types
+export type { PaginationProps } from "./pagination";
+export type { PaginationItemRenderProps } from "./use-pagination";
+export type { PaginationItemProps } from "./pagination-item";
+export type { PaginationCursorProps } from "./pagination-cursor";
+
+// misc
+export type { PaginationItemValue } from "@heroui/use-pagination";
+export { PaginationItemType } from "@heroui/use-pagination";
+
+// export hooks
+export { usePagination } from "./use-pagination";
+export { usePaginationItem } from "./use-pagination-item";
+
+// export component
+export { Pagination, PaginationItem, PaginationCursor };
+```
+
+```tsx
+// pagination-cursor.tsx
+import type { HTMLHeroUIProps } from "@heroui/system";
+
+import { forwardRef } from "@heroui/system";
+import { useDOMRef } from "@heroui/react-utils";
+
+export interface PaginationCursorProps extends HTMLHeroUIProps<"span"> {
+  /**
+   * The current active page.
+   */
+  activePage?: number;
+}
+
+const PaginationCursor = forwardRef<"span", PaginationCursorProps>(
+  (props, ref) => {
+    const { as, activePage, ...otherProps } = props;
+
+    const Component = as || "span";
+    const domRef = useDOMRef(ref);
+
+    return (
+      <Component ref={domRef} aria-hidden={true} {...otherProps}>
+        {activePage}
+      </Component>
+    );
+  }
+);
+
+PaginationCursor.displayName = "HeroUI.PaginationCursor";
+
+export default PaginationCursor;
+```
+
+```tsx
+// pagination-item.tsx
+import type { UsePaginationItemProps } from "./use-pagination-item";
+
+import { forwardRef } from "@heroui/system";
+
+import { usePaginationItem } from "./use-pagination-item";
+
+export interface PaginationItemProps extends UsePaginationItemProps {}
+
+const PaginationItem = forwardRef<"li", PaginationItemProps>((props, ref) => {
+  const { Component, children, getItemProps } = usePaginationItem({
+    ...props,
+    ref,
+  });
+
+  return <Component {...getItemProps()}>{children}</Component>;
+});
+
+PaginationItem.displayName = "HeroUI.PaginationItem";
+
+export default PaginationItem;
+```
+
+```tsx
+// pagination.tsx
+import type { PaginationItemValue } from "@heroui/use-pagination";
+import type { UsePaginationProps } from "./use-pagination";
+
+import { useCallback } from "react";
+import { useLocale } from "@react-aria/i18n";
+import { forwardRef } from "@heroui/system";
+import { PaginationItemType } from "@heroui/use-pagination";
+import { ChevronIcon, EllipsisIcon, ForwardIcon } from "@heroui/shared-icons";
+import { clsx, dataAttr } from "@heroui/shared-utils";
+
+import { usePagination } from "./use-pagination";
+import PaginationItem from "./pagination-item";
+import PaginationCursor from "./pagination-cursor";
+
+export interface PaginationProps extends UsePaginationProps {}
+
+const Pagination = forwardRef<"nav", PaginationProps>((props, ref) => {
+  const {
+    Component,
+    dotsJump,
+    slots,
+    classNames,
+    total,
+    range,
+    loop,
+    activePage,
+    disableCursorAnimation,
+    disableAnimation,
+    renderItem: renderItemProp,
+    onNext,
+    onPrevious,
+    setPage,
+    getItemAriaLabel,
+    getItemRef,
+    getBaseProps,
+    getWrapperProps,
+    getItemProps,
+    getCursorProps,
+  } = usePagination({ ...props, ref });
+
+  const { direction } = useLocale();
+
+  const isRTL = direction === "rtl";
+
+  const renderChevronIcon = useCallback(
+    (key: PaginationItemType) => {
+      if (
+        (key === PaginationItemType.PREV && !isRTL) ||
+        (key === PaginationItemType.NEXT && isRTL)
+      ) {
+        return <ChevronIcon />;
+      }
+
+      return (
+        <ChevronIcon
+          className={slots.chevronNext({
+            class: classNames?.chevronNext,
+          })}
+        />
+      );
+    },
+    [slots, isRTL]
+  );
+
+  const renderPrevItem = useCallback(
+    (value: PaginationItemValue) => {
+      return (
+        <PaginationItem
+          key={PaginationItemType.PREV}
+          className={slots.prev({
+            class: classNames?.prev,
+          })}
+          data-slot="prev"
+          getAriaLabel={getItemAriaLabel}
+          isDisabled={!loop && activePage === 1}
+          value={value}
+          onPress={onPrevious}
+        >
+          {renderChevronIcon(PaginationItemType.PREV)}
+        </PaginationItem>
+      );
+    },
+    [
+      slots,
+      classNames,
+      loop,
+      activePage,
+      isRTL,
+      total,
+      getItemAriaLabel,
+      onPrevious,
+    ]
+  );
+
+  const renderNextItem = useCallback(
+    (value: PaginationItemValue) => {
+      return (
+        <PaginationItem
+          key={PaginationItemType.NEXT}
+          className={slots.next({
+            class: clsx(classNames?.next),
+          })}
+          data-slot="next"
+          getAriaLabel={getItemAriaLabel}
+          isDisabled={!loop && activePage === total}
+          value={value}
+          onPress={onNext}
+        >
+          {renderChevronIcon(PaginationItemType.NEXT)}
+        </PaginationItem>
+      );
+    },
+    [
+      slots,
+      classNames,
+      loop,
+      activePage,
+      isRTL,
+      total,
+      getItemAriaLabel,
+      onNext,
+    ]
+  );
+
+  const renderItem = useCallback(
+    (value: PaginationItemValue, index: number) => {
+      const isBefore = index < range.indexOf(activePage);
+
+      if (renderItemProp && typeof renderItemProp === "function") {
+        let page = typeof value == "number" ? value : index;
+
+        if (value === PaginationItemType.NEXT) {
+          page = activePage + 1;
+        }
+
+        if (value === PaginationItemType.PREV) {
+          page = activePage - 1;
+        }
+
+        if (value === PaginationItemType.DOTS) {
+          page = isBefore
+            ? activePage - dotsJump >= 1
+              ? activePage - dotsJump
+              : 1
+            : activePage + dotsJump <= total
+            ? activePage + dotsJump
+            : total;
+        }
+
+        const itemChildren: Record<PaginationItemType, React.ReactNode> = {
+          [PaginationItemType.PREV]: renderChevronIcon(PaginationItemType.PREV),
+          [PaginationItemType.NEXT]: renderChevronIcon(PaginationItemType.NEXT),
+          [PaginationItemType.DOTS]: (
+            <>
+              <EllipsisIcon
+                className={slots?.ellipsis({ class: classNames?.ellipsis })}
+              />
+              <ForwardIcon
+                className={slots?.forwardIcon({
+                  class: classNames?.forwardIcon,
+                })}
+                data-before={dataAttr(isBefore)}
+              />
+            </>
+          ),
+        };
+
+        return renderItemProp({
+          value,
+          index,
+          key: `${value}-${index}`,
+          page,
+          total,
+          children: typeof value === "number" ? value : itemChildren[value],
+          activePage,
+          dotsJump,
+          isBefore,
+          isActive: value === activePage,
+          isPrevious: value === activePage - 1,
+          isNext: value === activePage + 1,
+          isFirst: value === 1,
+          isLast: value === total,
+          onNext,
+          onPrevious,
+          setPage,
+          onPress: () => setPage(page),
+          ref:
+            typeof value === "number"
+              ? (node) => getItemRef(node, value)
+              : undefined,
+          className: slots.item({ class: classNames?.item }),
+          getAriaLabel: getItemAriaLabel,
+        });
+      }
+
+      if (value === PaginationItemType.PREV) {
+        return renderPrevItem(value);
+      }
+      if (value === PaginationItemType.NEXT) {
+        return renderNextItem(value);
+      }
+
+      if (value === PaginationItemType.DOTS) {
+        return (
+          <PaginationItem
+            key={PaginationItemType.DOTS + isBefore}
+            className={slots.item({
+              class: clsx(classNames?.item, "group"),
+            })}
+            data-slot="item"
+            getAriaLabel={getItemAriaLabel}
+            value={value}
+            onPress={() =>
+              isBefore
+                ? setPage(
+                    activePage - dotsJump >= 1 ? activePage - dotsJump : 1
+                  )
+                : setPage(
+                    activePage + dotsJump <= total
+                      ? activePage + dotsJump
+                      : total
+                  )
+            }
+          >
+            <EllipsisIcon
+              className={slots?.ellipsis({ class: classNames?.ellipsis })}
+            />
+            <ForwardIcon
+              className={slots?.forwardIcon({ class: classNames?.forwardIcon })}
+              data-before={dataAttr(isRTL ? !isBefore : isBefore)}
+            />
+          </PaginationItem>
+        );
+      }
+
+      return (
+        <PaginationItem
+          {...getItemProps({ value })}
+          key={value}
+          getAriaLabel={getItemAriaLabel}
+        >
+          {value}
+        </PaginationItem>
+      );
+    },
+    [
+      isRTL,
+      activePage,
+      dotsJump,
+      getItemProps,
+      loop,
+      range,
+      renderItemProp,
+      slots,
+      classNames,
+      total,
+      getItemAriaLabel,
+      onNext,
+      onPrevious,
+      setPage,
+      renderPrevItem,
+      renderNextItem,
+    ]
+  );
+
+  return (
+    <Component {...getBaseProps()}>
+      <ul {...getWrapperProps()}>
+        {!disableCursorAnimation && !disableAnimation && (
+          <PaginationCursor {...getCursorProps()} />
+        )}
+        {range.map(renderItem)}
+      </ul>
+    </Component>
+  );
+});
+
+Pagination.displayName = "HeroUI.Pagination";
+
+export default Pagination;
+```
+
+```tsx
+// use-pagination-item.ts
+
+import type { Ref } from "react";
+import type { HTMLHeroUIProps, PropGetter } from "@heroui/system";
+import type { LinkDOMProps, PressEvent } from "@react-types/shared";
+import type { PaginationItemValue } from "@heroui/use-pagination";
+
+import { useMemo } from "react";
+import { clsx, dataAttr } from "@heroui/shared-utils";
+import {
+  chain,
+  mergeProps,
+  shouldClientNavigate,
+  useRouter,
+} from "@react-aria/utils";
+import { filterDOMProps, useDOMRef } from "@heroui/react-utils";
+import { useHover, usePress } from "@react-aria/interactions";
+import { useFocusRing } from "@react-aria/focus";
+
+interface Props extends Omit<HTMLHeroUIProps<"li">, "onClick"> {
+  /**
+   * Ref to the DOM node.
+   */
+  ref?: Ref<HTMLElement>;
+  /**
+   * Value of the item.
+   */
+  value?: PaginationItemValue;
+  /**
+   * Whether the item is active.
+   * @default false
+   */
+  isActive?: boolean;
+  /**
+   * Whether the item is disabled.
+   * @default false
+   */
+  isDisabled?: boolean;
+  /**
+   * Callback fired when the item is clicked.
+   * @param e MouseEvent
+   * @deprecated Use `onPress` instead.
+   */
+  onClick?: HTMLHeroUIProps<"li">["onClick"];
+  /**
+   * Callback fired when the item is clicked.
+   * @param e PressEvent
+   */
+  onPress?: (e: PressEvent) => void;
+  /**
+   * Function to get the aria-label of the item.
+   */
+  getAriaLabel?: (page?: PaginationItemValue) => string | undefined;
+}
+
+export type UsePaginationItemProps = Props & LinkDOMProps;
+
+export function usePaginationItem(props: UsePaginationItemProps) {
+  const {
+    as,
+    ref,
+    value,
+    children,
+    isActive,
+    isDisabled,
+    onPress,
+    onClick,
+    getAriaLabel,
+    className,
+    ...otherProps
+  } = props;
+
+  const isLink = !!props?.href;
+  const Component = as || isLink ? "a" : "li";
+  const shouldFilterDOMProps = typeof Component === "string";
+  const domRef = useDOMRef(ref);
+
+  const router = useRouter();
+
+  const ariaLabel = useMemo(
+    () =>
+      isActive ? `${getAriaLabel?.(value)} active` : getAriaLabel?.(value),
+    [value, isActive]
+  );
+
+  const { isPressed, pressProps } = usePress({
+    isDisabled,
+    onPress,
+  });
+
+  const { focusProps, isFocused, isFocusVisible } = useFocusRing({});
+  const { isHovered, hoverProps } = useHover({ isDisabled });
+
+  const getItemProps: PropGetter = (props = {}) => {
+    return {
+      ref: domRef,
+      role: "button",
+      tabIndex: isDisabled ? -1 : 0,
+      "aria-label": ariaLabel,
+      "aria-current": dataAttr(isActive),
+      "aria-disabled": dataAttr(isDisabled),
+      "data-disabled": dataAttr(isDisabled),
+      "data-active": dataAttr(isActive),
+      "data-focus": dataAttr(isFocused),
+      "data-hover": dataAttr(isHovered),
+      "data-pressed": dataAttr(isPressed),
+      "data-focus-visible": dataAttr(isFocusVisible),
+      ...mergeProps(
+        props,
+        pressProps,
+        focusProps,
+        hoverProps,
+        filterDOMProps(otherProps, {
+          enabled: shouldFilterDOMProps,
+        })
+      ),
+      className: clsx(className, props.className),
+      onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+        chain(pressProps?.onClick, onClick)(e);
+
+        // If a custom router is provided, prevent default and forward if this link should client navigate.
+        if (
+          !router.isNative &&
+          e.currentTarget instanceof HTMLAnchorElement &&
+          e.currentTarget.href &&
+          // If props are applied to a router Link component, it may have already prevented default.
+          !e.isDefaultPrevented() &&
+          shouldClientNavigate(e.currentTarget, e) &&
+          props.href
+        ) {
+          e.preventDefault();
+          router.open(e.currentTarget, e, props.href, props.routerOptions);
+        }
+      },
+    };
+  };
+
+  return {
+    Component,
+    children,
+    ariaLabel,
+    isFocused,
+    isFocusVisible,
+    getItemProps,
+  };
+}
+
+export type UsePaginationItemReturn = ReturnType<typeof usePaginationItem>;
+```
+
+````ts
+// use-pagination.ts
+import type {
+  PaginationSlots,
+  PaginationVariantProps,
+  SlotsToClasses,
+} from "@heroui/theme";
+import type { Key, ReactNode, Ref } from "react";
+import type { HTMLHeroUIProps, PropGetter } from "@heroui/system";
+import type { Timer } from "@heroui/shared-utils";
+import type {
+  UsePaginationProps as UseBasePaginationProps,
+  PaginationItemValue,
+} from "@heroui/use-pagination";
+import type { PressEvent } from "@react-types/shared";
+
+import { objectToDeps } from "@heroui/shared-utils";
+import { PaginationItemType } from "@heroui/use-pagination";
+import { useEffect, useRef, useMemo } from "react";
+import { mapPropsVariants, useProviderContext } from "@heroui/system";
+import { usePagination as useBasePagination } from "@heroui/use-pagination";
+import scrollIntoView from "scroll-into-view-if-needed";
+import { pagination } from "@heroui/theme";
+import { useDOMRef } from "@heroui/react-utils";
+import { clsx, dataAttr } from "@heroui/shared-utils";
+import { useIntersectionObserver } from "@heroui/use-intersection-observer";
+
+export type PaginationItemRenderProps = {
+  /**
+   * The pagination item ref.
+   */
+  ref?: Ref<any>;
+  /**
+   * React key.
+   */
+  key?: Key;
+  /**
+   * The pagination item value.
+   */
+  children?: ReactNode;
+  /**
+   * The pagination item value.
+   */
+  value: PaginationItemValue;
+  /**
+   * The pagination item index.
+   */
+  index: number;
+  /**
+   * Calculated pagination item position. This includes the dots.
+   */
+  page: number;
+  /**
+   * The pagination total number of pages.
+   */
+  total: number;
+  /**
+   * The active page number.
+   */
+  activePage: number;
+  /**
+   * Whether the pagination item is active.
+   */
+  isActive: boolean;
+  /**
+   * Whether the item is before the active page.
+   */
+  isBefore: boolean;
+  /**
+   * Whether the pagination item is the first item in the pagination.
+   */
+  isFirst: boolean;
+  /**
+   * Whether the pagination item is the last item in the pagination.
+   */
+  isLast: boolean;
+  /**
+   * Whether the pagination item is the next item in the pagination.
+   */
+  isNext: boolean;
+  /**
+   * Number of pages that are added or subtracted on the '...' button.
+   * @default 5
+   */
+  dotsJump: number;
+  /**
+   * Whether the pagination item is the previous item in the pagination.
+   */
+  isPrevious: boolean;
+  /**
+   * The pagination item className.
+   */
+  className: string;
+  /**
+   * Callback to go to the next page.
+   */
+  onNext: () => void;
+  /**
+   * Callback to go to the previous page.
+   */
+  onPrevious: () => void;
+  /**
+   * Callback to go to the page.
+   */
+  setPage: (page: number) => void;
+  /**
+   * Callback fired when the item is clicked.
+   * @param e PressEvent
+   */
+  onPress?: (e: PressEvent) => void;
+  /**
+   * Function to get the aria-label of the item.
+   */
+  getAriaLabel?: (page?: PaginationItemValue) => string | undefined;
+};
+
+interface Props extends Omit<HTMLHeroUIProps<"nav">, "onChange"> {
+  /**
+   * Ref to the DOM node.
+   */
+  ref?: Ref<HTMLElement>;
+  /**
+   * Number of pages that are added or subtracted on the '...' button.
+   * @default 5
+   */
+  dotsJump?: number;
+  /**
+   * Non disable next/previous controls
+   * @default false
+   */
+  loop?: boolean;
+  /**
+   * Whether the pagination should display controls (left/right arrows).
+   * @default true
+   */
+  showControls?: boolean;
+  /**
+   * Render a custom pagination item.
+   * @param props Pagination item props
+   * @returns ReactNode
+   */
+  renderItem?: (props: PaginationItemRenderProps) => ReactNode;
+  /**
+   * Function to get the aria-label of the item. If not provided, pagination will use the default one.
+   */
+  getItemAriaLabel?: (page?: string | PaginationItemValue) => string;
+  /**
+   * Classname or List of classes to change the classNames of the element.
+   * if `className` is passed, it will be added to the base slot.
+   *
+   * @example
+   * ```ts
+   * <Pagination classNames={{
+   *    base:"base-classes",
+   *    prev: "prev-classes", // prev button classes
+   *    item: "item-classes",
+   *    next: "next-classes", // next button classes
+   *    cursor: "cursor-classes", // this is the one that moves when an item is selected
+   *    forwardIcon: "forward-icon-classes", // forward icon
+   *    ellipsis: "ellipsis-classes", // ellipsis icon
+   *    chevronNext: "chevron-next-classes", // chevron next icon
+   * }} />
+   * ```
+   */
+  classNames?: SlotsToClasses<PaginationSlots>;
+}
+
+export type UsePaginationProps = Props &
+  UseBasePaginationProps &
+  PaginationVariantProps;
+
+export const CURSOR_TRANSITION_TIMEOUT = 300; // in ms
+
+export function usePagination(originalProps: UsePaginationProps) {
+  const globalContext = useProviderContext();
+
+  const [props, variantProps] = mapPropsVariants(
+    originalProps,
+    pagination.variantKeys
+  );
+
+  const {
+    as,
+    ref,
+    classNames,
+    dotsJump = 5,
+    loop = false,
+    showControls = false,
+    total = 1,
+    initialPage = 1,
+    page,
+    siblings,
+    boundaries,
+    onChange,
+    className,
+    renderItem,
+    getItemAriaLabel: getItemAriaLabelProp,
+    ...otherProps
+  } = props;
+
+  const Component = as || "nav";
+
+  const domRef = useDOMRef(ref);
+  const cursorRef = useRef<HTMLElement>(null);
+  const itemsRef = useRef<Map<number, HTMLElement>>();
+
+  const cursorTimer = useRef<Timer>();
+
+  const disableAnimation =
+    originalProps?.disableAnimation ?? globalContext?.disableAnimation ?? false;
+  const disableCursorAnimation =
+    originalProps?.disableCursorAnimation ?? disableAnimation ?? false;
+
+  function getItemsRefMap() {
+    if (!itemsRef.current) {
+      // Initialize the Map on first usage.
+      itemsRef.current = new Map();
+    }
+
+    return itemsRef.current;
+  }
+
+  function getItemRef(node: HTMLElement | null, value: number) {
+    const map = getItemsRefMap();
+
+    if (node) {
+      map.set(value, node);
+    } else {
+      map.delete(value);
+    }
+  }
+
+  function scrollTo(value: number, skipAnimation: boolean) {
+    const map = getItemsRefMap();
+
+    const node = map.get(value);
+
+    if (!node || !cursorRef.current) return;
+
+    // clean up the previous cursor timer (if any)
+    cursorTimer.current && clearTimeout(cursorTimer.current);
+
+    // scroll parent to the item
+    scrollIntoView(node, {
+      scrollMode: "always",
+      behavior: "smooth",
+      block: "start",
+      inline: "start",
+      boundary: domRef.current,
+    });
+
+    // get position of the item
+    const { offsetLeft } = node;
+
+    // only shows the animation when the page changes, not on intial render or layout shift
+    if (skipAnimation) {
+      cursorRef.current.setAttribute("data-moving", "false");
+      cursorRef.current.style.transform = `translateX(${offsetLeft}px) scale(1)`;
+
+      return;
+    }
+
+    // move the cursor to the item
+    cursorRef.current.setAttribute("data-moving", "true");
+    cursorRef.current.style.transform = `translateX(${offsetLeft}px) scale(1.1)`;
+
+    cursorTimer.current = setTimeout(() => {
+      // reset the scale of the cursor
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translateX(${offsetLeft}px) scale(1)`;
+      }
+      cursorTimer.current = setTimeout(() => {
+        // remove the data-moving attribute
+        cursorRef.current?.setAttribute("data-moving", "false");
+        cursorTimer.current && clearTimeout(cursorTimer.current);
+      }, CURSOR_TRANSITION_TIMEOUT);
+    }, CURSOR_TRANSITION_TIMEOUT);
+  }
+
+  const { range, activePage, setPage, previous, next, first, last } =
+    useBasePagination({
+      page,
+      total,
+      initialPage,
+      siblings,
+      boundaries,
+      showControls,
+      onChange,
+    });
+
+  // check if the pagination component is visible
+  const [setRef, isVisible] = useIntersectionObserver();
+
+  useEffect(() => {
+    if (domRef.current) {
+      setRef(domRef.current);
+    }
+  }, [domRef.current]);
+
+  const activePageRef = useRef(activePage);
+
+  useEffect(() => {
+    // when the pagination component is invisible, scroll offset will be wrong
+    // thus, only scroll to the active page if the pagination component is visible
+    if (activePage && !disableAnimation && isVisible) {
+      scrollTo(activePage, activePage === activePageRef.current);
+    }
+    activePageRef.current = activePage;
+  }, [
+    page,
+    activePage,
+    disableAnimation,
+    disableCursorAnimation,
+    isVisible,
+    originalProps.dotsJump,
+    originalProps.isCompact,
+    originalProps.showControls,
+  ]);
+
+  const slots = useMemo(
+    () =>
+      pagination({
+        ...variantProps,
+        disableAnimation,
+        disableCursorAnimation,
+      }),
+    [objectToDeps(variantProps), disableCursorAnimation, disableAnimation]
+  );
+
+  const baseStyles = clsx(classNames?.base, className);
+
+  const onNext = () => {
+    if (loop && activePage === total) {
+      return first();
+    }
+
+    return next();
+  };
+
+  const onPrevious = () => {
+    if (loop && activePage === 1) {
+      return last();
+    }
+
+    return previous();
+  };
+
+  const getBaseProps: PropGetter = (props = {}) => {
+    return {
+      ...props,
+      ref: domRef,
+      role: "navigation",
+      "aria-label": props["aria-label"] || "pagination navigation",
+      "data-slot": "base",
+      "data-controls": dataAttr(showControls),
+      "data-loop": dataAttr(loop),
+      "data-dots-jump": dotsJump,
+      "data-total": total,
+      "data-active-page": activePage,
+      className: slots.base({ class: clsx(baseStyles, props?.className) }),
+      ...otherProps,
+    };
+  };
+
+  const getWrapperProps: PropGetter = (props = {}) => {
+    return {
+      ...props,
+      "data-slot": "wrapper",
+      className: slots.wrapper({
+        class: clsx(classNames?.wrapper, props?.className),
+      }),
+    };
+  };
+
+  const getItemAriaLabel = (page?: string | PaginationItemValue) => {
+    if (!page) return;
+
+    if (getItemAriaLabelProp) {
+      return getItemAriaLabelProp(page);
+    }
+
+    switch (page) {
+      case PaginationItemType.DOTS:
+        return "dots element";
+      case PaginationItemType.PREV:
+        return "previous page button";
+      case PaginationItemType.NEXT:
+        return "next page button";
+      case "first":
+        return "first page button";
+      case "last":
+        return "last page button";
+      default:
+        return `pagination item ${page}`;
+    }
+  };
+
+  const getItemProps: PropGetter = (props = {}) => {
+    return {
+      ...props,
+      ref: (node) => getItemRef(node, props.value),
+      "data-slot": "item",
+      isActive: props.value === activePage,
+      className: slots.item({
+        class: clsx(classNames?.item, props?.className),
+      }),
+      onPress: () => {
+        if (props.value !== activePage) {
+          setPage(props.value);
+        }
+      },
+    };
+  };
+
+  const getCursorProps: PropGetter = (props = {}) => {
+    return {
+      ...props,
+      ref: cursorRef,
+      activePage,
+      "data-slot": "cursor",
+      className: slots.cursor({
+        class: clsx(classNames?.cursor, props?.className),
+      }),
+    };
+  };
+
+  return {
+    Component,
+    showControls,
+    dotsJump,
+    slots,
+    classNames,
+    loop,
+    total,
+    range,
+    activePage,
+    getItemRef,
+    disableAnimation,
+    disableCursorAnimation,
+    setPage,
+    onPrevious,
+    onNext,
+    renderItem,
+    getBaseProps,
+    getWrapperProps,
+    getItemProps,
+    getCursorProps,
+    getItemAriaLabel,
+  };
+}
+
+export type UsePaginationReturn = ReturnType<typeof usePagination>;
+````
+
+### 3. Origin UI Demos
+
+注：Origin UI Pagination 的 Demo 基于 shadcn/ui 的 Pagination 组件
+
+```tsx
+// Demo01
+import { usePagination } from "@/hooks/use-pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  paginationItemsToDisplay?: number;
+};
+
+export default function Component({
+  currentPage,
+  totalPages,
+  paginationItemsToDisplay = 5,
+}: PaginationProps) {
+  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+    currentPage,
+    totalPages,
+    paginationItemsToDisplay,
+  });
+
+  return (
+    <Pagination>
+      <PaginationContent>
+        {/* Previous page button */}
+        <PaginationItem>
+          <PaginationPrevious
+            className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            href={currentPage === 1 ? undefined : `#/page/${currentPage - 1}`}
+            aria-disabled={currentPage === 1 ? true : undefined}
+            role={currentPage === 1 ? "link" : undefined}
+          />
+        </PaginationItem>
+
+        {/* Left ellipsis (...) */}
+        {showLeftEllipsis && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+
+        {/* Page number links */}
+        {pages.map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              href={`#/page/${page}`}
+              isActive={page === currentPage}
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        {/* Right ellipsis (...) */}
+        {showRightEllipsis && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+
+        {/* Next page button */}
+        <PaginationItem>
+          <PaginationNext
+            className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            href={
+              currentPage === totalPages
+                ? undefined
+                : `#/page/${currentPage + 1}`
+            }
+            aria-disabled={currentPage === totalPages ? true : undefined}
+            role={currentPage === totalPages ? "link" : undefined}
+          />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
+}
+```
+
+```tsx
+// Demo02
+import {
+  ChevronFirstIcon,
+  ChevronLastIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "lucide-react";
+
+import { usePagination } from "@/hooks/use-pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
+
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  paginationItemsToDisplay?: number;
+};
+
+export default function Component({
+  currentPage,
+  totalPages,
+  paginationItemsToDisplay = 5,
+}: PaginationProps) {
+  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+    currentPage,
+    totalPages,
+    paginationItemsToDisplay,
+  });
+
+  return (
+    <Pagination>
+      <PaginationContent>
+        {/* First page button */}
+        <PaginationItem>
+          <PaginationLink
+            className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            href={currentPage === 1 ? undefined : `#/page/${currentPage - 1}`}
+            aria-label="Go to first page"
+            aria-disabled={currentPage === 1 ? true : undefined}
+            role={currentPage === 1 ? "link" : undefined}
+          >
+            <ChevronFirstIcon size={16} aria-hidden="true" />
+          </PaginationLink>
+        </PaginationItem>
+
+        {/* Previous page button */}
+        <PaginationItem>
+          <PaginationLink
+            className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            href={currentPage === 1 ? undefined : `#/page/${currentPage - 1}`}
+            aria-label="Go to previous page"
+            aria-disabled={currentPage === 1 ? true : undefined}
+            role={currentPage === 1 ? "link" : undefined}
+          >
+            <ChevronLeftIcon size={16} aria-hidden="true" />
+          </PaginationLink>
+        </PaginationItem>
+
+        {/* Left ellipsis (...) */}
+        {showLeftEllipsis && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+
+        {/* Page number links */}
+        {pages.map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              href={`#/page/${page}`}
+              isActive={page === currentPage}
+            >
+              {page}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+
+        {/* Right ellipsis (...) */}
+        {showRightEllipsis && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+
+        {/* Next page button */}
+        <PaginationItem>
+          <PaginationLink
+            className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            href={
+              currentPage === totalPages
+                ? undefined
+                : `#/page/${currentPage + 1}`
+            }
+            aria-label="Go to next page"
+            aria-disabled={currentPage === totalPages ? true : undefined}
+            role={currentPage === totalPages ? "link" : undefined}
+          >
+            <ChevronRightIcon size={16} aria-hidden="true" />
+          </PaginationLink>
+        </PaginationItem>
+
+        {/* Last page button */}
+        <PaginationItem>
+          <PaginationLink
+            className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+            href={
+              currentPage === totalPages ? undefined : `#/page/${totalPages}`
+            }
+            aria-label="Go to last page"
+            aria-disabled={currentPage === totalPages ? true : undefined}
+            role={currentPage === totalPages ? "link" : undefined}
+          >
+            <ChevronLastIcon size={16} aria-hidden="true" />
+          </PaginationLink>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  );
+}
+```
+
+```tsx
+// Demo03
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
+import { usePagination } from "@/hooks/use-pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  paginationItemsToDisplay?: number;
+};
+
+export default function Component({
+  currentPage,
+  totalPages,
+  paginationItemsToDisplay = 5,
+}: PaginationProps) {
+  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+    currentPage,
+    totalPages,
+    paginationItemsToDisplay,
+  });
+
+  return (
+    <div className="flex items-center justify-between gap-3">
+      {/* Page number information */}
+      <p
+        className="text-muted-foreground flex-1 text-sm whitespace-nowrap"
+        aria-live="polite"
+      >
+        Page <span className="text-foreground">{currentPage}</span> of{" "}
+        <span className="text-foreground">{totalPages}</span>
+      </p>
+
+      {/* Pagination */}
+      <div className="grow">
+        <Pagination>
+          <PaginationContent>
+            {/* Previous page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === 1 ? undefined : `#/page/${currentPage - 1}`
+                }
+                aria-label="Go to previous page"
+                aria-disabled={currentPage === 1 ? true : undefined}
+                role={currentPage === 1 ? "link" : undefined}
+              >
+                <ChevronLeftIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Left ellipsis (...) */}
+            {showLeftEllipsis && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {/* Page number links */}
+            {pages.map((page) => (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  href={`#/page/${page}`}
+                  isActive={page === currentPage}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+            {/* Right ellipsis (...) */}
+            {showRightEllipsis && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {/* Next page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === totalPages
+                    ? undefined
+                    : `#/page/${currentPage + 1}`
+                }
+                aria-label="Go to next page"
+                aria-disabled={currentPage === totalPages ? true : undefined}
+                role={currentPage === totalPages ? "link" : undefined}
+              >
+                <ChevronRightIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+
+      {/* Results per page */}
+      <div className="flex flex-1 justify-end">
+        <Select defaultValue="10" aria-label="Results per page">
+          <SelectTrigger
+            id="results-per-page"
+            className="w-fit whitespace-nowrap"
+          >
+            <SelectValue placeholder="Select number of results" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="10">10 / page</SelectItem>
+            <SelectItem value="20">20 / page</SelectItem>
+            <SelectItem value="50">50 / page</SelectItem>
+            <SelectItem value="100">100 / page</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  );
+}
+```
+
+```tsx
+// Demo04
+import { useId } from "react";
+import {
+  ChevronFirstIcon,
+  ChevronLastIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "lucide-react";
+
+import { Label } from "@/components/ui/label";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+};
+
+export default function Component({
+  currentPage,
+  totalPages,
+}: PaginationProps) {
+  const id = useId();
+  return (
+    <div className="flex items-center justify-between gap-8">
+      {/* Results per page */}
+      <div className="flex items-center gap-3">
+        <Label htmlFor={id}>Rows per page</Label>
+        <Select defaultValue="25">
+          <SelectTrigger id={id} className="w-fit whitespace-nowrap">
+            <SelectValue placeholder="Select number of results" />
+          </SelectTrigger>
+          <SelectContent className="[&_*[role=option]]:ps-2 [&_*[role=option]]:pe-8 [&_*[role=option]>span]:start-auto [&_*[role=option]>span]:end-2">
+            <SelectItem value="10">10</SelectItem>
+            <SelectItem value="25">25</SelectItem>
+            <SelectItem value="50">50</SelectItem>
+            <SelectItem value="100">100</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Page number information */}
+      <div className="text-muted-foreground flex grow justify-end text-sm whitespace-nowrap">
+        <p
+          className="text-muted-foreground text-sm whitespace-nowrap"
+          aria-live="polite"
+        >
+          <span className="text-foreground">1-25</span> of{" "}
+          <span className="text-foreground">100</span>
+        </p>
+      </div>
+
+      {/* Pagination */}
+      <div>
+        <Pagination>
+          <PaginationContent>
+            {/* First page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === 1 ? undefined : `#/page/${currentPage - 1}`
+                }
+                aria-label="Go to first page"
+                aria-disabled={currentPage === 1 ? true : undefined}
+                role={currentPage === 1 ? "link" : undefined}
+              >
+                <ChevronFirstIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Previous page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === 1 ? undefined : `#/page/${currentPage - 1}`
+                }
+                aria-label="Go to previous page"
+                aria-disabled={currentPage === 1 ? true : undefined}
+                role={currentPage === 1 ? "link" : undefined}
+              >
+                <ChevronLeftIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Next page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === totalPages
+                    ? undefined
+                    : `#/page/${currentPage + 1}`
+                }
+                aria-label="Go to next page"
+                aria-disabled={currentPage === totalPages ? true : undefined}
+                role={currentPage === totalPages ? "link" : undefined}
+              >
+                <ChevronRightIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Last page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === totalPages
+                    ? undefined
+                    : `#/page/${totalPages}`
+                }
+                aria-label="Go to last page"
+                aria-disabled={currentPage === totalPages ? true : undefined}
+                role={currentPage === totalPages ? "link" : undefined}
+              >
+                <ChevronLastIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+    </div>
+  );
+}
+```
+
+```tsx
+// Demo05
+import { useId } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
+import { usePagination } from "@/hooks/use-pagination";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+} from "@/components/ui/pagination";
+
+type PaginationProps = {
+  currentPage: number;
+  totalPages: number;
+  paginationItemsToDisplay?: number;
+};
+
+export default function Component({
+  currentPage,
+  totalPages,
+  paginationItemsToDisplay = 5,
+}: PaginationProps) {
+  const id = useId();
+
+  const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
+    currentPage,
+    totalPages,
+    paginationItemsToDisplay,
+  });
+
+  return (
+    <div className="flex items-center justify-between gap-4">
+      {/* Pagination */}
+      <div>
+        <Pagination>
+          <PaginationContent>
+            {/* Previous page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === 1 ? undefined : `#/page/${currentPage - 1}`
+                }
+                aria-label="Go to previous page"
+                aria-disabled={currentPage === 1 ? true : undefined}
+                role={currentPage === 1 ? "link" : undefined}
+              >
+                <ChevronLeftIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Left ellipsis (...) */}
+            {showLeftEllipsis && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {/* Page number links */}
+            {pages.map((page) => (
+              <PaginationItem key={page}>
+                <PaginationLink
+                  href={`#/page/${page}`}
+                  isActive={page === currentPage}
+                >
+                  {page}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+
+            {/* Right ellipsis (...) */}
+            {showRightEllipsis && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {/* Next page button */}
+            <PaginationItem>
+              <PaginationLink
+                className="aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                href={
+                  currentPage === totalPages
+                    ? undefined
+                    : `#/page/${currentPage + 1}`
+                }
+                aria-label="Go to next page"
+                aria-disabled={currentPage === totalPages ? true : undefined}
+                role={currentPage === totalPages ? "link" : undefined}
+              >
+                <ChevronRightIcon size={16} aria-hidden="true" />
+              </PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
+
+      {/* Go to page input */}
+      <div className="flex items-center gap-3">
+        <Label htmlFor={id} className="whitespace-nowrap">
+          Go to page
+        </Label>
+        <Input
+          id={id}
+          type="text"
+          className="w-14"
+          defaultValue={String(currentPage)}
+        />
+      </div>
+    </div>
+  );
+}
+```

@@ -1,12 +1,12 @@
 'use client';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { Toaster, toast } from './index';
+import { Notification, notification } from './index';
 import { Button } from '../../button';
 
-const meta: Meta<typeof Toaster> = {
+const meta: Meta<typeof Notification> = {
   title: 'Interaction/Notification',
-  component: Toaster,
+  component: Notification,
   parameters: {
     layout: 'centered',
     docs: {
@@ -31,21 +31,21 @@ Notification 通知是一种重要的用户界面组件，用于向用户传达�
 
   ## 组件引入
   \`\`\`tsx
-  import { Toaster, toast } from '@oversea/notification';
+  import { Notification, notification } from '@oversea/notification';
 
-  // 在布局中添加 Toaster
-  <Toaster />
+  // 在布局中添加 Notification
+  <Notification />
 
-  // 使用 toast 显示通知
-  toast('消息内容', {
+  // 使用 notification 显示通知
+  notification('消息内容', {
     description: '详细描述信息'
   });
 
   // 状态通知
-  toast.success('操作成功');
-  toast.error('操作失败');
-  toast.warning('警告信息');
-  toast.info('提示信息');
+  notification.success('操作成功');
+  notification.error('操作失败');
+  notification.warning('警告信息');
+  notification.info('提示信息');
 \`\`\`
         `,
       },
@@ -70,14 +70,14 @@ export const Demo01: Story = {
     <div className="h-[400px]">
       <Button
         onClick={() =>
-          toast('基础通知', {
+          notification('基础通知', {
             description: '这是一条基础通知消息，展示了最简单的使用方式',
           })
         }
       >
         显示基础通知
       </Button>
-      <Toaster />
+      <Notification />
     </div>
   ),
 };
@@ -93,23 +93,23 @@ export const Demo02: Story = {
   },
   render: () => (
     <div className="h-[300px] flex items-center justify-center gap-4">
-      <Button onClick={() => toast.success('成功通知', { description: '操作已成功完成' })} variant="default">
+      <Button onClick={() => notification.success('成功通知', { description: '操作已成功完成' })} variant="default">
         Success
       </Button>
-      <Button onClick={() => toast.error('错误通知', { description: '操作执行失败，请重试' })}>Error</Button>
-      <Button onClick={() => toast.warning('警告通知', { description: '请注意相关风险提示' })}>
+      <Button onClick={() => notification.error('错误通知', { description: '操作执行失败，请重试' })}>Error</Button>
+      <Button onClick={() => notification.warning('警告通知', { description: '请注意相关风险提示' })}>
         Warning
       </Button>
-      <Button onClick={() => toast.info('信息通知', { description: '这是一条重要的提示信息' })}>Info</Button>
+      <Button onClick={() => notification.info('信息通知', { description: '这是一条重要的提示信息' })}>Info</Button>
       <Button
         onClick={() => {
-          const toastId = toast.loading('加载中...', { description: '正在处理请求，请稍候' });
-          setTimeout(() => toast.dismiss(toastId), 3000);
+          const toastId = notification.loading('加载中...', { description: '正在处理请求，请稍候' });
+          setTimeout(() => notification.dismiss(toastId), 3000);
         }}
       >
         Loading
       </Button>
-      <Toaster />
+      <Notification />
     </div>
   ),
 };
@@ -127,19 +127,19 @@ export const Demo03: Story = {
     <div>
       <Button
         onClick={() => {
-          const toastId = toast.info('确认删除操作', {
+          const toastId = notification.info('确认删除操作', {
             description: '此操作不可撤销，删除后数据将无法恢复，请谨慎操作',
             action: {
               label: '确认删除',
               onClick: () => {
-                toast.dismiss(toastId);
-                toast.success('删除成功', { description: '数据已永久删除' });
+                notification.dismiss(toastId);
+                notification.success('删除成功', { description: '数据已永久删除' });
               },
             },
             cancel: {
               label: '取消',
               onClick: () => {
-                toast.dismiss(toastId);
+                notification.dismiss(toastId);
               },
             },
           });
@@ -147,7 +147,7 @@ export const Demo03: Story = {
       >
         显示操作通知
       </Button>
-      <Toaster />
+      <Notification />
     </div>
   ),
 };
@@ -175,7 +175,7 @@ export const Demo04: Story = {
       <div className="h-[300px] flex items-center justify-center">
         <Button
           onClick={() => {
-            toast.promise(mockAsyncOperation(), {
+            notification.promise(mockAsyncOperation(), {
               loading: '正在处理请求...',
               success: (data: any) => `请求成功！获取到 ${data.count} 条记录`,
               error: (err: Error) => `请求失败：${err.message}`,
@@ -184,7 +184,7 @@ export const Demo04: Story = {
         >
           触发异步操作
         </Button>
-        <Toaster />
+        <Notification />
       </div>
     );
   },
@@ -203,7 +203,7 @@ export const Demo05: Story = {
     <div>
       <Button
         onClick={() =>
-          toast.custom(id => (
+          notification.custom(id => (
             <div className="flex gap-4 items-centerbg-foreground-layer1">
               <div className="flex justify-center items-center w-12 h-12 text-xl text-white rounded-full bg-brand-primary">
                 🎉
@@ -217,7 +217,7 @@ export const Demo05: Story = {
                 </div>
               </div>
               <button
-                onClick={() => toast.dismiss(id)}
+                onClick={() => notification.dismiss(id)}
                 className="transition-colors text-text-tertiary hover:text-text-primary"
               >
                 ✕
@@ -228,7 +228,7 @@ export const Demo05: Story = {
       >
         显示自定义通知
       </Button>
-      <Toaster />
+      <Notification />
     </div>
   ),
 };
@@ -244,7 +244,7 @@ export const Demo06: Story = {
   },
   render: () => (
     <div className="flex gap-4">
-      <Toaster />
+      <Notification />
       {[
         { position: 'top-left', label: '左上角' },
         { position: 'top-center', label: '顶部居中' },
@@ -257,7 +257,7 @@ export const Demo06: Story = {
           key={position}
           size="sm"
           onClick={() =>
-            toast(`${label}通知`, {
+            notification(`${label}通知`, {
               description: `这是显示在${label}的通知消息`,
               position: position as any,
               duration: 3000,
@@ -284,7 +284,7 @@ export const Demo07: Story = {
     <div className="flex gap-4 justify-center items-center">
       <Button
         onClick={() =>
-          toast.info('短暂提示', {
+          notification.info('短暂提示', {
             description: '此消息将在 2 秒后自动消失',
             duration: 2000,
           })
@@ -295,7 +295,7 @@ export const Demo07: Story = {
       </Button>
       <Button
         onClick={() =>
-          toast.warning('重要提醒', {
+          notification.warning('重要提醒', {
             description: '此消息将在 5 秒后自动消失',
             duration: 5000,
           })
@@ -306,7 +306,7 @@ export const Demo07: Story = {
       </Button>
       <Button
         onClick={() =>
-          toast.error('严重错误', {
+          notification.error('严重错误', {
             description: '此消息需要手动关闭，请注意处理',
             duration: Infinity,
           })
@@ -315,7 +315,7 @@ export const Demo07: Story = {
       >
         手动关闭
       </Button>
-      <Toaster />
+      <Notification />
     </div>
   ),
 };
@@ -332,7 +332,7 @@ export const API: Story = {
     docs: {
       description: {
         story: `
-## Toaster 组件属性
+## Notification 组件属性
 
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |------|------|------|--------|------|
@@ -342,7 +342,7 @@ export const API: Story = {
 | closeButton | 是否显示关闭按钮 | \`boolean\` | \`true\` | 否 |
 | toastOptions | 全局通知选项配置 | \`ToastOptions\` | \`-\` | 否 |
 
-## toast 方法选项
+## notification 方法选项
 
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |------|------|------|--------|------|
@@ -356,9 +356,9 @@ export const API: Story = {
 | className | 自定义 CSS 类名 | \`string\` | \`-\` | 否 |
 | style | 自定义内联样式 | \`React.CSSProperties\` | \`-\` | 否 |
 
-## ToastOptions 完整属性
+## NotificationOptions 完整属性
 
-\`ToastOptions\` 类型包含 toast 方法的所有可配置选项：
+\`NotificationOptions\` 类型包含 notification 方法的所有可配置选项：
 
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |------|------|------|--------|------|
@@ -379,12 +379,12 @@ export const API: Story = {
 | important | 标记为重要（无障碍支持） | \`boolean\` | \`false\` | 否 |
 | unstyled | 移除默认样式（便于自定义） | \`boolean\` | \`false\` | 否 |
 
-## ToastPosition 类型
+## NotificationPosition 类型
 
-\`ToastPosition\` 定义通知可显示的位置：
+\`NotificationPosition\` 定义通知可显示的位置：
 
 \`\`\`typescript
-type ToastPosition =
+type NotificationPosition =
   | 'top-left'
   | 'top-center'
   | 'top-right'
@@ -414,25 +414,22 @@ type ToastPosition =
 
 | 方法 | 说明 | 返回值 |
 |------|------|--------|
-| \`toast(message, options?)\` | 显示基础通知 | \`string \| number\` |
-| \`toast.success(message, options?)\` | 显示成功通知 | \`string \| number\` |
-| \`toast.error(message, options?)\` | 显示错误通知 | \`string \| number\` |
-| \`toast.warning(message, options?)\` | 显示警告通知 | \`string \| number\` |
-| \`toast.info(message, options?)\` | 显示信息通知 | \`string \| number\` |
-| \`toast.loading(message, options?)\` | 显示加载通知 | \`string \| number\` |
-| \`toast.promise(promise, options)\` | 处理 Promise 状态通知 | \`string \| number\` |
-| \`toast.custom(render, options?)\` | 显示自定义内容通知 | \`string \| number\` |
-| \`toast.dismiss(id?)\` | 关闭指定或全部通知 | \`void\` |
+| \`notification(message, options?)\` | 显示基础通知 | \`string \| number\` |
+| \`notification.success(message, options?)\` | 显示成功通知 | \`string \| number\` |
+| \`notification.error(message, options?)\` | 显示错误通知 | \`string \| number\` |
+| \`notification.warning(message, options?)\` | 显示警告通知 | \`string \| number\` |
+| \`notification.info(message, options?)\` | 显示信息通知 | \`string \| number\` |
+| \`notification.loading(message, options?)\` | 显示加载通知 | \`string \| number\` |
+| \`notification.promise(promise, options)\` | 处理 Promise 状态通知 | \`string \| number\` |
+| \`notification.custom(render, options?)\` | 显示自定义内容通知 | \`string \| number\` |
+| \`notification.dismiss(id?)\` | 关闭指定或全部通知 | \`void\` |
 
 ## 类型使用示例
 
-### ToastOptions 使用示例
 
-\`\`\`typescript
-import { toast, ToastOptions } from '@oversea/notification';
 
-// 定义完整的 ToastOptions 配置
-const options: ToastOptions = {
+// 定义完整的 NotificationOptions 配置
+const options: NotificationOptions = {
   description: '这是一条详细的描述信息',
   duration: 5000,
   position: 'top-center',
@@ -453,16 +450,16 @@ const options: ToastOptions = {
 };
 
 // 使用配置显示通知
-toast('通知标题', options);
+notification('通知标题', options);
 \`\`\`
 
-### ToastPosition 使用示例
+### NotificationPosition 使用示例
 
 \`\`\`typescript
-import { ToastPosition } from '@oversea/notification';
+import { NotificationPosition } from '@oversea/notification';
 
 // 定义所有可用位置
-const positions: ToastPosition[] = [
+const positions: NotificationPosition[] = [
   'top-left',
   'top-center', 
   'top-right',
@@ -473,7 +470,7 @@ const positions: ToastPosition[] = [
 
 // 遍历显示不同位置的通知
 positions.forEach((position, index) => {
-  toast(\`位置 \${index + 1}\`, {
+  notification(\`位置 \${index + 1}\`, {
     description: \`显示在\${position}的通知\`,
     position,
     duration: 3000,
@@ -481,7 +478,7 @@ positions.forEach((position, index) => {
 });
 
 // 全局设置位置
-<Toaster position="top-center" />
+<Notification position="top-center" />
 \`\`\`
 
 ### 实际应用示例
@@ -489,7 +486,7 @@ positions.forEach((position, index) => {
 \`\`\`typescript
 // 表单提交处理
 const handleSubmit = async (formData: FormData) => {
-  const options: ToastOptions = {
+  const options: NotificationOptions = {
     position: 'top-center',
     duration: 4000,
     closeButton: true,
@@ -497,7 +494,7 @@ const handleSubmit = async (formData: FormData) => {
 
   const submitPromise = submitForm(formData);
   
-  toast.promise(submitPromise, {
+  notification.promise(submitPromise, {
     loading: '正在提交表单...',
     success: '提交成功！',
     error: (err) => \`提交失败：\${err.message}\`,
@@ -505,14 +502,14 @@ const handleSubmit = async (formData: FormData) => {
 };
 
 // 状态通知配置
-const notificationConfig: ToastOptions = {
+const notificationConfig: NotificationOptions = {
   position: 'bottom-right',
   duration: Infinity,
   closeButton: true,
   important: true,
 };
 
-toast.error('网络连接失败', {
+notification.error('网络连接失败', {
   ...notificationConfig,
   description: '请检查网络设置后重试',
   action: {

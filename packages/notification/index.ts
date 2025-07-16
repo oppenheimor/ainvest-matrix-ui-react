@@ -1,3 +1,3 @@
-import { Toaster, toast } from './src/index.tsx';
+import { Notification, notification } from './src/index.tsx';
 
-export { Toaster, toast };
+export { Notification, notification };

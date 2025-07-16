@@ -1,0 +1,133 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Pagination 分页器组件需求：
+
+1. 基本结构：首页 / 分类页 / 子分类 / 当前页面
+  * 每一级路径为一个「面包屑项」。
+  * 各项之间通过 / 分隔。
+  * 最后一项（当前页面）不可点击，默认不带链接。
+
+相关 dom 代码（示例）：
+
+```tsx
+<div data-property-1="4级" className="py-2 bg-white inline-flex justify-start items-center gap-2">
+  <div data-property-1="常规" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">首页</div>
+  </div>
+  <div data-property-1="斜杠分割" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">/</div>
+  </div>
+  <div data-property-1="常规" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">分类页</div>
+  </div>
+  <div data-property-1="斜杠分割" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">/</div>
+  </div>
+  <div data-property-1="常规" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">子分类</div>
+  </div>
+  <div data-property-1="斜杠分割" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">/</div>
+  </div>
+  <div data-property-1="置灰" className="flex justify-center items-center gap-2.5">
+    <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">当前页面</div>
+  </div>
+</div>
+```
+
+2. 可配置元素：
+  * 文本：每一级的导航名称，需简洁清晰
+  * 分隔符：常用 /、>，可自定义
+  * 链接跳转：除当前页外，其余面包屑项都可点击跳转
+  * 省略：在不同宽度设备下自适应，空间不足时，以“...”的形式省略中间层级（如：首页 / 分类 / ... / 当前页），点击「...」展开全部路径。
+
+```tsx
+<div className="w-[193px] h-40 relative">
+  <div data-property-1="更多" className="py-2 left-0 top-0 absolute bg-white inline-flex justify-start items-center gap-2">
+    <div data-property-1="常规" className="flex justify-center items-center gap-2.5">
+      <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">首页</div>
+    </div>
+    <div data-property-1="斜杠分割" className="flex justify-center items-center gap-2.5">
+      <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">/</div>
+    </div>
+    <div data-property-1="省略" className="w-[18px] h-[18px] relative">
+      <div data-svg-wrapper className="left-0 top-0 absolute">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M5.625 9C5.625 9.62132 5.12132 10.125 4.5 10.125C3.87868 10.125 3.375 9.62132 3.375 9C3.375 8.37868 3.87868 7.875 4.5 7.875C5.12132 7.875 5.625 8.37868 5.625 9ZM10.125 9C10.125 9.62132 9.62132 10.125 9 10.125C8.37868 10.125 7.875 9.62132 7.875 9C7.875 8.37868 8.37868 7.875 9 7.875C9.62132 7.875 10.125 8.37868 10.125 9ZM13.5 10.125C14.1213 10.125 14.625 9.62132 14.625 9C14.625 8.37868 14.1213 7.875 13.5 7.875C12.8787 7.875 12.375 8.37868 12.375 9C12.375 9.62132 12.8787 10.125 13.5 10.125Z" fill="var(---------color-text-primary, black)"/>
+      </svg>
+      </div>
+    </div>
+    <div data-property-1="斜杠分割" className="flex justify-center items-center gap-2.5">
+      <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">/</div>
+    </div>
+    <div data-property-1="常规" className="flex justify-center items-center gap-2.5">
+      <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">分类页</div>
+    </div>
+    <div data-property-1="斜杠分割" className="flex justify-center items-center gap-2.5">
+      <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">/</div>
+    </div>
+    <div data-property-1="置灰" className="flex justify-center items-center gap-2.5">
+      <div className="justify-start text-text-quaternary text-sm font-normal leading-[18px]">当前页</div>
+    </div>
+  </div>
+  <div data-property-1="基础菜单" className="py-3 left-[41px] top-[34px] absolute bg-background-layer4 rounded-md shadow-[0px_8px_32px_0px_rgba(0,0,0,0.20)] outline outline-1 outline-divider-level3 inline-flex flex-col justify-start items-start">
+    <div data-property-1="对勾" className="self-stretch px-5 py-2 bg-background-layer4 inline-flex justify-start items-center gap-2">
+      <div className="flex justify-start items-center gap-1.5">
+        <div className="inline-flex flex-col justify-center items-start gap-0.5">
+          <div className="self-stretch inline-flex justify-start items-center gap-0.5">
+            <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">USA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-property-1="对勾" className="self-stretch px-5 py-2 bg-background-layer4 inline-flex justify-start items-center gap-2">
+      <div className="flex justify-start items-center gap-1.5">
+        <div className="inline-flex flex-col justify-center items-start gap-0.5">
+          <div className="self-stretch inline-flex justify-start items-center gap-0.5">
+            <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">Stocks</div>
+          </div>
+        </div>
+      </div>
+      <div data-svg-wrapper className="relative">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M15.5142 4.33333L6.59043 13.2571C6.43384 13.4137 6.22146 13.5017 6 13.5017C5.77854 13.5017 5.56616 13.4137 5.40956 13.2571L0.485798 8.33333L1.66667 7.15247L6 11.4858L14.3333 3.15246L15.5142 4.33333Z" fill="var(---------color-text-primary, black)"/>
+      </svg>
+      </div>
+    </div>
+    <div data-property-1="对勾" className="self-stretch px-5 py-2 bg-background-layer4 inline-flex justify-start items-center gap-2">
+      <div className="flex-1 flex justify-start items-center gap-1.5">
+        <div className="inline-flex flex-col justify-center items-start gap-0.5">
+          <div className="self-stretch inline-flex justify-start items-center gap-0.5">
+            <div className="justify-start text-text-primary text-sm font-normal leading-[18px]">Sectors</div>
+          </div>
+        </div>
+      </div>
+      <div className="w-4 h-4 relative opacity-0">
+        <div className="w-4 h-4 left-0 top-0 absolute bg-text-primary" />
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+3. 交互行为规则
+    3.1 点击行为
+点击非当前项：跳转到对应层级页面。
+点击当前项：不可点击，鼠标为默认箭头，无 hover 效果。
+    3.2 hover 行为
+鼠标悬停时文字颜色变色（Hover色：color-text-secondary），鼠标变成手指。
+提示文字过长时，建议启用 title 提示浮层或 tooltip。
+    3.3 超长截断
+若某一级名称超长（超过宽度）：
+自动截断并尾部加省略号（overflow: hidden; text-overflow: ellipsis;）；
+鼠标 hover 时可展示完整内容 Tooltip；
+若路径级数过多（如超过 5 级）：
+支持中间部分折叠（如：首页 / 分类 / ... / 当前页），点击「...」展开全部路径。
+
+4. 位置与布局规则
+  * 通常放在页面主内容上方、标题区左侧；
+  * 字号为 14px，颜色一级文字色（color-text-primary）；
+  * 分隔符保持间距一致，推荐使用 icon 替代纯文本符号；

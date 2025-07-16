@@ -1,0 +1,90 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+## 项目背景
+
+这是 ainvest-matrix-ui-react 的源代码仓库，是 Ainvest 项目组的 React 组件库。
+
+## 技术栈选型规范
+
+- **框架**：`React18`，务必严格遵循 `React18` 的语法，注意版本特性的区别；
+- **语言**：使用 `TypeScript` 编写组件代码；创建文件的时候以 `.tsx` / `.ts` 为文件结尾；
+- **样式方案**：优先采用 `tailwindcss` 编写样式，版本为 `tailwindcss@3`，注意版本特性的区别；
+- **文档 Demo 工具**：使用 `Storybook` 构建组件的文档和 Demo，请严格按照 React StoryBook 的语法；
+
+## 编码规范
+
+- 使用 TypeScript 和 React 书写
+- 使用函数式组件和 hooks，避免类组件
+- 使用提前返回（early returns）提高代码可读性
+- 避免引入新依赖，严控打包体积
+- 兼容 Chrome 80+ 浏览器
+- 支持服务端渲染
+- 保持向下兼容，避免 breaking change
+- 组件名使用大驼峰（PascalCase）
+- 属性名使用小驼峰（camelCase）
+- 合理使用 React.memo、useMemo 和 useCallback 优化性能
+
+## 代码组织结构
+
+### 1. 组件目录结构
+
+清晰的目录结构对于维护性至关重要。以下是推荐的组件目录结构：
+
+```
+组件
+└─ src  # 组件源码核心目录
+   ├─ index.stories.ts    # 组件 storybook 示例
+   ├─ index.tsx           # 组件核心入口文件
+   └─ components          # 子组件目录
+        ├─ ComponentA.tsx
+        └─ ComponentB.tsx
+   └─ hooks               # React Hooks
+        ├─ useContainerQuery.ts
+        └─ useDark.ts
+   └─ utils               # 组件工具函数
+        ├─ clxs.ts
+        ├─ math.ts
+        ├─ dom.ts
+        └─ index.ts
+   └─ constants           # 组件常量
+        └─ index.ts
+   └─ types               # TypeScript 类型声明文件
+        └─ index.ts
+├─ index.ts
+├─ matrix.config.js
+├─ package.json
+├─ README.md
+├─ tailwind.config.js
+└─ tsconfig.json
+```
+
+核心文件及目录结构定义：
+
+- **`index.tsx`**：组件的核心入口文件
+- **`index.stories.tsx`**：组件的 StroyBook Demo 示例
+- **`package.json`**：组件的依赖项配置在该文件中
+- **`components/`**：可重用的 UI 组件
+- **`hooks/`**：自定义 React hooks
+- **`utils/`**: 工具方法
+- **`constants/`**：常量
+- **`types/`**：TypeScript 类型声明文件
+
+### 2. 文件命名规范
+
+-  **Components**: 使用大驼峰命名法 (例如： `MyComponent.tsx`)；
+-  **Hooks**: 使用 `use` 前缀的小驼峰命名法 (例如： `useMyHook.ts`)；
+-  **Utils**: 使用 `use` 前缀的小驼峰命名法 (例如： `math.ts`)；
+
+### 3. 模块组织
+
+- **单一职责（Single Responsibility）**：每个模块应具备明确且专一的用途；
+- **避免循环依赖（Avoid Circular Dependencies）**：确保模块之间不存在相互循环引用的情况
+
+### 4. 组件架构
+
+- **原子化设计（Atomic Design）**：建议采用原子化设计原则（原子、分子、有机体、模板、页面）来组织组件结构，保持主入口结构的清晰；
+- **组合优于继承（Composition over Inheritance）**：优先使用组件组合的方式来实现代码和功能的复用；
+- **展示组件与容器组件分离**：将 UI 渲染（展示组件）与状态管理和逻辑（容器组件）分离

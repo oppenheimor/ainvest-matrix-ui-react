@@ -1,6 +1,6 @@
 'use client';
 
-import { Toaster, toast as sonnerToast } from './components/shadcn-notification';
+import { Toaster as Notification, toast as sonnerToast } from './components/shadcn-notification';
 import { cn } from './utils';
 import type { ExternalToast } from './types';
 
@@ -160,7 +160,7 @@ const customWithActions = (render: (id: string | number) => React.ReactElement, 
  * 增强版 Toast API
  * 基于 Sonner 扩展，支持操作按钮和完整的通知功能
  */
-const toast = Object.assign(createToastWithActions(sonnerToast), {
+const notification = Object.assign(createToastWithActions(sonnerToast), {
   success: createToastWithActions(sonnerToast.success),
   error: createToastWithActions(sonnerToast.error),
   warning: createToastWithActions(sonnerToast.warning),
@@ -171,4 +171,4 @@ const toast = Object.assign(createToastWithActions(sonnerToast), {
   dismiss: sonnerToast.dismiss,
 }) as typeof sonnerToast;
 
-export { Toaster, toast };
+export { Notification, notification };

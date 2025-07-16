@@ -1,0 +1,216 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# 样式规范
+
+## 样式方案
+
+- 使用 `tailwindcss` v3 实现样式编写；
+
+## 样式规定：
+
+- 禁止设置字体 `font family`（例如 font-sans, font-[SF PRO] 等）；
+- 字体大小 `font size` 优先使用 `tailwincss` 内置的字体类（如 `text-xs`、`text-base` 等）；
+- 实现样式的时候需要考虑**响应式**，确保样式支持在移动端正常展示，可以适配不同设备和屏幕尺寸。例如最外层元素宽度不要限制固定宽度、优先使用弹性布局、使用媒体查询/容器查询进行适配等常用方案；
+
+## Token 系统：
+
+- 颜色优先使用 `tailwind.config.js` 中自定义颜色，以下是自定义颜色的配置：
+  ````javaScript
+  /** @type {import('tailwindcss').Config} */
+  module.exports = {
+    theme: {
+      extend: {
+        colors: {
+          // ============ atom-token colors start ============
+          brand: {
+            primary: {
+              DEFAULT: 'var(--atom-color-brand-primary)',
+              black: 'hsl(var(--atom-color-brand-primary-black))',
+            },
+          },
+          price: {
+            up: 'var(--atom-color-price-up)',
+            down: 'var(--atom-color-price-down)',
+            even: 'var(--atom-color-price-even)',
+            crypto: {
+              up: 'var(--atom-color-price-crypto-up)',
+              down: 'var(--atom-color-price-crypto-down)',
+            }
+          },
+          status: {
+            success: 'var(--atom-color-status-success)',
+            error: 'var(--atom-color-status-error)',
+            warning: 'var(--atom-color-status-warning)',
+            info: 'var(--atom-color-status-info)',
+          },
+          text: {
+            primary: 'var(--atom-color-text-primary)',
+            secondary: 'var(--atom-color-text-secondary)',
+            tertiary: 'var(--atom-color-text-tertiary)',
+            quaternary: 'var(--atom-color-text-quaternary)',
+            inverse: 'var(--atom-color-text-inverse)',
+            link: 'var(--atom-color-text-link)',
+            aime: 'var(--atom-color-text-aime)',
+          },
+          background: {
+            DEFAULT: 'hsl(var(--background))',
+            layer1: 'var(--atom-color-background-layer1)',
+            layer2: 'var(--atom-color-background-layer2)',
+            layer3: 'var(--atom-color-background-layer3)',
+            layer4: 'var(--atom-color-background-layer4)',
+            layer5: 'var(--atom-color-background-layer5)',
+            mask: {
+              level1: 'var(--atom-color-background-mask-level1)',
+              level2: 'var(--atom-color-background-mask-level2)',
+              level3: 'var(--atom-color-background-mask-level3)',
+            },
+            weak: 'var(--atom-color-background-weak)',
+            nav: 'var(--atom-color-background-nav)',
+            list: {
+              hover1: 'var(--atom-color-background-list-hover)',
+              hover2: 'var(--atom-color-background-list-active-hover)',
+            },
+            web: 'var(--atom-color-background-web)',
+          },
+          foreground: {
+            DEFAULT: 'hsl(var(--foreground))',
+            layer1: 'var(--atom-color-foreground-layer1)',
+            layer1_2: 'var(--atom-color-foreground-layer1_2)',
+            layer1_3: 'var(--atom-color-foreground-layer1_3)',
+            layer2: 'var(--atom-color-foreground-layer2)',
+          },
+          divider: {
+            level1: 'var(--atom-color-divider-level1)',
+            level2: 'var(--atom-color-divider-level2)',
+            level3: 'var(--atom-color-divider-level3)',
+          },
+          border: {
+            DEFAULT: 'hsl(var(--border))',
+            bt: 'var(--atom-color-border-bt)',
+          },
+          grey: {
+            '95': 'var(--atom-color-grey-95)',
+            '90': 'var(--atom-color-grey-90)',
+            '80': 'var(--atom-color-grey-80)',
+            '70': 'var(--atom-color-grey-70)',
+            '60': 'var(--atom-color-grey-60)',
+            '50': 'var(--atom-color-grey-50)',
+            '40': 'var(--atom-color-grey-40)',
+            '20': 'var(--atom-color-grey-20)',
+          },
+          blue: {
+            DEFAULT: 'var(--atom-color-blue)',
+          },
+          green: {
+            DEFAULT: 'var(--atom-color-green)',
+          },
+          red: {
+            DEFAULT: 'var(--atom-color-red)',
+          },
+          orange: {
+            DEFAULT: 'var(--atom-color-orange)',
+          },
+          yellow: {
+            DEFAULT: 'var(--atom-color-yellow)',
+          },
+          cyan: {
+            DEFAULT: 'var(--atom-color-cyan)',
+          },
+          acidblue: {
+            DEFAULT: 'var(--atom-color-acidblue)',
+          },
+          indigo: {
+            DEFAULT: 'var(--atom-color-indigo)',
+          },
+          purple: {
+            DEFAULT: 'var(--atom-color-purple)',
+          },
+          gold: {
+            DEFAULT: 'var(--atom-color-gold)',
+          },
+          transparent: {
+            blue: "var(--atom-color-transparent-blue)",
+            blue1: "var(--atom-color-transparent-blue1)",
+            green: "var(--atom-color-transparent-green)",
+            red: "var(--atom-color-transparent-red)",
+            orange: "var(--atom-color-transparent-orange)",
+            yellow: "var(--atom-color-transparent-yellow)",
+            cyan: "var(--atom-color-transparent-cyan)",
+            acidblue: "var(--atom-color-transparent-acidblue)",
+            indigo: "var(--atom-color-transparent-indigo)",
+            purple: "var(--atom-color-transparent-purple)",
+            gold: "var(--atom-color-transparent-gold)",
+          },
+          visualization: {
+            primary: 'var(--atom-color-visualization-primary)',
+            '01': 'var(--atom-color-visialization-01)',
+            '02': 'var(--atom-color-visialization-02)',
+            '03': 'var(--atom-color-visialization-03)',
+            '04': 'var(--atom-color-visialization-04)',
+            '05': 'var(--atom-color-visialization-05)',
+            '06': 'var(--atom-color-visialization-06)',
+            '07': 'var(--atom-color-visialization-07)',
+            '08': 'var(--atom-color-visialization-08)',
+            '09': 'var(--atom-color-visialization-09)',
+            divider: 'var(--atom-color-visualization-divider)',
+            tooltip: 'var(--atom-color-visualization-tooltip)',
+          },
+          hover: {
+            DEFAULT: 'var(--atom-color-hover)',
+          },
+          click: {
+            DEFAULT: 'var(--atom-color-click)',
+          },
+          toast: {
+            background: 'var(--atom-color-toast-background)'
+          },
+          button: {
+            grey: {
+              default: 'var(--atom-color-button-grey-default)',
+            }
+          }
+          // ============ atom-token colors end ============
+        },
+      }
+    },
+  }
+  ```
+
+## 响应式设计
+
+- 组件应支持在不同屏幕尺寸下良好展示
+- 关键断点应与设计系统保持一致
+- 在小屏幕上提供良好的降级方案
+- 使用 CSS Grid 和 Flexbox 布局实现响应式布局
+- 考虑移动设备上的触摸交互体验
+
+
+## 暗色模式
+
+- 所有组件必须支持暗色模式
+- 暗色模式应通过 Token 系统实现，不应硬编码
+- 测试暗色模式下的颜色对比度，确保可访问性
+- 在设计暗色模式时考虑降低亮度和饱和度
+- 确保文本在暗色背景上有足够的对比度
+- 图片和图标应提供适合暗色模式的版本
+
+## RTL 支持
+
+- 组件应支持从右到左（RTL）的阅读方向
+- 使用 CSS 逻辑属性（如 margin-inline-start）替代方向性属性（如 margin-left）
+- 图标和方向性元素应随 RTL 模式翻转
+- 测试组件在 RTL 模式下的布局和交互
+- 确保文本对齐和方向符合 RTL 规范
+- 处理好数字和日期等特殊内容在 RTL 模式下的显示
+
+## 可访问性样式
+
+- 遵循 WCAG 2.1 AA 级别标准
+- 确保焦点状态有明显的视觉提示
+- 提供足够的色彩对比度
+- 不依赖颜色来传达信息
+- 支持用户放大页面至 200% 时的正常布局
+- 避免使用会导致闪烁的动画

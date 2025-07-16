@@ -1,0 +1,18 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 开源组件介绍
+
+1. 提供的开源组件资料包括如下几种：
+   - shadcn/ui
+   - HeroUI
+   - OriginUI
+
+其中：
+  - shadcn/ui 可以作为组件实现的底层依赖，它提供了基本部件，其代码一般放在待实现组件的 components/ 目录下，文件名为shadcn-{#待实现组件名}该文件也需要基于实际场景进行修改；
+  - HeroUI 组件库实现比较全面，功能集成度高，可以作为组件实现过程中的参考；
+  - OriginUI 提供了基于 shadcn/ui 配置出来的各种示例，编写组件 StoryBook 的时候可以参考；
+
+注意：参考的时候，我希望能看到你的【分析过程】。特别是要结合我们自己的组件需求进行分析。

@@ -1,0 +1,234 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Pagination 分页器组件需求：
+
+1. 基本结构：
+   前进/后退箭头按钮：用于切换上一页 / 下一页。
+   页码按钮：展示当前页与可跳转的页码。
+   省略号...：用于表示页码的折叠（页数过多时使用）。
+
+相关 dom 代码（示例）：
+
+```tsx
+<div className="self-stretch px-4 py-1.5 bg-foreground-layer1 inline-flex justify-center items-center gap-4 overflow-hidden">
+  <div className="w-10 h-10 rounded-md outline outline-1 outline-offset-[-1px] outline-divider-level2 flex justify-center items-center gap-2.5">
+    <div className="w-6 h-6 relative" />
+  </div>
+  <div className="flex justify-start items-center gap-1">
+    <div className="w-10 h-10 py-[9px] bg-background-layer1 rounded-md flex justify-center items-center gap-2.5">
+      <div className="justify-start text-black text-base leading-snug">1</div>
+    </div>
+    <div className="w-10 h-10 py-[9px] rounded-md flex justify-center items-center gap-2.5">
+      <div className="justify-start text-black text-base font-normal leading-snug">2</div>
+    </div>
+    <div className="w-10 h-10 py-[9px] rounded-md flex justify-center items-center gap-2.5">
+      <div className="justify-start text-black text-base font-normal leading-snug">3</div>
+    </div>
+    <div className="w-10 h-10 py-[9px] rounded-md flex justify-center items-center gap-2.5">
+      <div className="justify-start text-black text-base font-normal leading-snug">4</div>
+    </div>
+    <div className="w-10 h-10 py-[9px] rounded-md flex justify-center items-center gap-2.5">
+      <div className="justify-start text-black text-base font-normal leading-snug">5</div>
+    </div>
+    </div>
+    <div className="w-10 h-10 py-1 rounded-md outline outline-1 outline-offset-[-1px] flex justify-center items-end gap-2.5">
+      <div className="w-6 h-6 relative" />
+    </div>
+    <div className="w-10 h-10 py-[9px] rounded-md flex justify-center items-center gap-2.5">
+      <div className="justify-start text-black text-base font-normal leading-snug">42</div>
+    </div>
+  </div>
+  <div className="w-10 h-10 rounded-md outline outline-1 outline-offset-[-1px] outline-divider-level2 flex justify-center items-center gap-2.5">
+    <div className="w-6 h-6 relative origin-top-left -rotate-180" />
+  </div>
+</div>
+```
+
+2.可配置元素
+图标方向按钮
+
+- 左箭头表示上一页，右箭头表示下一页
+- 根据交互状态支持未选中、选中、hover、不可选四种样式
+- 未选中：描边按钮展示
+- 选中：背景高亮
+- hover：描边消失，背景为灰色色块
+- 不可选：按钮置灰
+
+相关 dom 代码（示例）：
+
+```tsx
+
+  <div
+    data-state="未选中"
+    className="w-10 h-10 rounded-md outline outline-1 outline-offset-[-1px] outline-divider-level2 flex justify-center items-center gap-2.5"
+  >
+    <div
+      data-svg-wrapper
+      className="relative"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10.8502 6.00049L11.3766 6.53564L6.58362 11.2505H19.9996V12.7505H6.58362L11.3766 17.4653L10.8502 18.0005L10.3248 18.5356L4.22424 12.5356C4.08102 12.3948 4.00074 12.2014 4.00061 12.0005C4.00061 11.7995 4.08106 11.6063 4.22424 11.4653L10.3248 5.46533L10.8502 6.00049Z"
+          fill="var(---------color-text-primary, black)"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    data-state="选中"
+    className="w-10 h-10 bg-background-layer1 rounded-md flex justify-center items-center gap-2.5"
+  >
+    <div
+      data-svg-wrapper
+      className="relative"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10.8502 6.00049L11.3766 6.53564L6.58362 11.2505H19.9996V12.7505H6.58362L11.3766 17.4653L10.8502 18.0005L10.3248 18.5356L4.22424 12.5356C4.08102 12.3948 4.00074 12.2014 4.00061 12.0005C4.00061 11.7995 4.08106 11.6063 4.22424 11.4653L10.3248 5.46533L10.8502 6.00049Z"
+          fill="var(---------color-text-primary, black)"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    data-state="hover"
+    className="w-10 h-10 bg-hover-5% rounded-md flex justify-center items-center gap-2.5"
+  >
+    <div
+      data-svg-wrapper
+      data-id="I3540:278396;3071:71971"
+      className="relative"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10.8502 6.00049L11.3766 6.53564L6.58362 11.2505H19.9996V12.7505H6.58362L11.3766 17.4653L10.8502 18.0005L10.3248 18.5356L4.22424 12.5356C4.08102 12.3948 4.00074 12.2014 4.00061 12.0005C4.00061 11.7995 4.08106 11.6063 4.22424 11.4653L10.3248 5.46533L10.8502 6.00049Z"
+          fill="var(---------color-text-primary, black)"
+        />
+      </svg>
+    </div>
+  </div>
+  <div
+    data-state="不可选"
+    className="w-10 h-10 rounded-md outline outline-1 outline-offset-[-1px] outline-divider-level2 flex justify-center items-center gap-2.5"
+  >
+    <div
+      data-svg-wrapper
+      className="relative"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10.8502 6.00049L11.3766 6.53564L6.58362 11.2505H19.9996V12.7505H6.58362L11.3766 17.4653L10.8502 18.0005L10.3248 18.5356L4.22424 12.5356C4.08102 12.3948 4.00074 12.2014 4.00061 12.0005C4.00061 11.7995 4.08106 11.6063 4.22424 11.4653L10.3248 5.46533L10.8502 6.00049Z"
+          fill="var(---------color-text-quaternary, black)"
+          fill-opacity="0.2"
+        />
+      </svg>
+    </div>
+  </div>
+```
+
+按钮样式
+
+- 选中态：当前页（背景高亮，字体加粗）
+- 未选中态：普通按钮样式（无背景色）
+- hover 态：灰色色块，字体字重不变
+
+相关 dom 代码（示例）：
+
+```tsx
+<div className="w-64 p-3 bg-[#e4e4e4] inline-flex justify-start items-center gap-6">
+  <div
+    data-state="选中态"
+    className="w-10 h-10 py-[9px] bg-background-layer1 rounded-md flex justify-center items-center gap-2.5"
+  >
+    <div className="justify-start text-black text-base leading-snug">1</div>
+  </div>
+  <div
+    data-state="hover"
+    className="w-10 h-10 py-[9px] bg-hover-5% rounded-md flex justify-center items-center gap-2.5"
+  >
+    <div className="justify-start text-black text-base font-normal leading-snug">
+      1
+    </div>
+  </div>
+  <div
+    data-state="未选中"
+    className="w-10 h-10 py-[9px] rounded-md flex justify-center items-center gap-2.5"
+  >
+    <div className="justify-start text-black text-base font-normal leading-snug">
+      1
+    </div>
+  </div>
+</div>
+```
+
+页码显示逻辑
+
+- 总页数超过一定数量（如 10 页）时自动使用“…”做省略处理，“...”按钮无任何交互和 hover，样式如下
+- 选中的页数位于中间时，默认展示当前页前后若干页（如前后各 3 页）。且前后都展示“...”，“...”位置放置于第二和倒数第二的位置。
+- 当前选中页数为后 5 页时，展示前 9 个可选页码数，并且在第 1 页后面用“...”表示页数的省略。
+
+省略号相关 dom：
+
+```tsx
+<div className="w-10 h-10 py-1 rounded-md outline outline-1 outline-offset-[-1px] inline-flex justify-center items-end gap-2.5">
+  <div data-svg-wrapper data-id="I3540:281136;3071:71461" className="relative">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 12C7.5 12.8284 6.82843 13.5 6 13.5C5.17157 13.5 4.5 12.8284 4.5 12C4.5 11.1716 5.17157 10.5 6 10.5C6.82843 10.5 7.5 11.1716 7.5 12ZM13.5 12C13.5 12.8284 12.8284 13.5 12 13.5C11.1716 13.5 10.5 12.8284 10.5 12C10.5 11.1716 11.1716 10.5 12 10.5C12.8284 10.5 13.5 11.1716 13.5 12ZM18 13.5C18.8284 13.5 19.5 12.8284 19.5 12C19.5 11.1716 18.8284 10.5 18 10.5C17.1716 10.5 16.5 11.1716 16.5 12C16.5 12.8284 17.1716 13.5 18 13.5Z" fill="var(---------color-text-primary, black)"/>
+  </svg>
+  </div>
+</div>`
+```
+
+3. 状态行为规则
+
+点击行为
+
+- 点击左右箭头按钮：页码递减 / 递增
+- 点击页码：跳转至对应页
+- 当前页不可点击，无 hover 效果
+
+hover 行为
+
+- 鼠标悬停时背景颜色变化，左右箭头按钮描边消失，背景色更改，页码按钮直接更改背景色（Hover 色：color-hover-5%）
+
+禁用状态
+
+- 位于首页时禁用左箭头按钮，末页禁用右箭头按钮
+- 禁用按钮不可点击，无 hover 效果，颜色置灰
+
+4. 位置与布局规则
+   移动端
+
+- 直接用“View more”按钮表示，无分页器。
+
+Web 端
+
+- 横向排列，居中对齐，适配宽屏，屏幕宽度缩小时，分页器宽度固定，分页器和界面的左右间距自适应。
+- 页码字号为 16px，左右切换按钮和页码按钮大小一致，为 40px。

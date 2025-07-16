@@ -1,0 +1,713 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+#Popover需求
+
+1.基本结构：
+- 卡片作为信息的承载容器： 容器内可以包含文本、图片、标题、正文、按钮、指示器、页码等多种元素。
+- 状态表现： 根据内容或交互状态，卡片可以有不同的样式或视觉反馈。
+
+相关demo代码（示例）：
+
+```tsx
+<div data-id="4656:109828" className="self-stretch px-10 py-5 bg-foreground-layer1_2 inline-flex justify-center items-start gap-2.5">
+  <div data-id="4656:110049" data-图片="true" data-标题="true" className="flex justify-start items-center">
+    <div data-id="I4656:110049;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+      <div data-svg-wrapper data-id="I4656:110049;3638:222015">
+      <svg width="7" height="22" viewBox="0 0 7 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <foreignObject x="-39.5039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2464_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M6.4991 0C6.4991 0.801591 6.50302 1.60295 6.49448 2.40454C6.48618 3.17174 6.4744 4.03042 6.19676 4.77702C5.89672 5.58353 5.37212 6.11745 4.75474 6.65466C4.31069 7.04141 3.36326 7.80112 2.90583 8.17103C2.53078 8.47379 1.78946 9.06645 1.4308 9.39003C0.979597 9.79738 0.500001 10.3009 0.5 11.0002C0.5 11.6996 0.979596 12.2029 1.43034 12.61C1.78877 12.9336 2.53055 13.5262 2.90536 13.8292C3.3628 14.1986 4.31022 14.9584 4.75428 15.3453C5.37166 15.8835 5.89626 16.4165 6.19629 17.2227C6.47325 17.9696 6.48571 18.8285 6.49402 19.5952C6.50256 20.3971 6.49864 21.1984 6.49864 22" fill="var(------Light-Blue----, #165DFF)"/>
+      <defs>
+      <clipPath id="bgblur_0_7306_2464_clip_path" transform="translate(39.5039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.4991 0C6.4991 0.801591 6.50302 1.60295 6.49448 2.40454C6.48618 3.17174 6.4744 4.03042 6.19676 4.77702C5.89672 5.58353 5.37212 6.11745 4.75474 6.65466C4.31069 7.04141 3.36326 7.80112 2.90583 8.17103C2.53078 8.47379 1.78946 9.06645 1.4308 9.39003C0.979597 9.79738 0.500001 10.3009 0.5 11.0002C0.5 11.6996 0.979596 12.2029 1.43034 12.61C1.78877 12.9336 2.53055 13.5262 2.90536 13.8292C3.3628 14.1986 4.31022 14.9584 4.75428 15.3453C5.37166 15.8835 5.89626 16.4165 6.19629 17.2227C6.47325 17.9696 6.48571 18.8285 6.49402 19.5952C6.50256 20.3971 6.49864 21.1984 6.49864 22"/>
+      </clipPath></defs>
+      </svg>
+      </div>
+    </div>
+    <div data-id="I4656:110049;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+      <img data-id="I4656:110049;3638:222221" className="self-stretch h-[140px] rounded" src="https://placehold.co/280x140" />
+      <div data-id="I4656:110049;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+        <div data-id="I4656:110049;3638:222018" className="self-stretch justify-start text-text-inverse text-base leading-snug">Notification title</div>
+        <div data-id="I4656:110049;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+      </div>
+      <div data-id="I4656:110049;3638:222309" data-次按钮="true" data-类型="按钮+指示器" className="w-[280px] h-7 inline-flex justify-between items-center overflow-hidden">
+        <div data-svg-wrapper data-id="I4656:110049;3638:222309;3638:222275">
+        <svg width="27" height="6" viewBox="0 0 27 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+        <div data-id="I4656:110049;3638:222309;3638:222279" className="flex justify-end items-center gap-1">
+          <div data-id="I4656:110049;3638:222309;3638:222280" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110049;3638:222309;3638:222280;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110049;3638:222309;3638:222281" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110049;3638:222309;3638:222281;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:111071" className="flex justify-start items-center">
+    <div data-id="4656:111074" className="w-80 p-5 rounded-[10px] inline-flex flex-col justify-center items-end gap-5">
+      <img data-id="4656:111075" className="self-stretch h-[140px] rounded" src="https://placehold.co/280x140" />
+      <div data-id="4656:111095" className="self-stretch bg-toast-background inline-flex justify-center items-center gap-2.5">
+        <div data-id="4656:111077" className="flex-1 justify-start text-text-inverse text-base leading-snug">Notification title</div>
+      </div>
+      <div data-id="4656:111096" className="self-stretch bg-toast-background inline-flex justify-center items-center gap-2.5">
+        <div data-id="4656:111078" className="flex-1 justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+      </div>
+      <div data-id="4656:111079" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 bg-toast-background inline-flex justify-end items-center gap-1">
+        <div data-id="I4656:111079;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+          <div data-id="I4656:111079;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+        </div>
+        <div data-id="I4656:111079;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+          <div data-id="I4656:111079;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+        </div>
+      </div>
+      <div data-id="4656:111097" data-次按钮="true" data-类型="按钮+指示器" className="w-[280px] h-7 bg-toast-background inline-flex justify-between items-center overflow-hidden">
+        <div data-svg-wrapper data-id="I4656:111097;3638:222275">
+        <svg width="27" height="6" viewBox="0 0 27 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+        <div data-id="I4656:111097;3638:222279" className="flex justify-end items-center gap-1">
+          <div data-id="I4656:111097;3638:222280" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111097;3638:222280;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:111097;3638:222281" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111097;3638:222281;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+      <div data-id="4656:111112" data-次按钮="true" data-类型="按钮+数量" className="w-[280px] h-7 bg-toast-background inline-flex justify-between items-center overflow-hidden">
+        <div data-id="I4656:111112;3638:222268" className="justify-start text-white text-sm font-normal leading-[18px]">1/2</div>
+        <div data-id="I4656:111112;3638:222269" className="flex justify-end items-center gap-1">
+          <div data-id="I4656:111112;3638:222270" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111112;3638:222270;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:111112;3638:222271" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111112;3638:222271;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+      <div data-id="4656:111129" data-次按钮="false" data-类型="按钮" className="w-[280px] h-7 bg-toast-background inline-flex justify-end items-center gap-1">
+        <div data-id="I4656:111129;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+          <div data-id="I4656:111129;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+2.可配置元素：
+- 可以单独配置图片、标题、按钮数量、工具条类型。
+
+相关demo代码（示例）：
+
+```tsx
+<div data-id="4656:109839" className="px-10 py-5 bg-foreground-layer1_2 inline-flex justify-center items-start gap-2.5">
+  <div data-id="4656:110199" className="self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+    <div data-id="4656:110480" className="justify-start text-text-primary text-sm font-bold leading-[18px]">可以配置有没有图片</div>
+    <div data-id="4656:110099" data-图片="true" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110099;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110099;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_1988_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_1988_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110099;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <img data-id="I4656:110099;3638:222221" className="self-stretch h-[140px] rounded" src="https://placehold.co/280x140" />
+        <div data-id="I4656:110099;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110099;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110099;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110099;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110099;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110099;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110099;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-id="4656:110398" data-图片="true" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110398;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110398;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2146_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2146_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110398;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <img data-id="I4656:110398;3638:222221" className="self-stretch h-[140px] rounded" src="https://placehold.co/280x140" />
+        <div data-id="I4656:110398;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110398;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110398;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110398;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110398;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110398;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110398;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:110338" className="self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+    <div data-id="4656:110481" className="justify-start text-text-primary text-sm font-bold leading-[18px]">可以配置有没有标题</div>
+    <div data-id="4656:110339" data-图片="false" data-标题="true" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110339;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110339;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2001_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2001_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110339;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110339;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110339;3638:222018" className="self-stretch justify-start text-text-inverse text-base leading-snug">Notification title</div>
+          <div data-id="I4656:110339;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110339;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110339;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110339;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110339;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110339;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-id="4656:110466" data-图片="false" data-标题="true" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110466;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110466;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2077_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2077_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110466;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110466;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110466;3638:222018" className="self-stretch justify-start text-text-inverse text-base leading-snug">Notification title</div>
+          <div data-id="I4656:110466;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110466;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110466;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110466;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110466;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110466;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:110238" className="self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+    <div data-id="4656:110486" className="justify-start text-text-primary text-sm font-bold leading-[18px]">可以配置按钮的数量</div>
+    <div data-id="4656:110239" data-图片="false" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110239;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110239;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2451_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2451_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110239;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110239;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110239;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110239;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110239;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110239;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110239;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110239;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-id="4656:110499" data-图片="false" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110499;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110499;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_1935_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_1935_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110499;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110499;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110499;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110499;3638:222309" data-次按钮="false" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110499;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110499;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:110412" className="self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+    <div data-id="4656:110483" className="justify-start text-text-primary text-sm font-bold leading-[18px]">可以配置不同的工具条</div>
+    <div data-id="4656:110413" data-图片="false" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110413;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110413;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2169_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2169_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110413;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110413;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110413;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110413;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:110413;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110413;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:110413;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:110413;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-id="4656:110414" data-图片="false" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110414;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110414;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2112_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2112_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110414;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110414;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110414;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110414;3638:222309" data-次按钮="true" data-类型="按钮+指示器" className="w-[280px] h-7 inline-flex justify-between items-center overflow-hidden">
+          <div data-svg-wrapper data-id="I4656:110414;3638:222309;3638:222275">
+          <svg width="26" height="6" viewBox="0 0 26 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="3" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+          <circle cx="13" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+          <circle cx="23" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+          </svg>
+          </div>
+          <div data-id="I4656:110414;3638:222309;3638:222279" className="flex justify-end items-center gap-1">
+            <div data-id="I4656:110414;3638:222309;3638:222280" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+              <div data-id="I4656:110414;3638:222309;3638:222280;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+            </div>
+            <div data-id="I4656:110414;3638:222309;3638:222281" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+              <div data-id="I4656:110414;3638:222309;3638:222281;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-id="4656:110415" data-图片="false" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:110415;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:110415;3638:222015">
+        <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_1817_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_1817_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:110415;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <div data-id="I4656:110415;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:110415;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:110415;3638:222309" data-次按钮="true" data-类型="按钮+数量" className="w-[280px] h-7 inline-flex justify-between items-center overflow-hidden">
+          <div data-id="I4656:110415;3638:222309;3638:222268" className="justify-start text-white text-sm font-normal leading-[18px]">1/2</div>
+          <div data-id="I4656:110415;3638:222309;3638:222269" className="flex justify-end items-center gap-1">
+            <div data-id="I4656:110415;3638:222309;3638:222270" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+              <div data-id="I4656:110415;3638:222309;3638:222270;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+            </div>
+            <div data-id="I4656:110415;3638:222309;3638:222271" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+              <div data-id="I4656:110415;3638:222309;3638:222271;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+```
+
+3.关闭方式：
+- 进行了 tips 所引导的操作;
+- 退出当前页面或关掉App;
+- 用户点击跳过或关闭（如果有）
+
+4.尺寸样式：
+- 高度：根据内容自适应，内容最多 3 行。
+- 宽度：根据内容自适应，最小宽度：120px、最大宽度：一行内容 200px、最大高度：2 行内容，如果内容超过 两行内容时显示省略号 (...)。
+
+相关demo代码（示例）：
+
+```tsx
+<div data-id="4656:109848" className="self-stretch px-10 py-5 bg-foreground-layer1_2 inline-flex justify-center items-start gap-2.5">
+  <div data-id="4656:109849" className="inline-flex flex-col justify-start items-center gap-2.5">
+    <div data-id="4656:111003" data-图片="true" data-标题="false" className="inline-flex justify-start items-center">
+      <div data-id="I4656:111003;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+        <div data-svg-wrapper data-id="I4656:111003;3638:222015">
+        <svg width="7" height="22" viewBox="0 0 7 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <foreignObject x="-39.5039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2415_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M6.4991 0C6.4991 0.801591 6.50302 1.60295 6.49448 2.40454C6.48618 3.17174 6.4744 4.03042 6.19676 4.77702C5.89672 5.58353 5.37212 6.11745 4.75474 6.65466C4.31069 7.04141 3.36326 7.80112 2.90583 8.17103C2.53078 8.47379 1.78946 9.06645 1.4308 9.39003C0.979597 9.79738 0.500001 10.3009 0.5 11.0002C0.5 11.6996 0.979596 12.2029 1.43034 12.61C1.78877 12.9336 2.53055 13.5262 2.90536 13.8292C3.3628 14.1986 4.31022 14.9584 4.75428 15.3453C5.37166 15.8835 5.89626 16.4165 6.19629 17.2227C6.47325 17.9696 6.48571 18.8285 6.49402 19.5952C6.50256 20.3971 6.49864 21.1984 6.49864 22" fill="var(------Light-Blue----, #165DFF)"/>
+        <defs>
+        <clipPath id="bgblur_0_7306_2415_clip_path" transform="translate(39.5039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.4991 0C6.4991 0.801591 6.50302 1.60295 6.49448 2.40454C6.48618 3.17174 6.4744 4.03042 6.19676 4.77702C5.89672 5.58353 5.37212 6.11745 4.75474 6.65466C4.31069 7.04141 3.36326 7.80112 2.90583 8.17103C2.53078 8.47379 1.78946 9.06645 1.4308 9.39003C0.979597 9.79738 0.500001 10.3009 0.5 11.0002C0.5 11.6996 0.979596 12.2029 1.43034 12.61C1.78877 12.9336 2.53055 13.5262 2.90536 13.8292C3.3628 14.1986 4.31022 14.9584 4.75428 15.3453C5.37166 15.8835 5.89626 16.4165 6.19629 17.2227C6.47325 17.9696 6.48571 18.8285 6.49402 19.5952C6.50256 20.3971 6.49864 21.1984 6.49864 22"/>
+        </clipPath></defs>
+        </svg>
+        </div>
+      </div>
+      <div data-id="I4656:111003;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+        <img data-id="I4656:111003;3638:222221" className="self-stretch h-[140px] rounded" src="https://placehold.co/280x140" />
+        <div data-id="I4656:111003;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+          <div data-id="I4656:111003;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+        </div>
+        <div data-id="I4656:111003;3638:222309" data-次按钮="true" data-类型="按钮" className="w-[280px] h-7 inline-flex justify-end items-center gap-1">
+          <div data-id="I4656:111003;3638:222309;3638:222285" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111003;3638:222309;3638:222285;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:111003;3638:222309;3638:222286" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111003;3638:222309;3638:222286;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+5.显示位置：
+- 为了保证引导气泡的可见性和不遮挡关键信息，气泡出现的规则：
+  - 边缘检测: 当引导气泡即将超出屏幕边缘时，自动调整其出现方向（例如，原本应该出现在上方，但上方空间不足时，调整到下方）。
+  - 遮挡检测: 如果引导气泡会遮挡重要的其他界面元素，可以考虑调整其位置或优先级。
+- 方向：可以配置上、下、左、右
+  
+相关demo代码（示例）：
+
+```tsx
+<div data-id="4656:109859" className="px-10 py-5 bg-foreground-layer1_2 inline-flex flex-col justify-center items-center gap-2.5">
+  <div data-id="4656:111294" className="w-[276px] h-[276px] bg-foreground-layer1 rounded-[10px]" />
+  <div data-id="4656:111295" className="w-[236px] justify-start"><span class="text-xl leading-7 text-black">上方居中：<br/>适用场景: </span><span class="text-xl font-normal leading-7 text-black">当目标元素的下方、左方、左方的空间有限，而上侧有足够的空间显示引导信息时。</span></div>
+  <div data-id="4656:111296" className="flex flex-col justify-center items-center">
+    <div data-id="4656:111297" className="w-80 p-5 bg--text-link rounded-2xl flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111298" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111299" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111300" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111301" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111301;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111302" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111302;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111303" className="left-0 top-[11px] absolute">
+        <svg width="26" height="6" viewBox="0 0 26 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+    <div data-svg-wrapper data-id="4656:111307">
+    <svg width="22" height="6" viewBox="0 0 22 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-40.0039" y="-40.0039" width="102.008" height="86.0078"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111307_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M0 0.000899746C0.801591 0.000899746 1.60295 -0.0030238 2.40454 0.00551568C3.17174 0.0138244 4.03042 0.025595 4.77702 0.303243C5.58353 0.603279 6.11745 1.12788 6.65466 1.74526C7.04141 2.18931 7.80112 3.13673 8.17103 3.59417C8.47379 3.96922 9.06645 4.71054 9.39003 5.0692C9.79738 5.5204 10.3009 6 11.0002 6C11.6996 6 12.2029 5.5204 12.61 5.06966C12.9336 4.71123 13.5262 3.96945 13.8292 3.59464C14.1986 3.1372 14.9584 2.18978 15.3453 1.74572C15.8835 1.12834 16.4165 0.603741 17.2227 0.303705C17.9696 0.026749 18.8285 0.014286 19.5952 0.00597727C20.3971 -0.00256221 21.1984 0.00136134 22 0.00136134" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111307_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 0.000899746C0.801591 0.000899746 1.60295 -0.0030238 2.40454 0.00551568C3.17174 0.0138244 4.03042 0.025595 4.77702 0.303243C5.58353 0.603279 6.11745 1.12788 6.65466 1.74526C7.04141 2.18931 7.80112 3.13673 8.17103 3.59417C8.47379 3.96922 9.06645 4.71054 9.39003 5.0692C9.79738 5.5204 10.3009 6 11.0002 6C11.6996 6 12.2029 5.5204 12.61 5.06966C12.9336 4.71123 13.5262 3.96945 13.8292 3.59464C14.1986 3.1372 14.9584 2.18978 15.3453 1.74572C15.8835 1.12834 16.4165 0.603741 17.2227 0.303705C17.9696 0.026749 18.8285 0.014286 19.5952 0.00597727C20.3971 -0.00256221 21.1984 0.00136134 22 0.00136134"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+  </div>
+  <div data-id="4656:111309" className="w-[276px] h-[276px] bg-foreground-layer1 rounded-[10px]" />
+  <div data-id="4656:111310" className="w-[236px] justify-start"><span class="text-xl leading-7 text-black">右侧居中：<br/>适用场景: </span><span class="text-xl font-normal leading-7 text-black">当目标元素的上方、下方、左方的空间有限，而右侧有足够的空间显示引导信息时。</span></div>
+  <div data-id="4656:111311" data-图片="false" data-标题="false" className="inline-flex justify-start items-center">
+    <div data-id="I4656:111311;3638:222387" className="self-stretch flex justify-start items-center gap-2.5">
+      <div data-svg-wrapper data-id="I4656:111311;3638:222015">
+      <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_7306_2434_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22" fill="var(------Light-Blue----, #165DFF)"/>
+      <defs>
+      <clipPath id="bgblur_0_7306_2434_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.9991 0C5.9991 0.801591 6.00302 1.60295 5.99448 2.40454C5.98618 3.17174 5.9744 4.03042 5.69676 4.77702C5.39672 5.58353 4.87212 6.11745 4.25474 6.65466C3.81069 7.04141 2.86326 7.80112 2.40583 8.17103C2.03078 8.47379 1.28946 9.06645 0.930804 9.39003C0.479597 9.79738 5.03408e-07 10.3009 4.72839e-07 11.0002C4.42269e-07 11.6996 0.479596 12.2029 0.930342 12.61C1.28877 12.9336 2.03055 13.5262 2.40536 13.8292C2.8628 14.1986 3.81022 14.9584 4.25428 15.3453C4.87166 15.8835 5.39626 16.4165 5.69629 17.2227C5.97325 17.9696 5.98571 18.8285 5.99402 19.5952C6.00256 20.3971 5.99864 21.1984 5.99864 22"/>
+      </clipPath></defs>
+      </svg>
+      </div>
+    </div>
+    <div data-id="I4656:111311;3638:222016" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+      <div data-id="I4656:111311;3638:222017" className="self-stretch flex flex-col justify-center items-start gap-2">
+        <div data-id="I4656:111311;3638:222019" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-[18px]">Content, not recommended to exceed 2 linesContent, not recommended to exceed 2 lines</div>
+      </div>
+      <div data-id="I4656:111311;3638:222309" data-次按钮="true" data-类型="按钮+指示器" className="w-[280px] h-7 inline-flex justify-between items-center overflow-hidden">
+        <div data-svg-wrapper data-id="I4656:111311;3638:222309;3638:222275">
+        <svg width="26" height="6" viewBox="0 0 26 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+        <div data-id="I4656:111311;3638:222309;3638:222279" className="flex justify-end items-center gap-1">
+          <div data-id="I4656:111311;3638:222309;3638:222280" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111311;3638:222309;3638:222280;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="I4656:111311;3638:222309;3638:222281" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111311;3638:222309;3638:222281;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:111313" className="w-[276px] h-[276px] bg-foreground-layer1 rounded-[10px]" />
+  <div data-id="4656:111315" className="w-[236px] justify-start"><span class="text-xl leading-7 text-black">左侧居中<br/>适用场景:</span><span class="text-xl font-normal leading-7 text-black"> 当目标元素的上方、下方、右方的空间有限，而左侧有足够的空间显示引导信息时。</span></div>
+  <div data-id="4656:111316" className="inline-flex justify-start items-center">
+    <div data-id="4656:111317" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111318" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111319" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111320" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111321" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111321;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111322" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111322;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111323" className="left-0 top-[11px] absolute">
+        <svg width="26" height="6" viewBox="0 0 26 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+    <div data-svg-wrapper data-id="4656:111327">
+    <svg width="6" height="22" viewBox="0 0 6 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-40.0039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111327_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M0.000899746 0C0.000899781 0.801591 -0.00302373 1.60295 0.00551578 2.40454C0.0138245 3.17174 0.0255952 4.03042 0.303244 4.77702C0.603279 5.58353 1.12788 6.11745 1.74526 6.65466C2.18931 7.04141 3.13674 7.80112 3.59417 8.17103C3.96922 8.47379 4.71054 9.06645 5.0692 9.39003C5.5204 9.79738 6 10.3009 6 11.0002C6 11.6996 5.5204 12.2029 5.06966 12.61C4.71123 12.9336 3.96945 13.5262 3.59464 13.8292C3.1372 14.1986 2.18978 14.9584 1.74572 15.3453C1.12834 15.8835 0.603741 16.4165 0.303706 17.2227C0.0267498 17.9696 0.0142868 18.8285 0.00597813 19.5952C-0.00256131 20.3971 0.00136227 21.1984 0.0013623 22" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111327_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.000899746 0C0.000899781 0.801591 -0.00302373 1.60295 0.00551578 2.40454C0.0138245 3.17174 0.0255952 4.03042 0.303244 4.77702C0.603279 5.58353 1.12788 6.11745 1.74526 6.65466C2.18931 7.04141 3.13674 7.80112 3.59417 8.17103C3.96922 8.47379 4.71054 9.06645 5.0692 9.39003C5.5204 9.79738 6 10.3009 6 11.0002C6 11.6996 5.5204 12.2029 5.06966 12.61C4.71123 12.9336 3.96945 13.5262 3.59464 13.8292C3.1372 14.1986 2.18978 14.9584 1.74572 15.3453C1.12834 15.8835 0.603741 16.4165 0.303706 17.2227C0.0267498 17.9696 0.0142868 18.8285 0.00597813 19.5952C-0.00256131 20.3971 0.00136227 21.1984 0.0013623 22"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+  </div>
+  <div data-id="4656:111329" className="w-[276px] h-[276px] bg-foreground-layer1 rounded-[10px]" />
+  <div data-id="4656:111331" className="w-[236px] justify-start"><span class="text-xl leading-7 text-black">下方居中:<br/>适用场景: </span><span class="text-xl font-normal leading-7 text-black">当目标元素的上方、左方、右方的空间有限，而下方有足够的空间显示引导信息时。</span></div>
+  <div data-id="4656:111332" className="flex flex-col justify-center items-center">
+    <div data-svg-wrapper data-id="4656:111333">
+    <svg width="22" height="6" viewBox="0 0 22 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-40.0039" y="-40.0039" width="102.008" height="86.0078"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111333_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M22 5.9991C21.1984 5.9991 20.3971 6.00302 19.5955 5.99448C18.8283 5.98618 17.9696 5.9744 17.223 5.69676C16.4165 5.39672 15.8825 4.87212 15.3453 4.25474C14.9586 3.81069 14.1989 2.86326 13.829 2.40583C13.5262 2.03078 12.9336 1.28946 12.61 0.930804C12.2026 0.479596 11.6991 5.3142e-08 10.9998 -7.99665e-09C10.3004 -6.91354e-08 9.79715 0.479596 9.39003 0.930342C9.06645 1.28877 8.4738 2.03055 8.1708 2.40536C7.80136 2.8628 7.04165 3.81022 6.65466 4.25428C6.11652 4.87166 5.58353 5.39626 4.77726 5.69629C4.03042 5.97325 3.1715 5.98571 2.40477 5.99402C1.60295 6.00256 0.80159 5.99864 1.19012e-10 5.99864" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111333_clip_path" transform="translate(40.0039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M22 5.9991C21.1984 5.9991 20.3971 6.00302 19.5955 5.99448C18.8283 5.98618 17.9696 5.9744 17.223 5.69676C16.4165 5.39672 15.8825 4.87212 15.3453 4.25474C14.9586 3.81069 14.1989 2.86326 13.829 2.40583C13.5262 2.03078 12.9336 1.28946 12.61 0.930804C12.2026 0.479596 11.6991 5.3142e-08 10.9998 -7.99665e-09C10.3004 -6.91354e-08 9.79715 0.479596 9.39003 0.930342C9.06645 1.28877 8.4738 2.03055 8.1708 2.40536C7.80136 2.8628 7.04165 3.81022 6.65466 4.25428C6.11652 4.87166 5.58353 5.39626 4.77726 5.69629C4.03042 5.97325 3.1715 5.98571 2.40477 5.99402C1.60295 6.00256 0.80159 5.99864 1.19012e-10 5.99864"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+    <div data-id="4656:111334" className="w-80 p-5 bg--text-link rounded-2xl flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111335" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111336" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111337" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111338" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111338;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111339" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111339;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111340" className="left-0 top-[11px] absolute">
+        <svg width="26" height="6" viewBox="0 0 26 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:111345" className="w-[258px] h-[258px] bg-foreground-layer1 rounded-[10px]" />
+  <div data-id="4656:111346" className="w-[258px] h-[258px] bg-foreground-layer1 rounded-[10px]" />
+</div>
+
+<div data-id="4656:109893" className="self-stretch px-10 py-5 bg-foreground-layer1_2 inline-flex flex-col justify-center items-center gap-2.5">
+  <div data-id="4656:111225" className="inline-flex justify-start items-center">
+    <div data-svg-wrapper data-id="4656:111226">
+    <svg width="7" height="22" viewBox="0 0 7 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-39.5039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111226_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M6.4991 0C6.4991 0.801591 6.50302 1.60295 6.49448 2.40454C6.48618 3.17174 6.4744 4.03042 6.19676 4.77702C5.89672 5.58353 5.37212 6.11745 4.75474 6.65466C4.31069 7.04141 3.36326 7.80112 2.90583 8.17103C2.53078 8.47379 1.78946 9.06645 1.4308 9.39003C0.979597 9.79738 0.500001 10.3009 0.5 11.0002C0.5 11.6996 0.979596 12.2029 1.43034 12.61C1.78877 12.9336 2.53055 13.5262 2.90536 13.8292C3.3628 14.1986 4.31022 14.9584 4.75428 15.3453C5.37166 15.8835 5.89626 16.4165 6.19629 17.2227C6.47325 17.9696 6.48571 18.8285 6.49402 19.5952C6.50256 20.3971 6.49864 21.1984 6.49864 22" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111226_clip_path" transform="translate(39.5039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.4991 0C6.4991 0.801591 6.50302 1.60295 6.49448 2.40454C6.48618 3.17174 6.4744 4.03042 6.19676 4.77702C5.89672 5.58353 5.37212 6.11745 4.75474 6.65466C4.31069 7.04141 3.36326 7.80112 2.90583 8.17103C2.53078 8.47379 1.78946 9.06645 1.4308 9.39003C0.979597 9.79738 0.500001 10.3009 0.5 11.0002C0.5 11.6996 0.979596 12.2029 1.43034 12.61C1.78877 12.9336 2.53055 13.5262 2.90536 13.8292C3.3628 14.1986 4.31022 14.9584 4.75428 15.3453C5.37166 15.8835 5.89626 16.4165 6.19629 17.2227C6.47325 17.9696 6.48571 18.8285 6.49402 19.5952C6.50256 20.3971 6.49864 21.1984 6.49864 22"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+    <div data-id="4656:111227" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111228" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111229" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111230" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111231" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111231;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111232" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111232;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111233" className="left-0 top-[11px] absolute">
+        <svg width="27" height="6" viewBox="0 0 27 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:111237" className="inline-flex justify-start items-center">
+    <div data-id="4656:111238" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111239" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111240" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111241" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111242" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111242;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111243" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111243;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111244" className="left-0 top-[11px] absolute">
+        <svg width="27" height="6" viewBox="0 0 27 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+    <div data-svg-wrapper data-id="4656:111248">
+    <svg width="7" height="22" viewBox="0 0 7 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-39.5039" y="-40.0039" width="86.0078" height="102.008"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111248_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M0.5009 0C0.5009 0.801591 0.496976 1.60295 0.505516 2.40454C0.513825 3.17174 0.525595 4.03042 0.803244 4.77702C1.10328 5.58353 1.62788 6.11745 2.24526 6.65466C2.68931 7.04141 3.63674 7.80112 4.09417 8.17103C4.46922 8.47379 5.21054 9.06645 5.5692 9.39003C6.0204 9.79738 6.5 10.3009 6.5 11.0002C6.5 11.6996 6.0204 12.2029 5.56966 12.61C5.21123 12.9336 4.46945 13.5262 4.09464 13.8292C3.6372 14.1986 2.68978 14.9584 2.24572 15.3453C1.62834 15.8835 1.10374 16.4165 0.803706 17.2227C0.52675 17.9696 0.514287 18.8285 0.505978 19.5952C0.497439 20.3971 0.501362 21.1984 0.501362 22" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111248_clip_path" transform="translate(39.5039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.5009 0C0.5009 0.801591 0.496976 1.60295 0.505516 2.40454C0.513825 3.17174 0.525595 4.03042 0.803244 4.77702C1.10328 5.58353 1.62788 6.11745 2.24526 6.65466C2.68931 7.04141 3.63674 7.80112 4.09417 8.17103C4.46922 8.47379 5.21054 9.06645 5.5692 9.39003C6.0204 9.79738 6.5 10.3009 6.5 11.0002C6.5 11.6996 6.0204 12.2029 5.56966 12.61C5.21123 12.9336 4.46945 13.5262 4.09464 13.8292C3.6372 14.1986 2.68978 14.9584 2.24572 15.3453C1.62834 15.8835 1.10374 16.4165 0.803706 17.2227C0.52675 17.9696 0.514287 18.8285 0.505978 19.5952C0.497439 20.3971 0.501362 21.1984 0.501362 22"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+  </div>
+  <div data-id="4656:111249" className="flex flex-col justify-center items-center">
+    <div data-svg-wrapper data-id="4656:111250">
+    <svg width="23" height="6" viewBox="0 0 23 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-39.5039" y="-40.0039" width="102.008" height="86.0078"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111250_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M22.5 5.9991C21.6984 5.9991 20.8971 6.00302 20.0955 5.99448C19.3283 5.98618 18.4696 5.9744 17.723 5.69676C16.9165 5.39672 16.3825 4.87212 15.8453 4.25474C15.4586 3.81069 14.6989 2.86326 14.329 2.40583C14.0262 2.03078 13.4336 1.28946 13.11 0.930804C12.7026 0.479596 12.1991 5.3142e-08 11.4998 -7.99665e-09C10.8004 -6.91354e-08 10.2971 0.479596 9.89003 0.930342C9.56645 1.28877 8.9738 2.03055 8.6708 2.40536C8.30136 2.8628 7.54165 3.81022 7.15466 4.25428C6.61652 4.87166 6.08353 5.39626 5.27726 5.69629C4.53042 5.97325 3.6715 5.98571 2.90477 5.99402C2.10295 6.00256 1.30159 5.99864 0.5 5.99864" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111250_clip_path" transform="translate(39.5039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M22.5 5.9991C21.6984 5.9991 20.8971 6.00302 20.0955 5.99448C19.3283 5.98618 18.4696 5.9744 17.723 5.69676C16.9165 5.39672 16.3825 4.87212 15.8453 4.25474C15.4586 3.81069 14.6989 2.86326 14.329 2.40583C14.0262 2.03078 13.4336 1.28946 13.11 0.930804C12.7026 0.479596 12.1991 5.3142e-08 11.4998 -7.99665e-09C10.8004 -6.91354e-08 10.2971 0.479596 9.89003 0.930342C9.56645 1.28877 8.9738 2.03055 8.6708 2.40536C8.30136 2.8628 7.54165 3.81022 7.15466 4.25428C6.61652 4.87166 6.08353 5.39626 5.27726 5.69629C4.53042 5.97325 3.6715 5.98571 2.90477 5.99402C2.10295 6.00256 1.30159 5.99864 0.5 5.99864"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+    <div data-id="4656:111251" className="w-80 p-5 bg--text-link rounded-2xl flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111252" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111253" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111254" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111255" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111255;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111256" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111256;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111257" className="left-0 top-[11px] absolute">
+        <svg width="27" height="6" viewBox="0 0 27 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-id="4656:111261" className="flex flex-col justify-center items-center">
+    <div data-id="4656:111262" className="w-80 p-5 bg--text-link rounded-2xl flex flex-col justify-start items-end gap-5">
+      <div data-id="4656:111263" className="self-stretch justify-start text-text-inverse text-sm font-normal leading-tight">Longest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text TextLongest Text Longest Text Longest Text Text</div>
+      <div data-id="4656:111264" className="self-stretch h-7 relative overflow-hidden">
+        <div data-id="4656:111265" className="left-[148px] top-0 absolute inline-flex justify-start items-center gap-1">
+          <div data-id="4656:111266" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111266;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">Button</div>
+          </div>
+          <div data-id="4656:111267" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+            <div data-id="I4656:111267;83:32295" className="justify-start text-button-black-text-default text-xs leading-none">Button</div>
+          </div>
+        </div>
+        <div data-svg-wrapper data-id="4656:111268" className="left-0 top-[11px] absolute">
+        <svg width="27" height="6" viewBox="0 0 27 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="3.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        <circle cx="13.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+        <circle cx="23.5" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+        </svg>
+        </div>
+      </div>
+    </div>
+    <div data-svg-wrapper data-id="4656:111272">
+    <svg width="23" height="6" viewBox="0 0 23 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <foreignObject x="-39.5039" y="-40.0039" width="102.008" height="86.0078"><div xmlns="http://www.w3.org/1999/xhtml" style={{"backdropFilter":"blur(20px)","clipPath":"url(#bgblur_0_4656_111272_clip_path)","height":"100%","width":"100%"}}></div></foreignObject><path data-figma-bg-blur-radius="40.0039" fill-rule="evenodd" clip-rule="evenodd" d="M0.5 0.000899746C1.30159 0.000899746 2.10295 -0.0030238 2.90454 0.00551568C3.67174 0.0138244 4.53042 0.025595 5.27702 0.303243C6.08353 0.603279 6.61745 1.12788 7.15466 1.74526C7.54141 2.18931 8.30112 3.13673 8.67103 3.59417C8.97379 3.96922 9.56645 4.71054 9.89003 5.0692C10.2974 5.5204 10.8009 6 11.5002 6C12.1996 6 12.7029 5.5204 13.11 5.06966C13.4336 4.71123 14.0262 3.96945 14.3292 3.59464C14.6986 3.1372 15.4584 2.18978 15.8453 1.74572C16.3835 1.12834 16.9165 0.603741 17.7227 0.303705C18.4696 0.026749 19.3285 0.014286 20.0952 0.00597727C20.8971 -0.00256221 21.6984 0.00136134 22.5 0.00136134" fill="var(------Light-Blue----, #165DFF)"/>
+    <defs>
+    <clipPath id="bgblur_0_4656_111272_clip_path" transform="translate(39.5039 40.0039)"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.5 0.000899746C1.30159 0.000899746 2.10295 -0.0030238 2.90454 0.00551568C3.67174 0.0138244 4.53042 0.025595 5.27702 0.303243C6.08353 0.603279 6.61745 1.12788 7.15466 1.74526C7.54141 2.18931 8.30112 3.13673 8.67103 3.59417C8.97379 3.96922 9.56645 4.71054 9.89003 5.0692C10.2974 5.5204 10.8009 6 11.5002 6C12.1996 6 12.7029 5.5204 13.11 5.06966C13.4336 4.71123 14.0262 3.96945 14.3292 3.59464C14.6986 3.1372 15.4584 2.18978 15.8453 1.74572C16.3835 1.12834 16.9165 0.603741 17.7227 0.303705C18.4696 0.026749 19.3285 0.014286 20.0952 0.00597727C20.8971 -0.00256221 21.6984 0.00136134 22.5 0.00136134"/>
+    </clipPath></defs>
+    </svg>
+    </div>
+  </div>
+</div>
+
+```
+
+6.多语言适配
+- 内容从右向左展示
+
+相关demo代码（示例）：
+
+```tsx
+<div data-id="5000:61408" className="w-80 p-5 bg--text-link rounded-2xl inline-flex flex-col justify-center items-end gap-5">
+  <img data-id="5000:61409" className="self-stretch h-[140px] rounded" src="https://placehold.co/280x140" />
+  <div data-id="5000:61410" className="self-stretch flex flex-col justify-center items-start gap-2">
+    <div data-id="5000:61411" className="self-stretch text-right justify-start text-text-inverse text-base leading-snug">إضافة إلى الإخطار</div>
+    <div data-id="5000:61412" className="self-stretch text-right justify-start text-text-inverse text-sm font-normal leading-[18px]">إضافة إلى الإخطار</div>
+  </div>
+  <div data-id="5000:61427" className="w-[280px] h-7 inline-flex justify-between items-center overflow-hidden">
+    <div data-id="5000:61432" className="flex justify-end items-center gap-1">
+      <div data-id="5000:61434" className="px-3 py-1.5 bg-button-black-default rounded-[40px] flex justify-center items-center gap-2.5">
+        <div data-id="I5000:61434;83:32295" className="justify-start text-button-black-text-default text-xs leading-none"> الإخطار</div>
+      </div>
+      <div data-id="5000:61433" className="px-3 py-1.5 bg-button-grey-default rounded-[40px] flex justify-center items-center gap-2.5">
+        <div data-id="I5000:61433;83:32295" className="justify-start text-button-grey-text-default text-xs leading-none">الإخطار</div>
+      </div>
+    </div>
+    <div data-svg-wrapper data-id="5000:61428">
+    <svg width="26" height="6" viewBox="0 0 26 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="3" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+    <circle cx="13" cy="3" r="3" fill="var(---------color-text-tertiary, white)"/>
+    <circle cx="23" cy="3" r="3" fill="var(---------color-text-tertiary, white)" fill-opacity="0.4"/>
+    </svg>
+    </div>
+  </div>
+</div>
+```
