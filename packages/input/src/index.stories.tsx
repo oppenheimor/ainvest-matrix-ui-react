@@ -607,6 +607,15 @@ export const API: Story = {
 | sendingButtonContent | 发送中按钮内容 | ReactNode | 'Sending...' | 否 |
 | resendButtonContent | 重发按钮内容 | ReactNode | 'Resend' | 否 |
 | countdownContent | 倒计时内容模板 | (countdown: number) => ReactNode | - | 否 |
+
+## Changelog
+
+### 0.0.2
+✨ 新增功能
+新增 EmojiAndCJKMaxLength 示例：演示 Input 组件在 emoji、中文、日文、韩文等多字节字符输入下，maxLength 能精确计数和截断，且支持输入法组合输入，极大提升国际化和多语言场景下的输入体验。
+
+### 0.0.1
+✨ 初始版本
         `,
       },
     },
