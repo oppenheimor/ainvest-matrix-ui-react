@@ -10,6 +10,7 @@ import { Tips } from "./components/Tips";
 import { cn } from "./utils/clxs";
 import { InputType } from "./constants";
 import { InputProps } from "./types";
+import { useInputValue } from "./hooks/useInputValue";
 
 import "./styles/index.css";
 
@@ -72,18 +73,20 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const [inputValue, setInputValue] = useState(value || defaultValue || "");
+    // 用自定义 hook 管理 value、maxLength、composition 逻辑
+    const {
+      value: inputValue,
+      onChange: handleChange,
+      onCompositionStart: handleCompositionStart,
+      onCompositionEnd: handleCompositionEnd,
+      setValue: setInputValue,
+      splitter,
+    } = useInputValue({ value, defaultValue, maxLength, onChange });
+
     const [isFocused, setIsFocused] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(
-      !initialHidePassword
-    );
-
-    // 添加input引用用于聚焦
+    const [isPasswordVisible, setIsPasswordVisible] = useState(!initialHidePassword);
     const inputRef = useRef<HTMLInputElement>(null);
-
-    const isControlled = value !== undefined;
-    const currentValue = isControlled ? value : inputValue;
 
     // 处理容器点击，触发input聚焦
     const handleContainerClick = () => {
@@ -92,25 +95,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       }
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value;
-      if (maxLength && newValue.length > maxLength) {
-        return;
-      }
-      if (!isControlled) {
-        setInputValue(newValue);
-      }
-      onChange?.(newValue);
-    };
-
+    // 清除按钮
     const handleClear = () => {
-      if (!isControlled) {
-        setInputValue("");
-      }
-      onChange?.("");
+      setInputValue("");
     };
 
-    // 处理密码显示/隐藏切换
+    // 密码显示/隐藏切换
     const handlePasswordToggle = (e: React.MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
       setIsPasswordVisible(!isPasswordVisible);
@@ -118,7 +108,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const getDivStyles = () => {
       let state: InputType = InputType.Base;
-
       if (disabled) {
         state = InputType.Disabled;
       } else if (error) {
@@ -128,13 +117,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       } else if (isHovered) {
         state = InputType.Hover;
       }
-
       return divVariants({ state });
     };
 
+    // characterCount 也用 grapheme-splitter，确保计数与截断一致
     const characterCount = maxLength
-      ? `${currentValue.length}/${maxLength}`
-      : currentValue.length.toString();
+      ? `${splitter.splitGraphemes(inputValue).length}/${maxLength}`
+      : splitter.splitGraphemes(inputValue).length.toString();
 
     return (
       <div
@@ -183,29 +172,30 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {/* 输入框 */}
           <input
             ref={(node) => {
-              // 处理ref转发
               if (typeof ref === "function") {
                 ref(node);
               } else if (ref) {
                 ref.current = node;
               }
-              // 设置内部ref用于聚焦
               inputRef.current = node;
             }}
-            value={currentValue}
+            value={inputValue}
             disabled={disabled}
-            maxLength={maxLength}
+            // 禁用原生 maxLength，完全用自定义逻辑，避免原生 length 统计不准
+            maxLength={undefined}
             className={cn(inputVariants({ disabled }))}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onChange={handleChange}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
             type={password && !isPasswordVisible ? "password" : "text"}
             {...props}
           />
           {/* 后缀 */}
           {suffix && <span className="mr-4 text-text-secondary">{suffix}</span>}
           {/* 清除按钮 */}
-          {allowClear && currentValue && (
+          {allowClear && inputValue && (
             <ClearIcon onClick={handleClear} className="mr-4" />
           )}
           {/* 密码显示/隐藏按钮 */}

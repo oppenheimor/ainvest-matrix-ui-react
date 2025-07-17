@@ -98,7 +98,7 @@ export const BasicInput: Story = {
       };
 
       return (
-        <div className="flex gap-4 flex-wrap w-3/4">
+        <div className="flex flex-wrap gap-4 w-3/4">
           <Input
             label="普通输入框"
             placeholder="Enter text"
@@ -122,7 +122,7 @@ export const BasicInput: Story = {
             defaultValue="Enter text"
             error={
               <div className="flex items-center gap-[7px]">
-                <span className="w-3 h-3 flex items-center justify-center">
+                <span className="flex justify-center items-center w-3 h-3">
                   <ErrorIcon />
                 </span>
                 <span>Input Invalid Character</span>
@@ -220,7 +220,7 @@ export const BasicNumberInput: Story = {
   },
   render: () => {
     return (
-      <div className="flex gap-4 flex-wrap w-3/4">
+      <div className="flex flex-wrap gap-4 w-3/4">
         <Input.RangeNumber
           label="普通范围数值输入框"
           prefixes={["From", "To"]}
@@ -272,7 +272,7 @@ export const SingleNumberInput: Story = {
   },
   render: () => {
     return (
-      <div className="flex gap-4 flex-wrap w-3/4">
+      <div className="flex flex-wrap gap-4 w-3/4">
         <Input.Number
           label="普通单值数值输入框"
           placeholder="Enter text"
@@ -335,7 +335,7 @@ export const TextareaInput: Story = {
   },
   render: () => {
     return (
-      <div className="flex gap-4 flex-wrap w-3/4">
+      <div className="flex flex-wrap gap-4 w-3/4">
         <Input.Textarea
           label="固定高度"
           placeholder="Enter words"
@@ -382,7 +382,7 @@ export const OtpInput: Story = {
   },
   render: () => {
     return (
-      <div className="flex gap-4 flex-wrap w-3/4">
+      <div className="flex flex-wrap gap-4 w-3/4">
         <Input.SingleOtp
           label="First name"
           placeholder="Enter text"
@@ -431,6 +431,47 @@ export const OtpInput: Story = {
         />
       </div>
     );
+  },
+};
+
+export const EmojiAndCJKMaxLength: Story = {
+  name: "emoji/中日韩文输入 maxLength 精确计数",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "演示 Input 组件在 emoji、中文、日文、韩文等多字节字符输入下，maxLength 能精确计数和截断，且支持输入法组合输入。",
+      },
+    },
+  },
+  render: () => {
+    function Demo() {
+      const [value, setValue] = useState("");
+      return (
+        <div className="flex flex-col gap-4 w-[320px]">
+          <Input
+            label="emoji/中日韩文 maxLength=5"
+            placeholder="可输入 emoji、中文、日文、韩文等"
+            maxLength={5}
+            value={value}
+            onChange={setValue}
+            allowClear
+          />
+          <div className="text-xs text-text-tertiary">当前值：{value}</div>
+          <div className="text-xs text-text-tertiary">
+            示例：
+            <br />
+            - emoji: 😀😃😄😁😆
+            <br />
+            - 中文: 你好世界啊
+            <br />
+            - 日文: こんにちは
+            <br />- 韩文: 안녕하세요
+          </div>
+        </div>
+      );
+    }
+    return <Demo />;
   },
 };
 

@@ -522,6 +522,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      grapheme-splitter:
+        specifier: ^1.0.4
+        version: 1.0.4
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -5544,6 +5547,9 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==, tarball: https://miniapp.10jqka.com.cn/npmserver/graceful-fs/-/graceful-fs-4.2.11.tgz}
+
+  grapheme-splitter@1.0.4:
+    resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==, tarball: https://miniapp.10jqka.com.cn/npmserver/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz}
 
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==, tarball: https://miniapp.10jqka.com.cn/npmserver/graphemer/-/graphemer-1.4.0.tgz}
@@ -14250,6 +14256,8 @@ snapshots:
   graceful-fs@4.2.10: {}
 
   graceful-fs@4.2.11: {}
+
+  grapheme-splitter@1.0.4: {}
 
   graphemer@1.4.0: {}
 
