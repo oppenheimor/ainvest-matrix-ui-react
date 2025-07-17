@@ -87,7 +87,8 @@ export const Demo01: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Button 组件支持 6 种不同的变体 `primary`、`default`、`secondary`、`outline`、`text`、`link`，分别适用于不同的使用场景",
+        story:
+          "Button 组件支持 6 种不同的变体 `primary`、`default`、`secondary`、`outline`、`text`、`link`，分别适用于不同的使用场景",
       },
     },
   },
@@ -102,19 +103,19 @@ export const Demo01: Story = {
         <Button variant="link" className="gap-1">
           Link Button
           <svg
-            xmlns="http://www.w3.org/2000/svg" 
-            width="14" 
-            height="14" 
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
             viewBox="0 0 24 24"
             fill="none"
             aria-label="Link Icon"
           >
-            <path 
-              d="M7.96909 4.03L15.9382 11.9991L7.96909 19.9682" 
+            <path
+              d="M7.96909 4.03L15.9382 11.9991L7.96909 19.9682"
               fillOpacity="0"
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="square" 
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="square"
               strokeLinejoin="round"
             />
           </svg>
@@ -129,7 +130,8 @@ export const Demo02: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Button 组件支持 4 种不同的尺寸：`xs`、`sm`、`base`、`lg`，默认为 `base`",
+        story:
+          "Button 组件支持 4 种不同的尺寸：`xs`、`sm`、`base`、`lg`，默认为 `base`",
       },
     },
   },
@@ -141,6 +143,28 @@ export const Demo02: Story = {
         <Button size="base">Base</Button>
         <Button size="lg">Large</Button>
       </div>
+    );
+  },
+};
+
+// 圆形按钮示例
+export const CircleButton: Story = {
+  name: "圆形按钮",
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "shape='circle' 时，按钮自动移除 min-width/padding，强制圆形，尺寸由外部 className 控制。",
+      },
+    },
+  },
+  render: () => {
+    return (
+      <Button variant="outline" shape="circle" className="w-[40px] h-[40px]">
+        <span role="img" aria-label="star">
+          ⭐
+        </span>
+      </Button>
     );
   },
 };
@@ -157,12 +181,24 @@ export const Demo03: Story = {
   render: () => {
     return (
       <div className="flex flex-wrap gap-3 items-center">
-        <Button variant="primary" disabled>Primary Disabled</Button>
-        <Button variant="default" disabled>Default Disabled</Button>
-        <Button variant="secondary" disabled>Secondary Disabled</Button>
-        <Button variant="outline" disabled>Outline Disabled</Button>
-        <Button variant="text" disabled>Text Disabled</Button>
-        <Button variant="link" disabled>Link Disabled</Button>
+        <Button variant="primary" disabled>
+          Primary Disabled
+        </Button>
+        <Button variant="default" disabled>
+          Default Disabled
+        </Button>
+        <Button variant="secondary" disabled>
+          Secondary Disabled
+        </Button>
+        <Button variant="outline" disabled>
+          Outline Disabled
+        </Button>
+        <Button variant="text" disabled>
+          Text Disabled
+        </Button>
+        <Button variant="link" disabled>
+          Link Disabled
+        </Button>
       </div>
     );
   },
@@ -206,55 +242,55 @@ export const Demo05: Story = {
     return (
       <div className="flex flex-wrap gap-3 items-center">
         <Button variant="default">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <path d="M5 12h14"/>
-            <path d="m12 5 7 7-7 7"/>
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
           </svg>
           Next
         </Button>
         <Button variant="secondary">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="16" 
-            height="16" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <path d="M3 6h18"/>
-            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-            <path d="M8 6V4c0-1 1-2 2-2h4c0-1 1-2 2-2v2"/>
+            <path d="M3 6h18" />
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+            <path d="M8 6V4c0-1 1-2 2-2h4c0-1 1-2 2-2v2" />
           </svg>
           Delete
         </Button>
         <Button variant="link" size="sm">
           Learn more
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="12" 
-            height="12" 
-            viewBox="0 0 24 24" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2" 
-            strokeLinecap="round" 
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <path d="M7 17 17 7"/>
-            <path d="M7 7h10v10"/>
+            <path d="M7 17 17 7" />
+            <path d="M7 7h10v10" />
           </svg>
         </Button>
       </div>
@@ -279,6 +315,7 @@ export const API: Story = {
 |---|---|---|-----|---|
 | variant | 按钮变体样式 | \`'primary'\` / \`'default'\` / \`'secondary'\` / \`'outline'\` / \`'text'\` / \`'link'\` | \`'default'\` | 否 |
 | size | 按钮尺寸大小 | \`'xs'\` / \`'sm'\` / \`'base'\` / \`'lg'\` | \`'base'\` | 否 |
+| shape | 按钮形状 | \`'default'\` / \`'circle'\` | \`'default'\` | 否 |
 | disabled | 是否禁用按钮 | \`boolean\` | \`false\` | 否 |
 | asChild | 是否作为子组件渲染 | \`boolean\` | \`false\` | 否 |
 | className | 自定义 CSS 类名 | \`string\` | - | 否 |
