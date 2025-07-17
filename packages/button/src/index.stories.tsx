@@ -363,6 +363,9 @@ export const API: Story = {
 
 ## Changelog
 
+### 0.0.3
+- 新增 shape 属性，支持 circle 类型，用于创建圆形按钮
+
 ### 0.0.2
 - variants 增加 outline 类型
 
