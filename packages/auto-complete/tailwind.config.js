@@ -216,45 +216,18 @@ module.exports = {
           DEFAULT: 'var(--atom-color-click)',
           '10': 'var(--atom-color-click-10)',
         },
+        toast: {
+          background: 'var(--atom-color-toast-background)'
+        },
         button: {
-          brand: {
-            default: 'var(--atom-color-button-brand-default)',
-            press: 'var(--atom-color-button-brand-press)',
-            disabled: 'var(--atom-color-button-brand-disabled)',
-            text: {
-              default: 'var(--atom-color-button-brand-text-default)',
-              press: 'var(--atom-color-button-brand-text-press)',
-              disabled: 'var(--atom-color-button-brand-text-disabled)',
-            }
-          },
           black: {
-            default: 'var(--atom-color-button-black-default)',
-            press: 'var(--atom-color-button-black-press)',
-            disabled: 'var(--atom-color-button-black-disabled)',
             text: {
               default: 'var(--atom-color-button-black-text-default)',
-              press: 'var(--atom-color-button-black-text-press)',
-              disabled: 'var(--atom-color-button-black-text-disabled)',
             }
           },
           grey: {
             default: 'var(--atom-color-button-grey-default)',
-            press: 'var(--atom-color-button-grey-press)',
-            disabled: 'var(--atom-color-button-grey-disabled)',
-            text: {
-              default: 'var(--atom-color-button-grey-text-default)',
-              press: 'var(--atom-color-button-grey-text-press)',
-              disabled: 'var(--atom-color-button-grey-text-disabled)',
-            }
           }
-        },
-        segment: {
-          background: 'var(--atom-color-segmented-controls-background)',
-          foreground: 'var(--atom-color-segmented-controls-foreground)',
-        },
-        toast: {
-          background: 'var(--atom-color-toast-background)',
-          'blue-text': 'var(--atom-color-toast-blue-text)',
         }
         // ============ atom-token colors end ============
       },
@@ -298,4 +271,3 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate"), require('@tailwindcss/container-queries')],
 }
-

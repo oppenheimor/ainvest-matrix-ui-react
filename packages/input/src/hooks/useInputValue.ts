@@ -46,7 +46,12 @@ export function useInputValue({ value, defaultValue, maxLength, onChange }: UseI
     const finalValue = limitValueByMaxLength(newValue);
     if (!isControlled) setInputValue(finalValue);
     onChange?.(finalValue);
-  }, [isComposing, isControlled, onChange, limitValueByMaxLength]);
+    
+    // 如果是受控组件，确保更新内部状态以反映外部传入的值
+    if (isControlled && value !== undefined) {
+      setInputValue(value);
+    }
+  }, [isComposing, isControlled, onChange, limitValueByMaxLength, value]);
 
   // 处理输入法组合事件
   const handleCompositionStart = useCallback(() => {

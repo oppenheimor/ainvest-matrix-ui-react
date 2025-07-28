@@ -280,6 +280,24 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1(webpack@4.47.0)
 
+  packages/auto-complete:
+    dependencies:
+      '@oversea/input':
+        specifier: ^0.0.3
+        version: 0.0.3
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
+
   packages/block-tabs:
     dependencies:
       '@radix-ui/react-tabs':
@@ -661,8 +679,17 @@ importers:
 
   packages/skeleton: {}
 
+  packages/snack-bar:
+    dependencies:
+      sonner:
+        specifier: ^2.0.6
+        version: 2.0.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
   packages/spinner:
     dependencies:
+      '@radix-ui/react-tooltip':
+        specifier: ^1.1.8
+        version: 1.2.7(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -2133,6 +2160,9 @@ packages:
     resolution: {integrity: sha512-5z1+IKztcWUFaZtOysa7TkdOA59/NepdJXjQoeHyLYzFvaTx3BrQgWp8OMSexR4b5GXzhgNW42FcT84HkKcLNA==, tarball: https://miniapp.10jqka.com.cn/npmserver/@oversea%2fbutton/-/button-0.0.1.tgz}
     peerDependencies:
       react: ^18.3.1
+
+  '@oversea/input@0.0.3':
+    resolution: {integrity: sha512-/aJZoYJI8dCGgtjq1bwTiFwXFzacIQO+950ZYZfDnFXyEgO4II9zwxpvaT8kwRB5j/Mby9fms/1+krFwF4RnRw==, tarball: https://miniapp.10jqka.com.cn/npmserver/@oversea%2finput/-/input-0.0.3.tgz}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==, tarball: https://miniapp.10jqka.com.cn/npmserver/@parcel%2fwatcher-android-arm64/-/watcher-android-arm64-2.5.1.tgz}
@@ -10518,6 +10548,14 @@ snapshots:
       tailwind-merge: 3.3.1
     transitivePeerDependencies:
       - '@types/react'
+
+  '@oversea/input@0.0.3':
+    dependencies:
+      big.js: 7.0.1
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      grapheme-splitter: 1.0.4
+      tailwind-merge: 3.3.1
 
   '@parcel/watcher-android-arm64@2.5.1':
     optional: true

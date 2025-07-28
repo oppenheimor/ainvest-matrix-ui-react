@@ -14,7 +14,7 @@ const meta: Meta<typeof LineTabs> = {
     layout: "centered",
     docs: {
       description: {
-        component: ``,
+        component: `LineTabs组件，适用于移动端和桌面端的标签页组件。`,
       },
     },
   },

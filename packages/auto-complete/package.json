@@ -1,8 +1,8 @@
 {
-  "name": "@oversea/carousel",
-  "version": "0.0.2",
-  "description": "",
-  "author": "fengjiawang@myhexin.com",
+  "name": "@oversea/auto-complete",
+  "version": "0.0.1",
+  "description": "AutoComplete component with email suggestions",
+  "author": "shenjiaqi@myhexin.com",
   "license": "ISC",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -19,6 +19,7 @@
     "build": "npm run build:npm && npm run build:umd"
   },
   "dependencies": {
+    "@oversea/input": "^0.0.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.3.1"

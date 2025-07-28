@@ -44,27 +44,40 @@ function DropdownMenu({ trigger = "hover", ...props }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const hoverTimeoutRef = React.useRef<NodeJS.Timeout>();
 
+  // 统一的状态管理函数，确保 hover 模式下也能触发外部 onOpenChange
+  const handleInternalStateChange = React.useCallback(
+    (newOpen: boolean) => {
+      setIsOpen(newOpen);
+      // 在 hover 模式下，确保外部 onOpenChange 也能被调用
+      if (trigger === "hover" && props.onOpenChange) {
+        props.onOpenChange(newOpen);
+      }
+    },
+    [trigger, props.onOpenChange]
+  );
+
   // hover 模式下的控制逻辑
   const open = trigger === "hover" ? isOpen : props.open;
-  const onOpenChange = trigger === "hover" ? setIsOpen : props.onOpenChange;
+  const onOpenChange =
+    trigger === "hover" ? handleInternalStateChange : props.onOpenChange;
 
   const handleMouseEnter = React.useCallback(() => {
     if (trigger === "hover") {
       if (hoverTimeoutRef.current) {
         clearTimeout(hoverTimeoutRef.current);
       }
-      setIsOpen(true);
+      handleInternalStateChange(true);
     }
-  }, [trigger]);
+  }, [trigger, handleInternalStateChange]);
 
   const handleMouseLeave = React.useCallback(() => {
     if (trigger === "hover") {
       // 延迟关闭，给用户时间移动到 content
       hoverTimeoutRef.current = setTimeout(() => {
-        setIsOpen(false);
+        handleInternalStateChange(false);
       }, 100);
     }
-  }, [trigger]);
+  }, [trigger, handleInternalStateChange]);
 
   React.useEffect(() => {
     return () => {
@@ -75,7 +88,9 @@ function DropdownMenu({ trigger = "hover", ...props }: DropdownMenuProps) {
   }, []);
 
   return (
-    <DropdownMenuContext.Provider value={{ trigger, isOpen, setIsOpen }}>
+    <DropdownMenuContext.Provider
+      value={{ trigger, isOpen, setIsOpen: handleInternalStateChange }}
+    >
       <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
         <DropdownMenuPrimitive.Root
           data-slot="dropdown-menu"
@@ -98,12 +113,41 @@ function DropdownMenuPortal({
 }
 
 function DropdownMenuTrigger({
+  onClick,
+  onPointerDown,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
+  const context = React.useContext(DropdownMenuContext);
+
+  const handleClick = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      // 调用原始的 onClick 处理函数
+      onClick?.(event);
+    },
+    [onClick]
+  );
+
+  const handlePointerDown = React.useCallback(
+    (event: React.PointerEvent<HTMLButtonElement>) => {
+      // 当 trigger 为 hover 且菜单已打开时，阻止点击关闭
+      if (context && context.trigger === "hover" && context.isOpen) {
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      }
+
+      // 调用原始的 onPointerDown 处理函数
+      onPointerDown?.(event);
+    },
+    [context, onPointerDown]
+  );
+
   return (
     <DropdownMenuPrimitive.Trigger
       data-slot="dropdown-menu-trigger"
       {...props}
+      onClick={handleClick}
+      onPointerDown={handlePointerDown}
     />
   );
 }
@@ -175,7 +219,7 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={clsx(
-        "cursor-pointer select-none px-[20px] py-[8px] text-[14px] leading-[18px] outline-0",
+        "cursor-pointer outline-none select-none px-[20px] py-[8px] text-[14px] leading-[18px] focus:outline-none focus-visible:outline-none",
         "hover:bg-hover-5",
         className
       )}
@@ -194,7 +238,7 @@ function DropdownMenuCheckboxItem({
     <DropdownMenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={clsx(
-        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-none focus:outline-none focus-visible:outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       checked={checked}
@@ -232,7 +276,7 @@ function DropdownMenuRadioItem({
     <DropdownMenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={clsx(
-        "flex justify-between items-center cursor-pointer select-none px-[20px] py-[8px] text-[14px] leading-[18px] outline-0 hover:bg-hover-5",
+        "flex justify-between items-center cursor-pointer outline-none select-none px-[20px] py-[8px] text-[14px] leading-[18px] focus:outline-none focus-visible:outline-none hover:bg-hover-5",
         className
       )}
       {...props}
@@ -307,7 +351,7 @@ function DropdownMenuSubTrigger({
     <DropdownMenuPrimitive.SubTrigger
       data-slot="dropdown-menu-sub-trigger"
       className={clsx(
-        "cursor-default px-[20px] py-[8px] text-[14px] leading-[18px] outline-0",
+        "cursor-default px-[20px] py-[8px] text-[14px] leading-[18px] outline-none focus:outline-none focus-visible:outline-none",
         "data-[state=open]:bg-hover-5 data-[state=open]:text-text-primary select-none cursor-pointer",
         "hover:bg-hover-5",
         className

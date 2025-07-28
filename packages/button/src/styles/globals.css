@@ -118,7 +118,30 @@
 
     --atom-color-brand-primary-black: 0 0% 100%;
 
+    /* button */
+    --atom-color-brand-primary-black: 0 0% 100%;
+    --atom-color-button-brand-default: #3371FF;
+    --atom-color-button-brand-press: #2E66E5;
+    --atom-color-button-brand-disabled: rgba(51, 113, 255, 0.3);
+    --atom-color-button-black-default: #FFFFFF;
+    --atom-color-button-black-press: #E5E5E5;
+    --atom-color-button-black-disabled: rgba(255, 255, 255, 0.2);
     --atom-color-button-grey-default: rgba(255, 255, 255, 0.2);
+    --atom-color-button-grey-press: rgba(255, 255, 255, 0.1);
+    --atom-color-button-grey-disabled: rgba(255, 255, 255, 0.2);
+    --atom-color-button-brand-text-default: #FFFFFF;
+    --atom-color-button-brand-text-press: #E5E5E5;
+    --atom-color-button-brand-text-disabled: rgba(255, 255, 255, 0.3);
+    --atom-color-button-black-text-default: #000000;
+    --atom-color-button-black-text-press: #000000;
+    --atom-color-button-black-text-disabled: rgba(255, 255, 255, 0.3);
+    --atom-color-button-grey-text-default: #FFFFFF;
+    --atom-color-button-grey-text-press: #E5E5E5;
+    --atom-color-button-grey-text-disabled: rgba(255, 255, 255, 0.3);
+
+    /*  Segment  */
+    --atom-color-segmented-controls-background: #292929;
+    --atom-color-segmented-controls-foreground: rgba(255, 255, 255, 0.2);
   }
 
   :root {
@@ -249,9 +272,32 @@
 
     --atom-color-brand-primary-black: 0 0% 0%;
 
+    /* button */
+    --atom-color-button-brand-default: #165DFF;
+    --atom-color-button-brand-press: #1454E5;
+    --atom-color-button-brand-disabled: rgba(22, 93, 255, 0.3);
+    --atom-color-button-black-default: #000000;
+    --atom-color-button-black-press: #000000;
+    --atom-color-button-black-disabled: rgba(0, 0, 0, 0.05);
     --atom-color-button-grey-default: rgba(0, 0, 0, 0.05);
+    --atom-color-button-grey-press: rgba(0, 0, 0, 0.15);
+    --atom-color-button-grey-disabled: rgba(0, 0, 0, 0.05);
+    --atom-color-button-brand-text-default: #FFFFFF;
+    --atom-color-button-brand-text-press: #E5E5E5;
+    --atom-color-button-brand-text-disabled: #FFFFFF;
+    --atom-color-button-black-text-default: #FFFFFF;
+    --atom-color-button-black-text-press: #E5E5E5;
+    --atom-color-button-black-text-disabled: rgba(0, 0, 0, 0.3);
+    --atom-color-button-grey-text-default: #000000;
+    --atom-color-button-grey-text-press: #000000;
+    --atom-color-button-grey-text-disabled: rgba(0, 0, 0, 0.3);
 
-    /* tooltip */
+    /*  Segment  */
+    --atom-color-segmented-controls-background: #F2F2F2;
+    --atom-color-segmented-controls-foreground: #FFFFFF;
+
+    /* toast */
     --atom-color-toast-background: #383838;
+    --atom-color-toast-blue-text: #8BAEFF;
   }
 }

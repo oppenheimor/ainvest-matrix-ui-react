@@ -100,7 +100,7 @@ export const BasicInput: Story = {
       return (
         <div className="flex flex-wrap gap-4 w-3/4">
           <Input
-            label="普通输入框"
+            // label="普通输入框"
             placeholder="Enter text"
             className="w-[271px]"
           />

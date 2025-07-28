@@ -21,8 +21,8 @@ const divVariants = cva(
       state: {
         [InputType.Base]: "border-border-level2",
         [InputType.Hover]: "border border-text-secondary",
-        [InputType.Focus]: "border-[1.5px] border-text-primary",
-        [InputType.Error]: "border-[1.5px] border-price-down",
+        [InputType.Focus]: "border border-[1.5px] border-text-primary",
+        [InputType.Error]: "border border-[1.5px] border-price-down",
         [InputType.Disabled]:
           "bg-background-layer1 border-border-level2 cursor-not-allowed",
       },
@@ -85,7 +85,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const [isFocused, setIsFocused] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(!initialHidePassword);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(
+      !initialHidePassword
+    );
     const inputRef = useRef<HTMLInputElement>(null);
 
     // 处理容器点击，触发input聚焦
@@ -132,17 +134,21 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className
         )}
       >
-        <div className="flex items-center">
-          {/* 标签区域 */}
-          <div className="flex items-center gap-1.5">
-            {label}
-            {required && <span className="text-price-down">*</span>}
+        {label && (
+          <div className="flex items-center">
+            {/* 标签区域 */}
+            <div className="flex items-center gap-1.5">
+              {label}
+              {required && <span className="text-price-down">*</span>}
+            </div>
+            {/* 字符计数 */}
+            {!!maxLength && (
+              <span className="ml-auto text-text-tertiary">
+                {characterCount}
+              </span>
+            )}
           </div>
-          {/* 字符计数 */}
-          {!!maxLength && (
-            <span className="ml-auto text-text-tertiary">{characterCount}</span>
-          )}
-        </div>
+        )}
         {/* 输入框容器 */}
         <div
           className={cn(getDivStyles())}
@@ -196,7 +202,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {suffix && <span className="mr-4 text-text-secondary">{suffix}</span>}
           {/* 清除按钮 */}
           {allowClear && inputValue && (
-            <ClearIcon onClick={handleClear} className="mr-4" />
+            <div 
+              className="mr-4 w-6 h-6 flex justify-center items-center hover:bg-hover-5 rounded-[6px] cursor-pointer"
+              onClick={handleClear}
+            >
+              <ClearIcon />
+            </div>
           )}
           {/* 密码显示/隐藏按钮 */}
           {password && (

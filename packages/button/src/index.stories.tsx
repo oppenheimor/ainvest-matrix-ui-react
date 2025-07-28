@@ -363,8 +363,12 @@ export const API: Story = {
 
 ## Changelog
 
+### 0.0.4
+- 修改 variant 为 default 时，禁用状态下的样式
+
 ### 0.0.3
 - 新增 shape 属性，支持 circle 类型，用于创建圆形按钮
+- 移除外层的 div 包裹，解决给 button 设置百分比宽度不生效的问题
 
 ### 0.0.2
 - variants 增加 outline 类型

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuRadioGroup,
   DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "./index";
 import { Button } from "../../button";
 import {
@@ -23,7 +24,9 @@ import {
   User2Icon,
   ChevronRightIcon,
   LogOutIcon,
+  ChevronDownIcon,
 } from "lucide-react";
+import { Input } from "../../input";
 
 const meta: Meta<typeof DropdownMenu> = {
   title: "Interaction/DropdownMenu",
@@ -125,7 +128,10 @@ import {
     modal: {
       control: "boolean",
       description: "是否为模态框模式（hover 模式下自动设为 false）",
-      table: { type: { summary: "boolean" }, defaultValue: { summary: "true" } },
+      table: {
+        type: { summary: "boolean" },
+        defaultValue: { summary: "true" },
+      },
     },
     dir: {
       control: { type: "select" },
@@ -168,7 +174,7 @@ export const HoverTrigger: Story = {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        
+
         <DropdownMenu trigger="click">
           <DropdownMenuTrigger>
             <Button variant="outline">Click Me</Button>
@@ -195,18 +201,124 @@ export const HoverTrigger: Story = {
   parameters: {
     docs: {
       description: {
-        story: "展示 hover 触发和 click 触发两种模式的对比。hover 模式下鼠标悬浮即可打开菜单，鼠标离开整个区域时关闭。",
+        story:
+          "展示 hover 触发和 click 触发两种模式的对比。hover 模式下鼠标悬浮即可打开菜单，鼠标离开整个区域时关闭。",
       },
     },
   },
 };
 
-export const Demo01: Story = {
+export const GroupedSingleSelection: Story = {
+  name: "分组单选（国家选择器）",
+  render: () => {
+    // 国家数据按首字母分组
+    const countries = [
+      { value: "australia", label: "Australia", group: "A" },
+      { value: "argentina", label: "Argentina", group: "A" },
+      { value: "algeria", label: "Algeria", group: "A" },
+      { value: "austria", label: "Austria", group: "A" },
+      { value: "brazil", label: "Brazil", group: "B" },
+      { value: "belgium", label: "Belgium", group: "B" },
+      { value: "bulgaria", label: "Bulgaria", group: "B" },
+      { value: "belarus", label: "Belarus", group: "B" },
+      { value: "canada", label: "Canada", group: "C" },
+      { value: "china", label: "China", group: "C" },
+      { value: "chile", label: "Chile", group: "C" },
+    ];
+
+    // 按首字母分组
+    const groupedCountries = countries.reduce((acc, country) => {
+      if (!acc[country.group]) {
+        acc[country.group] = [];
+      }
+      acc[country.group].push(country);
+      return acc;
+    }, {} as Record<string, typeof countries>);
+
+    const [selectedCountry, setSelectedCountry] = useState("australia");
+
+    // 语义化函数：根据选中值获取国家标签
+    const getSelectedCountryLabel = (selectedValue: string) => {
+      return (
+        countries.find((country) => country.value === selectedValue)?.label ||
+        ""
+      );
+    };
+
+    // 使用 useMemo 缓存当前选中的国家标签，避免重复计算
+    const selectedCountryLabel = useMemo(() => {
+      return getSelectedCountryLabel(selectedCountry);
+    }, [selectedCountry]);
+
+    return (
+      <DropdownMenu trigger="click">
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline">
+            {/* 展示 label 而不是 value */}
+            {selectedCountryLabel}
+            <ChevronDownIcon
+              className="opacity-60 -me-1"
+              size={16}
+              aria-hidden="true"
+            />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-[250px]">
+          {/* 使用 sticky 定位固定搜索框，调整 top 值以抵消容器的内边距 */}
+          <div className="sticky -top-[12px] z-10 p-1 bg-background-layer4">
+            <Input
+              onKeyDown={(e) => {
+                // 阻止键盘事件冒泡到 DropdownMenuRadioGroup，防止输入框失焦
+                e.stopPropagation();
+              }}
+            />
+          </div>
+          
+          {/* 菜单内容，保持原有的滚动行为 */}
+          <DropdownMenuRadioGroup
+            value={selectedCountry}
+            onValueChange={setSelectedCountry}
+          >
+            {Object.entries(groupedCountries).map(
+              ([group, countries], index, entries) => (
+                <div key={group}>
+                  <DropdownMenuLabel>{group}</DropdownMenuLabel>
+                  {countries.map((country) => (
+                    <DropdownMenuRadioItem
+                      key={country.value}
+                      value={country.value}
+                      className="text-base"
+                    >
+                      {country.label}
+                    </DropdownMenuRadioItem>
+                  ))}
+                  {/* 最后一个分组不显示分割线 */}
+                  {index < entries.length - 1 && <DropdownMenuSeparator />}
+                </div>
+              )
+            )}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "这是一个分组单选示例，模拟国家选择器场景。选项按首字母分组，但保持单选的整体性。",
+      },
+    },
+  },
+};
+
+export const PersonalCenter: Story = {
   name: "个人中心",
   parameters: {
     docs: {
       description: {
-        story: "个人中心下拉菜单示例，展示了完整的菜单结构，包括自定义内容、基础菜单项、多级菜单、单选组和分割线的综合使用。",
+        story:
+          "个人中心下拉菜单示例，展示了完整的菜单结构，包括自定义内容、基础菜单项、多级菜单、单选组和分割线的综合使用。",
       },
     },
   },
@@ -236,7 +348,7 @@ export const Demo01: Story = {
         <DropdownMenuTrigger>
           <Button>Sign In</Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end">
           {/* 自定义内容（登录区域） */}
           <div className="flex flex-col gap-3 items-center px-4 py-[9px] mb-3">
             <div className="flex justify-center items-center w-12 h-12 bg-gray-200 rounded-full">
@@ -262,7 +374,10 @@ export const Demo01: Story = {
                 <span className="text-base">Language</span>
               </div>
               <div className="flex gap-1 justify-start items-center">
-                <span className="text-sm text-text-secondary">{languages.find(lang => lang.value === language)?.label || ""}</span>
+                <span className="text-sm text-text-secondary">
+                  {languages.find((lang) => lang.value === language)?.label ||
+                    ""}
+                </span>
                 <ChevronRightIcon className="w-3 h-3" />
               </div>
             </DropdownMenuSubTrigger>
@@ -341,8 +456,6 @@ export const API: Story = {
 
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |---|---|---|-----|---|
-| align | 对齐方式 | \`'start'\` \\| \`'center'\` \\| \`'end'\` | \`'center'\` | 否 |
-| side | 弹出方向 | \`'top'\` \\| \`'right'\` \\| \`'bottom'\` \\| \`'left'\` | \`'bottom'\` | 否 |
 | sideOffset | 距离触发器的偏移量 | \`number\` | \`8\` | 否 |
 | alignOffset | 对齐偏移量 | \`number\` | \`0\` | 否 |
 | avoidCollisions | 是否避免碰撞 | \`boolean\` | \`true\` | 否 |
@@ -357,7 +470,6 @@ export const API: Story = {
 | disabled | 是否禁用 | \`boolean\` | \`false\` | 否 |
 | onSelect | 选择时的回调函数 | \`(event: Event) => void\` | - | 否 |
 | textValue | 用于搜索的文本值 | \`string\` | - | 否 |
-| variant | 菜单项变体 | \`'default'\` \\| \`'destructive'\` | \`'default'\` | 否 |
 | inset | 是否内缩 | \`boolean\` | \`false\` | 否 |
 | className | 自定义 CSS 类名 | \`string\` | - | 否 |
 
@@ -384,7 +496,6 @@ export const API: Story = {
 
 | 属性 | 说明 | 类型 | 默认值 | 必填 |
 |---|---|---|-----|---|
-| checked | 是否选中 | \`boolean \\| 'indeterminate'\` | \`false\` | 否 |
 | onCheckedChange | 选中状态变化回调 | \`(checked: boolean) => void\` | - | 否 |
 | disabled | 是否禁用 | \`boolean\` | \`false\` | 否 |
 | className | 自定义 CSS 类名 | \`string\` | - | 否 |
@@ -453,28 +564,15 @@ export const API: Story = {
 |---|---|---|-----|---|
 | container | 目标容器 | \`HTMLElement\` | \`document.body\` | 否 |
 
-## 最佳实践
-
-1. **组件组合**：合理使用各种子组件来构建复杂的菜单结构
-2. **状态管理**：对于复杂场景，建议使用受控模式管理菜单状态
-3. **键盘导航**：确保菜单支持完整的键盘导航功能
-4. **无障碍性**：为菜单项提供适当的 aria 标签和角色定义
-5. **性能优化**：对于大量菜单项，考虑使用虚拟滚动或分页
-6. **移动端适配**：在移动设备上考虑触摸友好的交互方式
-
-## 键盘导航
-
-- **Tab**: 在菜单外时聚焦到触发器
-- **Enter/Space**: 打开菜单或选择菜单项
-- **ArrowDown**: 向下导航到下一个菜单项
-- **ArrowUp**: 向上导航到上一个菜单项
-- **ArrowRight**: 进入子菜单
-- **ArrowLeft**: 退出子菜单
-- **Esc**: 关闭菜单
-- **Home**: 导航到第一个菜单项
-- **End**: 导航到最后一个菜单项
-
 ## Changelog
+
+### 0.0.4
+- 修复 hover 模式下 onOpenChange 属性不生效的问题
+
+### 0.0.3
+
+- 修复 hover 模式下点击触发器会关闭菜单的问题
+- 移除悬浮在菜单项上出现的蓝色 outline 边框样式
 
 ### 0.0.2
 - \`DropdownMenu\` 新增 \`trigger\` 属性，支持 \`hover\` 和 \`click\` 两种触发方式，默认为 \`hover\`

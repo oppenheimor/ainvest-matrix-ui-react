@@ -12,13 +12,13 @@ export const ClearIcon = (props: React.SVGProps<SVGSVGElement>) => {
     >
       <path
         d="M2.1665 2.16669L13.8332 13.8334"
-        stroke="black"
+        className="stroke-text-primary"
         stroke-width="1.67"
         stroke-linecap="square"
       />
       <path
         d="M2.1665 13.8334L13.8332 2.16669"
-        stroke="black"
+        className="stroke-text-primary"
         stroke-width="1.67"
         stroke-linecap="square"
       />
