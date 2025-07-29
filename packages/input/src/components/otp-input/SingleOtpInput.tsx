@@ -131,11 +131,19 @@ const SingleOtpInput = React.forwardRef<HTMLInputElement, SingleOtpInputProps>(
       if (!canResend || isSending) return;
 
       setIsSending(true);
-      const result = await onSendCode?.();
-      if (result) {
+      try {
+        const result = await onSendCode?.();
+        if (result) {
+          // 成功：开始倒计时
+          setCountdownTimer(countdown);
+          setCanResend(false);
+        }
+        // 无论成功失败都重置发送状态
         setIsSending(false);
-        setCountdownTimer(countdown);
-        setCanResend(false);
+      } catch (error) {
+        // 异常处理：重置发送状态
+        setIsSending(false);
+        console.error('Send code error:', error);
       }
     };
 

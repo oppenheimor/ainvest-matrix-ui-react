@@ -434,6 +434,77 @@ export const OtpInput: Story = {
   },
 };
 
+export const OtpInputApiFailure: Story = {
+  name: "验证码发送失败场景",
+  parameters: {
+    docs: {
+      description: {
+        story: "演示接口调用失败时，按钮不进入倒计时状态的场景处理",
+      },
+    },
+  },
+  render: () => {
+    let attemptCount = 0;
+    
+    return (
+      <div className="flex flex-col gap-6 w-3/4">
+        <div className="text-sm text-text-secondary">
+          <p>🔧 <strong>修复场景演示</strong></p>
+          <p>• 第1次点击：模拟API失败，按钮保持"Send code"状态</p>
+          <p>• 第2次点击：模拟API成功，按钮进入倒计时状态</p>
+        </div>
+        
+        <Input.SingleOtp
+          label="API失败处理演示"
+          placeholder="Enter text"
+          className="w-[435px]"
+          onSendCode={() => {
+            attemptCount++;
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                if (attemptCount === 1) {
+                  // 第1次：模拟API调用失败
+                  console.log('API调用失败，返回false');
+                  resolve(false); // 返回false，不进入倒计时
+                } else {
+                  // 第2次及以后：模拟API调用成功
+                  console.log('API调用成功，返回true');
+                  resolve(true); // 返回true，进入倒计时
+                }
+              }, 1500);
+            });
+          }}
+        />
+        
+        <Input.SingleOtp
+          label="异常处理演示"
+          placeholder="Enter text" 
+          className="w-[435px]"
+          onSendCode={() => {
+            return new Promise((_, reject) => {
+              setTimeout(() => {
+                // 模拟网络异常
+                console.log('网络异常，抛出错误');
+                reject(new Error('Network error'));
+              }, 1000);
+            });
+          }}
+        />
+        
+        <div className="text-xs text-text-tertiary bg-background-layer2 p-3 rounded">
+          <p><strong>修复前的问题：</strong></p>
+          <p>无论onSendCode返回true还是false，按钮都会进入"Sending..."状态，导致用户无法重试</p>
+          <br />
+          <p><strong>修复后的行为：</strong></p>
+          <p>• onSendCode返回true：进入倒计时状态</p>
+          <p>• onSendCode返回false：保持"Send code"状态，可继续点击</p>
+          <p>• onSendCode抛出异常：保持"Send code"状态，并在控制台输出错误</p>
+        </div>
+      </div>
+    );
+  },
+};
+
 export const EmojiAndCJKMaxLength: Story = {
   name: "emoji/中日韩文输入 maxLength 精确计数",
   parameters: {
@@ -609,6 +680,14 @@ export const API: Story = {
 | countdownContent | 倒计时内容模板 | (countdown: number) => ReactNode | - | 否 |
 
 ## Changelog
+
+### 0.0.4
+🐛 Bug修复
+- **SingleOtpInput**: 修复 onSendCode 回调逻辑缺陷，确保 API 调用失败时按钮不进入 Sending 状态
+  - 修复当 onSendCode 返回 false 时按钮卡在 "Sending..." 状态的问题
+  - 新增异常处理机制，捕获 Promise reject 并重置按钮状态
+  - 优化状态管理逻辑，确保无论成功失败都能正确重置 isSending 状态
+- **新增 StoryBook 示例**: OtpInputApiFailure 演示 API 失败场景的正确处理方式
 
 ### 0.0.2
 ✨ 新增功能
