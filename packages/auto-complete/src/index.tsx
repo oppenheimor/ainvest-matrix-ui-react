@@ -26,6 +26,7 @@ export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
       inputClassName,
       dropdownClassName,
       notFoundContent,
+      truncateOffset,
       onFocus: userOnFocus,
       onBlur: userOnBlur,
       ...inputProps
@@ -141,7 +142,7 @@ export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
                 "max-h-[min(var(--radix-dropdown-menu-content-available-height),400px)]",
                 "[&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-background-layer4 [&::-webkit-scrollbar-thumb]:bg-grey-80 [&::-webkit-scrollbar-track]:my-[12px] [&::-webkit-scrollbar-track]:mr-[2px] [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb:hover]:bg-grey-50",
                 // 定位样式
-                "absolute z-50 mt-1 shadow-lg",
+                "absolute z-50 mt-1 shadow-[0_2px_8px_0_rgba(0,0,0,0.15)]",
                 dropdownMatchSelectWidth ? "w-full" : "min-w-full",
                 dropdownClassName
               )}
@@ -154,6 +155,7 @@ export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
                       isActive={index === activeIndex}
                       onClick={() => handleOptionClick(option)}
                       onMouseEnter={() => handleOptionMouseEnter(index)}
+                      truncateOffset={truncateOffset}
                     />
                   ))
                 : notFoundContent && (

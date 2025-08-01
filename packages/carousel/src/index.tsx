@@ -383,9 +383,9 @@ const Carousel = forwardRef<ICarouselRef, ICarouselProps>(
     if (totalSlides <= 1) {
       return (
         <div
-          className={cn("relative flex items-center justify-center", className)}
+          className={cn("flex relative justify-center items-center", className)}
         >
-          <div className="w-full h-full flex items-center justify-center">
+          <div className="flex justify-center items-center w-full h-full">
             {children}
           </div>
         </div>
@@ -400,7 +400,7 @@ const Carousel = forwardRef<ICarouselRef, ICarouselProps>(
     // 渲染内容
     const renderContent = () => (
       <div
-        className="flex transition-transform ease-in-out"
+        className="flex h-full transition-transform ease-in-out"
         style={{
           transform: getTransform({
             container: containerRef.current,
@@ -481,7 +481,7 @@ const Carousel = forwardRef<ICarouselRef, ICarouselProps>(
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="relative w-full h-full overflow-hidden">
+          <div className="overflow-hidden relative w-full h-full">
             {renderContent()}
             {renderIndicators()}
           </div>
@@ -509,7 +509,7 @@ const Carousel = forwardRef<ICarouselRef, ICarouselProps>(
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <div className="relative w-full h-full overflow-hidden">
+            <div className="overflow-hidden relative w-full h-full">
               {renderContent()}
               {renderIndicators()}
             </div>

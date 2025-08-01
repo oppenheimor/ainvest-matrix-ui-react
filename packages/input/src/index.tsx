@@ -159,7 +159,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {/* 左侧图标 */}
           {addonBefore && (
             <span
-              className="border-r rounded-l-[10px] h-full p-3 flex items-center justify-center hover:bg-background-layer1"
+              className="border-r border-divider-level2 rounded-l-[10px] h-full p-3 flex items-center justify-center hover:bg-background-layer1"
               onClick={(e) => e.stopPropagation()}
             >
               {addonBefore}
@@ -190,13 +190,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             // 禁用原生 maxLength，完全用自定义逻辑，避免原生 length 统计不准
             maxLength={undefined}
             className={cn(inputVariants({ disabled }))}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            {...props}
+            onFocus={(e) => {
+              setIsFocused(true);
+              props.onFocus?.(e);
+            }}
+            onBlur={(e) => {
+              setIsFocused(false);
+              props.onBlur?.(e);
+            }}
             onChange={handleChange}
             onCompositionStart={handleCompositionStart}
             onCompositionEnd={handleCompositionEnd}
             type={password && !isPasswordVisible ? "password" : "text"}
-            {...props}
           />
           {/* 后缀 */}
           {suffix && <span className="mr-4 text-text-secondary">{suffix}</span>}
@@ -215,12 +221,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               className="mr-4 w-7 h-7 flex justify-center items-center hover:bg-background-layer1 rounded-[6px]"
               onClick={handlePasswordToggle}
             >
-              {isPasswordVisible ? <EyeShowIcon /> : <EyeHideIcon />}
+              {isPasswordVisible ? <EyeHideIcon /> : <EyeShowIcon />}
             </div>
           )}
           {/* 右侧图标 */}
           {addonAfter && (
-            <span className="border-l rounded-r-[10px] p-3 h-full flex items-center justify-center hover:bg-background-layer1">
+            <span className="border-l border-divider-level2 rounded-r-[10px] p-3 h-full flex items-center justify-center hover:bg-background-layer1">
               {addonAfter}
             </span>
           )}

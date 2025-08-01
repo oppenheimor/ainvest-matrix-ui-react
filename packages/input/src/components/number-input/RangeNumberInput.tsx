@@ -263,7 +263,7 @@ export const RangeNumberInput = forwardRef<
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 text-text-primary text-base leading-snug",
+        "flex flex-col gap-2 text-base leading-snug text-text-primary",
         className
       )}
     >
@@ -322,7 +322,7 @@ export const RangeNumberInput = forwardRef<
           />
           {/* 后缀 */}
           {suffixes?.[0] && (
-            <span className="text-text-secondary mr-4">{suffixes?.[0]}</span>
+            <span className="mr-4 text-text-secondary">{suffixes?.[0]}</span>
           )}
         </div>
         {/* 结束值输入框区域 */}
@@ -366,7 +366,7 @@ export const RangeNumberInput = forwardRef<
           />
           {/* 后缀 */}
           {suffixes?.[1] && (
-            <span className="text-text-secondary mr-4">{suffixes?.[1]}</span>
+            <span className="mr-4 text-text-secondary">{suffixes?.[1]}</span>
           )}
         </div>
       </div>

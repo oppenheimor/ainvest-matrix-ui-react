@@ -72,4 +72,9 @@ export interface AutoCompleteProps
    * 无选项时的显示内容
    */
   notFoundContent?: React.ReactNode;
+  /**
+   * 文本截断时保留的尾部字符数（用于保留邮箱后缀等重要信息）
+   * @default 8
+   */
+  truncateOffset?: number;
 }

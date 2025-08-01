@@ -283,8 +283,8 @@ importers:
   packages/auto-complete:
     dependencies:
       '@oversea/input':
-        specifier: ^0.0.3
-        version: 0.0.3
+        specifier: ^0.0.4
+        version: 0.0.4
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -294,6 +294,9 @@ importers:
       react:
         specifier: ^18.3.1
         version: 18.3.1
+      react-truncate-inside:
+        specifier: ^1.0.3
+        version: 1.0.3(react@18.3.1)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -687,9 +690,6 @@ importers:
 
   packages/spinner:
     dependencies:
-      '@radix-ui/react-tooltip':
-        specifier: ^1.1.8
-        version: 1.2.7(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -2161,8 +2161,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@oversea/input@0.0.3':
-    resolution: {integrity: sha512-/aJZoYJI8dCGgtjq1bwTiFwXFzacIQO+950ZYZfDnFXyEgO4II9zwxpvaT8kwRB5j/Mby9fms/1+krFwF4RnRw==, tarball: https://miniapp.10jqka.com.cn/npmserver/@oversea%2finput/-/input-0.0.3.tgz}
+  '@oversea/input@0.0.4':
+    resolution: {integrity: sha512-Y0YyArwo0SPEneZnfXYNpUh5S/7hl6nrLbhZtWMhVTdJpE6iE/zHbq9h0qARzOvDuZhqK28adRHMywE1ygCQOg==, tarball: https://miniapp.10jqka.com.cn/npmserver/@oversea%2finput/-/input-0.0.4.tgz}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==, tarball: https://miniapp.10jqka.com.cn/npmserver/@parcel%2fwatcher-android-arm64/-/watcher-android-arm64-2.5.1.tgz}
@@ -7305,6 +7305,11 @@ packages:
       '@types/react':
         optional: true
 
+  react-truncate-inside@1.0.3:
+    resolution: {integrity: sha512-XwQ+9ayvygHI4WjJwaTDYFiYLrLMbHiBc5VdhWuDrCAm8MWFT6YR/+BCgq5JUwyuISYleJyZ0yCAGbXMhGr9hw==, tarball: https://miniapp.10jqka.com.cn/npmserver/react-truncate-inside/-/react-truncate-inside-1.0.3.tgz}
+    peerDependencies:
+      react: '>= 16.x.x'
+
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==, tarball: https://miniapp.10jqka.com.cn/npmserver/react/-/react-18.3.1.tgz}
     engines: {node: '>=0.10.0'}
@@ -10549,7 +10554,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@oversea/input@0.0.3':
+  '@oversea/input@0.0.4':
     dependencies:
       big.js: 7.0.1
       class-variance-authority: 0.7.1
@@ -16352,6 +16357,10 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 18.3.23
+
+  react-truncate-inside@1.0.3(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   react@18.3.1:
     dependencies:

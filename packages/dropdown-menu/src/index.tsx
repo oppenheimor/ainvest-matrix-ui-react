@@ -179,6 +179,7 @@ function DropdownMenuContent({
         className={clsx(
           "overflow-x-hidden overflow-y-auto rounded-2xl border border-divider-level3 py-[12px]",
           "bg-background-layer4 text-text-primary",
+          "shadow-[0_2px_8px_0_rgba(0,0,0,0.15)]",
           "max-h-[min(var(--radix-dropdown-menu-content-available-height),400px)] origin-(--radix-dropdown-menu-content-transform-origin)",
           "[&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-background-layer4 [&::-webkit-scrollbar-thumb]:bg-grey-80 [&::-webkit-scrollbar-track]:my-[12px] [&::-webkit-scrollbar-track]:mr-[2px] [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb:hover]:bg-grey-50",
           className
@@ -374,7 +375,7 @@ function DropdownMenuSubContent({
         "border py-[12px] bg-background-layer4 text-text-primary rounded-2xl border-divider-level3",
         "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50",
         "min-w-[120px] max-w-[300px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden",
-        "shadow-lg",
+        "shadow-[0_2px_8px_0_rgba(0,0,0,0.15)]",
         "max-h-[min(var(--radix-dropdown-menu-content-available-height),400px)] origin-(--radix-dropdown-menu-content-transform-origin)",
         "[&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-background-layer4 [&::-webkit-scrollbar-thumb]:bg-grey-80 [&::-webkit-scrollbar-track]:my-[12px] [&::-webkit-scrollbar-track]:mr-[2px] [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb:hover]:bg-grey-50",
         className

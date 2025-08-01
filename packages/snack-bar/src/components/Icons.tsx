@@ -22,7 +22,7 @@ export const WarningIcon = () => (
 
 export const InfoIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="10" cy="10" r="9.25" transform="matrix(1 0 0 -1 2 22)" stroke="white" stroke-width="1.5"/>
+  <circle cx="10" cy="10" r="9.25" transform="matrix(1 0 0 -1 2 22)" stroke="white" strokeWidth="1.5"/>
   <path d="M12 9C12.5523 9 13 8.55229 13 8C13 7.44771 12.5523 7 12 7C11.4477 7 11 7.44771 11 8C11 8.55229 11.4477 9 12 9ZM12.75 10H11.25V17H12.75V10Z" fill="white"/>
   </svg>
 )

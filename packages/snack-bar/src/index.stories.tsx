@@ -26,7 +26,7 @@ Snackbar 轻量级通知组件，用于向用户显示简短的反馈消息。�
 
 ## 组件引入
 \`\`\`tsx
-import { Snackbar, snackbar } from '@ainvest/snackbar'
+import { Snackbar, snackbar } from '@ainvest/snack-bar'
 
 // 在应用根组件中添加 Snackbar 组件
 <Snackbar />
@@ -67,38 +67,38 @@ export const Basic: Story = {
           <div className="flex gap-3">
             <button
               onClick={() => snackbar.success('操作成功！',{className:"!w-[200px]"})} 
-              className="px-4 py-2 bg-black text-white rounded-md"
+              className="px-4 py-2 text-white bg-black rounded-md"
             >
               成功通知
             </button>
             <button
               onClick={() => snackbar.error('操作失败，请重试',{className:"!w-[200px]"})} 
-              className="px-4 py-2 bg-black text-white rounded-md"
+              className="px-4 py-2 text-white bg-black rounded-md"
             >
               错误通知
             </button>
             <button
               onClick={() => snackbar.warning('请注意数据变化',{className:"!w-[200px]"})} 
-              className="px-4 py-2 bg-black text-white rounded-md"
+              className="px-4 py-2 text-white bg-black rounded-md"
             >
               警告通知
             </button>
             <button
               onClick={() => snackbar.info('这是一条提示信息',{className:"!w-[200px]"})} 
-              className="px-4 py-2 bg-black text-white rounded-md"
+              className="px-4 py-2 text-white bg-black rounded-md"
             >
               信息通知
             </button>
             <button
               onClick={() => snackbar.loading('正在加载...',{className:"!w-[200px]"})} 
-              className="px-4 py-2 bg-black text-white rounded-md"
+              className="px-4 py-2 text-white bg-black rounded-md"
             >
               加载通知
             </button>
           </div>
           <button
               onClick={() => snackbar("简单消息",{className:"!w-[90px]"})} 
-              className="px-4 py-2 bg-black text-white rounded-md"
+              className="px-4 py-2 text-white bg-black rounded-md"
             >
               简单消息
           </button>
@@ -130,7 +130,7 @@ export const WithAction: Story = {
                 onClick: () => alert('撤销删除操作')
               }
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             删除文件（带撤销）
           </button>
@@ -141,7 +141,7 @@ export const WithAction: Story = {
                 onClick: () => console.log('重试保存操作')
               }
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             保存文件（带重试）
           </button>
@@ -165,7 +165,7 @@ export const JSXAction: Story = {
     return (
       <div className="flex flex-col gap-4">
         <Snackbar position="bottom-center" />
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-wrap gap-3">
           <button
             onClick={() => snackbar.success('传统对象格式操作按钮', {
               action: {
@@ -173,7 +173,7 @@ export const JSXAction: Story = {
                 onClick: () => alert('传统格式按钮被点击!')
               }
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             对象格式操作按钮
           </button>
@@ -189,7 +189,7 @@ export const JSXAction: Story = {
                 </button>
               )
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             JSX格式操作按钮
           </button>
@@ -222,7 +222,7 @@ export const Position: Story = {
               setPosition('top-center');
               snackbar.info('顶部中央位置显示',{className:"!w-[200px]"});
             }}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             顶部中央位置
           </button>
@@ -231,7 +231,7 @@ export const Position: Story = {
               setPosition('bottom-center');
               snackbar.info('底部中央位置显示',{className:"!w-[200px]", position:"bottom-center"});
             }}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             底部中央位置
           </button>
@@ -258,7 +258,7 @@ export const ClickToClose: Story = {
         <div className="flex flex-col gap-3 items-center">
           <button
             onClick={() => snackbar.info('点击我可以关闭这条消息',{clickToClose: true})}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             显示可关闭消息
           </button>
@@ -282,12 +282,12 @@ export const Duration: Story = {
     return (
       <div className="flex flex-col gap-4">
         <Snackbar position="bottom-center" />
-        <div className="flex gap-3 flex-wrap">
+        <div className="flex flex-wrap gap-3">
           <button
             onClick={() => snackbar.info('1秒后自动关闭', {
               duration: 1000
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             1秒显示
           </button>
@@ -296,7 +296,7 @@ export const Duration: Story = {
             onClick={() => snackbar.info('3秒后自动关闭', {
               duration: 3000
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             3秒显示
           </button>
@@ -305,7 +305,7 @@ export const Duration: Story = {
             onClick={() => snackbar.info('8秒后自动关闭', {
               duration: 8000
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             8秒显示
           </button>
@@ -315,7 +315,7 @@ export const Duration: Story = {
               duration: Infinity,
               clickToClose: true
             })}
-            className="px-4 py-2 bg-black text-white rounded-md"
+            className="px-4 py-2 text-white bg-black rounded-md"
           >
             永不关闭
           </button>

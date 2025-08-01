@@ -192,7 +192,7 @@ const TextareaInput = forwardRef<HTMLTextAreaElement, TextareaInputProps>(
     return (
       <div
         className={cn(
-          "flex flex-col gap-2 text-base text-text-primary leading-snug",
+          "flex flex-col gap-2 text-base leading-snug text-text-primary",
           className
         )}
       >

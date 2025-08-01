@@ -202,7 +202,7 @@ const SingleNumberInput = React.forwardRef<
   return (
     <div
       className={cn(
-        "flex flex-col gap-2 text-text-primary text-base leading-snug",
+        "flex flex-col gap-2 text-base leading-snug text-text-primary",
         className
       )}
     >
@@ -230,7 +230,7 @@ const SingleNumberInput = React.forwardRef<
         {/* 左侧图标 */}
         {adjustType === "arrow" ? null : (
           <span
-            className="w-[42px] border-r rounded-l-[10px] h-full p-3 flex items-center justify-center hover:bg-background-layer1"
+            className="w-[42px] border-r border-divider-level2 rounded-l-[10px] h-full p-3 flex items-center justify-center hover:bg-background-layer1"
             onClick={(e) => {
               e.stopPropagation();
               handleAdjust("decrease");
@@ -242,7 +242,7 @@ const SingleNumberInput = React.forwardRef<
         {/* 前缀 */}
         {prefix && (
           <span
-            className={cn("text-text-secondary ml-4", {
+            className={cn("ml-4 text-text-secondary", {
               "text-text-primary": isFocused,
             })}
           >
@@ -268,7 +268,7 @@ const SingleNumberInput = React.forwardRef<
           {...restProps}
         />
         {/* 后缀 */}
-        {suffix && <span className="text-text-secondary mr-4">{suffix}</span>}
+        {suffix && <span className="mr-4 text-text-secondary">{suffix}</span>}
         {/* 右侧图标 */}
         {adjustType === "arrow" ? (
           <span
@@ -306,7 +306,7 @@ const SingleNumberInput = React.forwardRef<
           </span>
         ) : (
           <span
-            className="w-[42px] border-l rounded-r-[10px] p-3 h-full flex items-center justify-center hover:bg-background-layer1"
+            className="w-[42px] border-l border-divider-level2 rounded-r-[10px] p-3 h-full flex items-center justify-center hover:bg-background-layer1"
             onClick={(e) => {
               e.stopPropagation();
               handleAdjust("increase");

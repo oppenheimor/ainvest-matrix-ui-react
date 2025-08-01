@@ -166,7 +166,7 @@ const SingleOtpInput = React.forwardRef<HTMLInputElement, SingleOtpInputProps>(
     return (
       <div
         className={cn(
-          "flex flex-col gap-2 text-text-primary text-base leading-snug",
+          "flex flex-col gap-2 text-base leading-snug text-text-primary",
           className
         )}
       >
@@ -212,7 +212,7 @@ const SingleOtpInput = React.forwardRef<HTMLInputElement, SingleOtpInputProps>(
           />
 
           {/* 右侧操作区域 */}
-          <div className="flex items-center gap-2">
+          <div className="flex gap-2 items-center">
             {/* 发送验证码按钮 */}
             <button
               type="button"
