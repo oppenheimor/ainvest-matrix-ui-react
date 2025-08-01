@@ -491,7 +491,7 @@ export const OtpInputApiFailure: Story = {
           }}
         />
         
-        <div className="text-xs text-text-tertiary bg-background-layer2 p-3 rounded">
+        <div className="p-3 text-xs rounded text-text-tertiary bg-background-layer2">
           <p><strong>修复前的问题：</strong></p>
           <p>无论onSendCode返回true还是false，按钮都会进入"Sending..."状态，导致用户无法重试</p>
           <br />
@@ -680,6 +680,16 @@ export const API: Story = {
 | countdownContent | 倒计时内容模板 | (countdown: number) => ReactNode | - | 否 |
 
 ## Changelog
+
+### 0.0.6
+
+- 修复点击清除按扭的时候会触发 onBlur 的问题
+- 修复前缀和后缀边框的颜色问题
+- 修复当用户在外部传入 onFocus 回调的时候，Input 聚焦状态样式失效的问题
+
+### 0.0.5
+
+- 修复密码输入框显示和隐藏图标写反的问题
 
 ### 0.0.4
 🐛 Bug修复

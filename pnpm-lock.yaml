@@ -283,8 +283,8 @@ importers:
   packages/auto-complete:
     dependencies:
       '@oversea/input':
-        specifier: ^0.0.4
-        version: 0.0.4
+        specifier: ^0.0.6
+        version: 0.0.6
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -747,24 +747,9 @@ importers:
 
   packages/toast:
     dependencies:
-      axios:
-        specifier: ^1.6.0
-        version: 1.10.0
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      i18next:
-        specifier: ^23.10.1
-        version: 23.16.8
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      react-i18next:
-        specifier: ^13.0.0
-        version: 13.5.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   packages/tooltip:
     dependencies:
@@ -2161,8 +2146,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@oversea/input@0.0.4':
-    resolution: {integrity: sha512-Y0YyArwo0SPEneZnfXYNpUh5S/7hl6nrLbhZtWMhVTdJpE6iE/zHbq9h0qARzOvDuZhqK28adRHMywE1ygCQOg==, tarball: https://miniapp.10jqka.com.cn/npmserver/@oversea%2finput/-/input-0.0.4.tgz}
+  '@oversea/input@0.0.6':
+    resolution: {integrity: sha512-34Um7fMoqR1RWMrvI6Awzhisr6EOux3nNqWR0BAebOgN6dN1XkPfffU2dJxcoPdvzG//L1Il8UfMRtBP20LWkA==, tarball: https://miniapp.10jqka.com.cn/npmserver/@oversea%2finput/-/input-0.0.6.tgz}
 
   '@parcel/watcher-android-arm64@2.5.1':
     resolution: {integrity: sha512-KF8+j9nNbUN8vzOFDpRMsaKBHZ/mcjEjMToVMJOhTozkDonQFFrRcfdLWn6yWKCmJKmdVxSgHiYvTCef4/qcBA==, tarball: https://miniapp.10jqka.com.cn/npmserver/@parcel%2fwatcher-android-arm64/-/watcher-android-arm64-2.5.1.tgz}
@@ -5687,9 +5672,6 @@ packages:
     resolution: {integrity: sha512-HVJyzUrLIL1c0QmviVh5E8VGyUS7xCFPS6yydaVd1UegW+ibV/CohqTH9MkOLDp5o+rb82DMo77PTuc9F/8GKw==, tarball: https://miniapp.10jqka.com.cn/npmserver/hosted-git-info/-/hosted-git-info-6.1.3.tgz}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  html-parse-stringify@3.0.1:
-    resolution: {integrity: sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==, tarball: https://miniapp.10jqka.com.cn/npmserver/html-parse-stringify/-/html-parse-stringify-3.0.1.tgz}
-
   html-tags@2.0.0:
     resolution: {integrity: sha512-+Il6N8cCo2wB/Vd3gqy/8TZhTD3QvcVeQLCnZiGkGCH3JP28IgGAY41giccp2W4R3jfyJPAP318FQTa1yU7K7g==, tarball: https://miniapp.10jqka.com.cn/npmserver/html-tags/-/html-tags-2.0.0.tgz}
     engines: {node: '>=4'}
@@ -5718,9 +5700,6 @@ packages:
   hygen@6.2.11:
     resolution: {integrity: sha512-t6/zLI2XozP5gvV74nnl8LZSbwpVNFUkUs/O9DwuOdiiBbws5k4AQNVwKZ9FGzcKjdJ5EBBYkVzlcUHkLyY0FQ==, tarball: https://miniapp.10jqka.com.cn/npmserver/hygen/-/hygen-6.2.11.tgz}
     hasBin: true
-
-  i18next@23.16.8:
-    resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==, tarball: https://miniapp.10jqka.com.cn/npmserver/i18next/-/i18next-23.16.8.tgz}
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==, tarball: https://miniapp.10jqka.com.cn/npmserver/iconv-lite/-/iconv-lite-0.4.24.tgz}
@@ -7249,19 +7228,6 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-i18next@13.5.0:
-    resolution: {integrity: sha512-CFJ5NDGJ2MUyBohEHxljOq/39NQ972rh1ajnadG9BjTk+UXbHLq4z5DKEbEQBDoIhUmmbuS/fIMJKo6VOax1HA==, tarball: https://miniapp.10jqka.com.cn/npmserver/react-i18next/-/react-i18next-13.5.0.tgz}
-    peerDependencies:
-      i18next: '>= 23.2.3'
-      react: '>= 16.8.0'
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==, tarball: https://miniapp.10jqka.com.cn/npmserver/react-is/-/react-is-16.13.1.tgz}
 
@@ -8417,10 +8383,6 @@ packages:
 
   vm-browserify@1.1.2:
     resolution: {integrity: sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==, tarball: https://miniapp.10jqka.com.cn/npmserver/vm-browserify/-/vm-browserify-1.1.2.tgz}
-
-  void-elements@3.1.0:
-    resolution: {integrity: sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==, tarball: https://miniapp.10jqka.com.cn/npmserver/void-elements/-/void-elements-3.1.0.tgz}
-    engines: {node: '>=0.10.0'}
 
   vue-hot-reload-api@2.3.4:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==, tarball: https://miniapp.10jqka.com.cn/npmserver/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz}
@@ -10554,7 +10516,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@oversea/input@0.0.4':
+  '@oversea/input@0.0.6':
     dependencies:
       big.js: 7.0.1
       class-variance-authority: 0.7.1
@@ -14411,10 +14373,6 @@ snapshots:
     dependencies:
       lru-cache: 7.18.3
 
-  html-parse-stringify@3.0.1:
-    dependencies:
-      void-elements: 3.1.0
-
   html-tags@2.0.0: {}
 
   http-cache-semantics@4.2.0: {}
@@ -14460,10 +14418,6 @@ snapshots:
       yargs-parser: 21.1.1
     transitivePeerDependencies:
       - supports-color
-
-  i18next@23.16.8:
-    dependencies:
-      '@babel/runtime': 7.27.6
 
   iconv-lite@0.4.24:
     dependencies:
@@ -16314,15 +16268,6 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-i18next@13.5.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
-    dependencies:
-      '@babel/runtime': 7.27.6
-      html-parse-stringify: 3.0.1
-      i18next: 23.16.8
-      react: 18.3.1
-    optionalDependencies:
-      react-dom: 18.3.1(react@18.3.1)
-
   react-is@16.13.1: {}
 
   react-is@17.0.2: {}
@@ -17612,8 +17557,6 @@ snapshots:
       yaml: 2.8.0
 
   vm-browserify@1.1.2: {}
-
-  void-elements@3.1.0: {}
 
   vue-hot-reload-api@2.3.4: {}
 

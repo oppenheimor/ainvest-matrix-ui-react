@@ -89,6 +89,9 @@ export const AutoComplete = forwardRef<HTMLInputElement, AutoCompleteProps>(
       const handleBlur = (e: FocusEvent) => {
         // 调用用户传入的 onBlur
         userOnBlur?.(e as unknown as React.FocusEvent<HTMLInputElement>);
+        
+        // 处理自动完成逻辑：失焦时关闭下拉菜单
+        handleOpenChange(false);
       };
 
       input.addEventListener('focus', handleFocus);

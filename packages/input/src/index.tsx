@@ -210,7 +210,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {allowClear && inputValue && (
             <div 
               className="mr-4 w-6 h-6 flex justify-center items-center hover:bg-hover-5 rounded-[6px] cursor-pointer"
-              onClick={handleClear}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleClear();
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+              }}
             >
               <ClearIcon />
             </div>

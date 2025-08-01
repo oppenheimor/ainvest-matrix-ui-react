@@ -566,6 +566,10 @@ export const API: Story = {
 
 ## Changelog
 
+### 0.0.5
+
+- 修改 DropdownMenu 的样式，添加阴影效果
+
 ### 0.0.4
 - 修复 hover 模式下 onOpenChange 属性不生效的问题
 
